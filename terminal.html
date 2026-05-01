@@ -6,6 +6,10 @@
     <title>VoidPanda | Command Terminal</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- ADDED: Supabase Library for Authentication -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         body {
             font-family: 'Orbitron', sans-serif;
@@ -279,13 +283,40 @@
         </div>
 
         <div class="w-full flex justify-center mt-16">
-            <a href="index.html" class="text-gray-600 hover:text-red-500 text-xs mono-font uppercase tracking-[0.2em] transition-all border-b border-transparent hover:border-red-500 pb-1 flex items-center gap-2">
+            <!-- ADDED: Active Sign Out Logic -->
+            <a href="#" onclick="terminateSession(event)" class="text-gray-600 hover:text-red-500 text-xs mono-font uppercase tracking-[0.2em] transition-all border-b border-transparent hover:border-red-500 pb-1 flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                 Terminate Session
             </a>
         </div>
 
     </main>
+
+    <!-- ADDED: Supabase Page Protection & Sign Out Logic -->
+    <script>
+        const supabaseUrl = 'https://lhcvnxbsbxpeisseosap.supabase.co';
+        const supabaseKey = 'sb_publishable_NA2BPqJkDpBoEbaulYxHUw_kb2_tc4L';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function checkSession() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            
+            if (!session || error) {
+                // If no active login is found, reroute them back to the portal/index
+                window.location.href = "index.html"; 
+            }
+        }
+        
+        async function terminateSession(e) {
+            e.preventDefault();
+            // This actively destroys the login token in Supabase
+            await supabase.auth.signOut();
+            window.location.href = "index.html";
+        }
+
+        // Run the security check immediately when the page loads
+        checkSession();
+    </script>
 
     <script>
         // Dropdown Toggle Logic
