@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en" class="w-full h-full overflow-hidden">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoidPanda — About</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 1. SEAMLESS DARK COSMOS BACKGROUND */
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #030305; 
+            color: #fff;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .font-sans { font-family: 'Inter', sans-serif; }
+        .font-tech { font-family: 'Share Tech Mono', monospace; }
+
+        #space-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.9; 
+        }
+
+        /* 2. TERMINAL BOX */
+        #neon-box {
+            position: relative;
+            width: 90%;
+            max-width: 850px;
+            height: 65vh;
+            min-height: 450px;
+            max-height: 650px;
+            background: rgba(10, 10, 18, 0.7); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: none; 
+            box-shadow: none; 
+            border-radius: 16px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            transition: all 1.5s ease-in-out;
+            overflow: hidden;
+        }
+
+        #neon-box.dissolved {
+            background: transparent;
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+        }
+
+        /* 3. PROGRESSIVE PANDA WATERMARK IMAGE */
+        #bg-panda {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 85%;
+            max-height: 500px;
+            object-fit: contain;
+            opacity: 0.02; 
+            transition: opacity 1.5s ease-in-out, transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        #neon-box.dissolved #bg-panda {
+            transform: translate(-50%, -50%) scale(1.15);
+            opacity: 0.8 !important; 
+        }
+
+        /* 4. SLIDE & TYPOGRAPHY SNAP-FOCUS STATES */
+        @keyframes textOrder {
+            0%, 100% { text-shadow: 0 0 10px rgba(162,92,250,0.4), 0 0 20px rgba(162,92,250,0.2); }
+            50% { text-shadow: 0 0 22px rgba(162,92,250,0.9), 0 0 38px rgba(162,92,250,0.6); }
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            padding: 0 40px;
+            text-align: center;
+            opacity: 0;
+            /* Pro Micro-Interaction: Expands, blurs, and shifts down slightly when hidden */
+            transform: translateY(15px) scale(0.98);
+            filter: blur(12px);
+            letter-spacing: 4px;
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s cubic-bezier(0.16, 1, 0.3, 1), letter-spacing 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            visibility: hidden;
+            z-index: 10;
+        }
+        .slide.active {
+            /* Pro Micro-Interaction: Snaps perfectly into pure focus */
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0px);
+            letter-spacing: normal;
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .order-state p { 
+            animation: textOrder 4s infinite ease-in-out; 
+            color: #ffffff; 
+            font-size: 1.5rem; 
+            line-height: 1.6;
+        }
+
+        .order-state b {
+            color: #fff;
+            text-shadow: 0 0 15px rgba(162,92,250,1);
+            font-weight: 700;
+        }
+
+        /* 5. PROGRESS BAR & LEADING EDGE */
+        #progress-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: opacity 1s ease;
+        }
+        #progress-bar {
+            position: relative;
+            height: 100%;
+            width: 0%;
+            background: #a25cfa;
+            box-shadow: 0 0 10px #a25cfa;
+        }
+        /* Pro Upgrade: The concentrated leading edge flare */
+        #progress-bar::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%) translateX(50%);
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff, 0 0 20px #a25cfa, 0 0 30px #a25cfa;
+            opacity: 0.8;
+        }
+
+        #next-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 24px;
+            color: rgba(162, 92, 250, 0.6);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 20;
+        }
+        #next-btn:hover {
+            color: #fff;
+            transform: translateX(4px);
+            text-shadow: 0 0 10px rgba(162, 92, 250, 0.8);
+        }
+
+        /* Floating Nav Panda */
+        @keyframes bouncePulse {
+            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px rgba(162, 92, 250, 0.4)); }
+            50% { transform: translateY(-4px) scale(1.05); filter: drop-shadow(0 0 20px rgba(162, 92, 250, 0.9)); }
+        }
+        .nav-panda-anim {
+            animation: bouncePulse 2.5s ease-in-out infinite;
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+        .nav-panda-anim:hover {
+            animation: none; 
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 25px rgba(255, 255, 255, 1));
+        }
+
+        .btn-glow {
+            display: inline-flex;
+            background: linear-gradient(90deg, #885cfa, #a25cfa);
+            box-shadow: 0 0 15px rgba(162, 92, 250, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(162, 92, 250, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px #0a0a12 inset !important; -webkit-text-fill-color: white !important;
+        }
+    </style>
+</head>
+<body class="w-full h-full m-0 flex flex-col items-center justify-center">
+
+    <canvas id="space-canvas"></canvas>
+
+    <nav class="fixed top-0 w-full flex justify-center items-center gap-4 md:gap-8 p-5 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
+        <a href="index.html" class="absolute left-6 top-1/2 -translate-y-1/2 z-50 cursor-pointer">
+            <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Home" class="w-10 h-10 nav-panda-anim">
+        </a>
+        <a href="index.html" class="nav-link text-gray-400 hover:text-white transition-colors text-xs md:text-sm uppercase tracking-wide">Home</a>
+        <a href="lore.html" class="nav-link text-gray-400 hover:text-white transition-colors text-xs md:text-sm uppercase tracking-wide">Lore</a>
+        <a href="writings.html" class="nav-link text-gray-400 hover:text-white transition-colors text-xs md:text-sm uppercase tracking-wide">Writings</a>
+        <a href="about.html" class="nav-link text-white font-bold transition-colors text-xs md:text-sm uppercase tracking-wide">About</a>
+        <a href="portal.html" class="nav-link text-gray-400 hover:text-white transition-colors text-xs md:text-sm uppercase tracking-wide">Portal</a>
+        <button onclick="openEarlyAccess()" class="ml-4 text-[#a25cfa] hover:text-white font-bold transition-colors text-sm hidden md:block">Join Early Access</button>
+    </nav>
+
+    <main id="neon-box">
+        <img id="bg-panda" src="https://i.imgur.com/tUNi5wM.png" alt="VoidPanda Background">
+        
+        <div class="slide active order-state">
+            <h1 class="text-5xl md:text-7xl font-bold text-white tracking-widest uppercase bg-clip-text text-transparent bg-gradient-to-b from-white to-[#a25cfa] drop-shadow-[0_0_15px_rgba(162,92,250,0.2)]">VoidPanda</h1>
+            <p class="font-tech uppercase tracking-[0.3em] mt-6">A system of <b>observation</b></p>
+        </div>
+
+        <div class="slide order-state">
+            <p class="font-tech tracking-wide">
+                VoidPanda is <b>not</b> a trading system.<br><br>
+                It is <b>not</b> a signal provider.<br><br>
+                It is a framework for <b>understanding behavior</b> within chaotic markets.
+            </p>
+        </div>
+
+        <div class="slide order-state">
+            <p class="font-tech tracking-wide">
+                Most participants believe the market is the challenge.<br><br>
+                It is not.<br><br>
+                The challenge is <b>reaction</b>.<br>
+                <b>Impulse. Noise.</b>
+            </p>
+        </div>
+
+        <div class="slide order-state">
+            <p class="font-tech tracking-wide">
+                VoidPanda introduces structure where there is none.<br><br>
+                Not through prediction.<br><br>
+                Through <b>observation</b>.
+            </p>
+        </div>
+
+        <div class="slide order-state">
+            <p class="font-tech tracking-wide">
+                There are two ways to exist in the market:<br><br>
+                To <b>react</b> or to <b>observe</b>.<br><br>
+                Most never make the transition.
+            </p>
+        </div>
+
+        <div class="slide order-state">
+            <p class="font-tech tracking-wide">
+                The system <b>unfolds over time</b>.<br><br>
+                Not everything is revealed at once.
+            </p>
+        </div>
+
+        <div class="slide order-state">
+            <p class="font-tech tracking-wide">
+                Those who engage begin to <b>notice patterns</b>.<br><br>
+                Not in charts.<br><br>
+                In <b>themselves</b>.
+            </p>
+        </div>
+
+        <div class="slide order-state">
+            <p class="font-orbitron text-3xl md:text-5xl font-bold leading-loose tracking-widest uppercase">
+                VoidPanda does not remove chaos.<br><br>
+                It <b>gives it form</b>.
+            </p>
+        </div>
+
+        <div id="next-btn" onclick="nextSlide()">&#8594;</div>
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+    </main>
+
+    <div id="earlyAccessModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-opacity duration-300 opacity-0">
+        <div class="relative w-full max-w-md bg-[#0a0a12] border border-[#a25cfa]/50 rounded-2xl shadow-[0_0_40px_rgba(162,92,250,0.15)] hover:shadow-[0_0_60px_rgba(162,92,250,0.5)] hover:-translate-y-1 transition-all duration-300 p-8 sm:p-10 overflow-hidden flex flex-col">
+            <button onclick="closeEarlyAccess()" class="absolute top-4 right-6 text-gray-500 hover:text-white transition-colors text-3xl leading-none z-20">&times;</button>
+            <div id="formState" class="w-full relative z-10">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-14 h-14 mx-auto mb-4 animate-[float_4s_ease-in-out_infinite] filter drop-shadow-[0_0_12px_rgba(162,92,250,0.6)]">
+                <h2 class="text-2xl font-bold text-white mb-2 uppercase tracking-widest text-center drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Enter the Void</h2>
+                <form id="waitlistForm" onsubmit="submitWaitlist(event)" class="space-y-5">
+                    <div><input type="text" required placeholder="Name" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans"></div>
+                    <div><input type="email" required placeholder="Email Address" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans"></div>
+                    <div><input type="tel" placeholder="WhatsApp / Phone (Optional)" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans"></div>
+                    <button type="submit" class="w-full btn-glow px-8 py-3.5 rounded-lg text-white font-bold tracking-widest uppercase border border-[#a25cfa] mt-4 font-orbitron">Initialize</button>
+                </form>
+            </div>
+            <div id="successState" class="hidden flex-col items-center justify-center text-center py-6 relative z-10">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-20 h-20 mb-6 animate-[float_4s_ease-in-out_infinite] filter drop-shadow-[0_0_15px_rgba(162,92,250,0.6)]">
+                <h3 class="text-2xl font-bold text-white mb-2 uppercase tracking-widest">Entered the Void.</h3>
+                <p class="text-gray-400 text-sm leading-relaxed max-w-[250px] font-sans mt-4">Your signal has been registered. The sequence will begin when conditions align.</p>
+                <button onclick="closeEarlyAccess()" class="mt-10 text-gray-500 hover:text-white text-xs uppercase tracking-widest transition-colors border-b border-transparent hover:border-white pb-1 font-orbitron">Return</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- SLIDE ENGINE ---
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+        const nextBtn = document.getElementById('next-btn');
+        const neonBox = document.getElementById('neon-box');
+        const bgPanda = document.getElementById('bg-panda');
+        
+        let currentSlide = 0;
+        let slideTimer;
+        const duration = 8000; 
+        const pandaOpacities = [0.02, 0.05, 0.08, 0.12, 0.18, 0.25, 0.40, 0.80];
+
+        function startProgress() {
+            progressBar.style.transition = 'none';
+            progressBar.style.width = '0%';
+            void progressBar.offsetWidth;
+            progressBar.style.transition = `width ${duration}ms linear`;
+            progressBar.style.width = '100%';
+            clearTimeout(slideTimer);
+            slideTimer = setTimeout(nextSlide, duration);
+        }
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide++;
+            if (currentSlide >= slides.length - 1) {
+                currentSlide = slides.length - 1; 
+                slides[currentSlide].classList.add('active');
+                bgPanda.style.opacity = pandaOpacities[currentSlide]; 
+                neonBox.classList.add('dissolved');
+                progressContainer.style.opacity = '0';
+                nextBtn.style.opacity = '0';
+                setTimeout(() => { nextBtn.style.pointerEvents = 'none'; }, 300);
+                clearTimeout(slideTimer);
+                progressBar.style.transition = 'none';
+                return; 
+            }
+            slides[currentSlide].classList.add('active');
+            bgPanda.style.opacity = pandaOpacities[currentSlide]; 
+            startProgress();
+        }
+
+        setTimeout(startProgress, 100);
+
+        // --- PRO UPGRADE: DEEP COSMOS PHYSICS ENGINE ---
+        const spaceCanvas = document.getElementById('space-canvas');
+        const spaceCtx = spaceCanvas.getContext('2d', { alpha: false });
+        
+        function resizeSpace() {
+            spaceCanvas.width = window.innerWidth;
+            spaceCanvas.height = window.innerHeight;
+        }
+        resizeSpace();
+        window.addEventListener('resize', resizeSpace);
+
+        // Standard background stars
+        let spaceParticles = [];
+        for(let i=0; i<300; i++) {
+            spaceParticles.push({
+                x: Math.random() * spaceCanvas.width,
+                y: Math.random() * spaceCanvas.height,
+                r: Math.random() * 1.5 + 0.5, 
+                b: Math.random() * 0.4 + 0.1, 
+                speed: Math.random() * 0.1 + 0.02,
+                color: Math.random() > 0.8 ? 'rgba(162,92,250,' : 'rgba(255,255,255,' 
+            });
+        }
+
+        // Dying Sparks class (ignites and fades out)
+        let sparks = [];
+        class Spark {
+            constructor() {
+                this.x = Math.random() * spaceCanvas.width;
+                this.y = Math.random() * spaceCanvas.height;
+                this.radius = 0;
+                this.maxRadius = Math.random() * 2.5 + 1.5; 
+                this.alpha = 1; 
+                this.state = 'exploding';
+                this.decay = Math.random() * 0.02 + 0.01; 
+            }
+            update() {
+                if (this.state === 'exploding') {
+                    this.radius += 1; 
+                    if (this.radius >= this.maxRadius) this.state = 'dying';
+                } else if (this.state === 'dying') {
+                    this.alpha -= this.decay; 
+                }
+            }
+            draw(ctx) {
+                if(this.alpha <= 0) return;
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, Math.max(0, this.radius), 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = 'rgba(162, 92, 250, 1)';
+                ctx.fill();
+                ctx.restore();
+            }
+            isDead() { return this.alpha <= 0; }
+        }
+
+        function renderCosmos() {
+            spaceCtx.fillStyle = 'rgba(3, 3, 5, 0.4)';
+            spaceCtx.fillRect(0, 0, spaceCanvas.width, spaceCanvas.height);
+            
+            // Render baseline stars
+            spaceParticles.forEach(p => {
+                spaceCtx.beginPath();
+                spaceCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                spaceCtx.fillStyle = `${p.color}${p.b})`;
+                spaceCtx.fill();
+                p.y += p.speed; 
+                if(p.y > spaceCanvas.height) p.y = 0;
+            });
+
+            // Pro Upgrade: Dynamic spark intensity scaling with current slide
+            let slidePercent = currentSlide / (slides.length - 1);
+            let sparkProb = 0.02 + (slidePercent * 0.5); 
+            
+            if (Math.random() < sparkProb) {
+                let amount = Math.floor(Math.random() * (slidePercent * 3)) + 1;
+                for(let i=0; i<amount; i++) sparks.push(new Spark());
+            }
+
+            for (let i = sparks.length - 1; i >= 0; i--) {
+                const spark = sparks[i];
+                spark.update();
+                spark.draw(spaceCtx);
+                if (spark.isDead()) sparks.splice(i, 1);
+            }
+
+            requestAnimationFrame(renderCosmos);
+        }
+        renderCosmos();
+
+        // --- MODAL LOGIC ---
+        function openEarlyAccess() {
+            const eaModal = document.getElementById('earlyAccessModal');
+            document.getElementById('formState').style.display = 'block';
+            document.getElementById('successState').style.display = 'none';
+            document.getElementById('waitlistForm').reset();
+            eaModal.classList.remove('hidden');
+            eaModal.classList.add('flex'); 
+            setTimeout(() => eaModal.classList.remove('opacity-0'), 10);
+            if(currentSlide < slides.length - 1) {
+                clearTimeout(slideTimer);
+                progressBar.style.transition = 'none';
+            }
+        }
+        function closeEarlyAccess() {
+            const eaModal = document.getElementById('earlyAccessModal');
+            eaModal.classList.add('opacity-0');
+            setTimeout(() => {
+                eaModal.classList.add('hidden');
+                eaModal.classList.remove('flex'); 
+                if(currentSlide < slides.length - 1) startProgress();
+            }, 300);
+        }
+        function submitWaitlist(e) {
+            e.preventDefault(); 
+            document.getElementById('formState').style.display = 'none';
+            document.getElementById('successState').style.display = 'flex';
+        }
+        document.getElementById('earlyAccessModal').addEventListener('click', function(e) {
+            if (e.target === this) closeEarlyAccess();
+        });
+    </script>
+</body>
+</html>

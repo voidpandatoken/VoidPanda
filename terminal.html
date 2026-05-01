@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en" class="h-full w-full scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoidPanda | Command Terminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #030305;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(162, 92, 250, 0.08), transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.05), transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        #noise {
+            position: fixed;
+            inset: 0;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.06;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .mono-font { font-family: 'JetBrains Mono', monospace; }
+
+        /* Colorful Glowing Button Styles */
+        .cyber-pill-wrapper {
+            position: relative;
+            background: linear-gradient(90deg, #a25cfa, #00f0ff, #a25cfa);
+            background-size: 200% auto;
+            border-radius: 9999px;
+            padding: 2px;
+            animation: gradientShift 4s linear infinite;
+            box-shadow: 0 0 20px rgba(162, 92, 250, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.2);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .cyber-pill-wrapper:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.6), inset 0 0 15px rgba(162, 92, 250, 0.5);
+        }
+        .cyber-pill-inner {
+            background: #050508;
+            border-radius: 9999px;
+            padding: 1.5rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            height: 100%;
+        }
+
+        @keyframes gradientShift { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+
+        /* Glassmorphism Dropdowns */
+        .phase-box {
+            background: rgba(10, 10, 18, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+        .phase-header {
+            cursor: pointer;
+            background: linear-gradient(90deg, rgba(162, 92, 250, 0.05), transparent);
+        }
+        .phase-header:hover {
+            background: linear-gradient(90deg, rgba(162, 92, 250, 0.15), transparent);
+        }
+        
+        /* Locked Status */
+        .phase-locked {
+            border: 1px solid rgba(255, 50, 50, 0.2);
+            background: rgba(15, 5, 5, 0.5);
+        }
+        .phase-locked .phase-header:hover {
+            background: linear-gradient(90deg, rgba(255, 50, 50, 0.1), transparent);
+        }
+        .lock-icon { fill: currentColor; }
+
+        .dropdown-content {
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.5s ease-out, opacity 0.4s ease-out;
+        }
+        .dropdown-content.open {
+            max-height: 500px; 
+            opacity: 1;
+        }
+
+        #particles { position: fixed; top: 0; left: 0; z-index: 0; pointer-events: none; }
+    </style>
+</head>
+<body class="w-full h-full flex flex-col items-center pt-12 pb-24 px-4 sm:px-6 relative">
+
+    <canvas id="particles"></canvas>
+    <div id="noise"></div>
+
+    <div class="absolute top-6 left-6 md:top-8 md:left-8 z-50">
+        <a href="index.html" class="flex items-center gap-2 text-gray-500 hover:text-[#00f0ff] transition-colors mono-font text-xs uppercase tracking-widest group">
+            <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            System Main
+        </a>
+    </div>
+
+    <main class="relative z-10 w-full max-w-5xl flex flex-col items-center mt-6">
+        
+        <div class="flex flex-col items-center mb-12 text-center">
+            <div class="relative w-24 h-24 mb-6">
+                <div class="absolute inset-0 bg-[#a25cfa] blur-[40px] opacity-40 rounded-full animate-pulse"></div>
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="relative z-10 w-full h-full filter drop-shadow-[0_0_15px_rgba(0,240,255,0.4)]">
+            </div>
+            <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#e0c8ff] to-[#00f0ff] uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+                Terminal Access
+            </h1>
+            <p class="text-[#00f0ff] text-sm mono-font mt-3 tracking-widest uppercase flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-[#00f0ff] animate-ping"></span> Live Link Established
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-16">
+            
+            <div class="cyber-pill-wrapper" onclick="alert('Syncing local dust to blockchain... [Placeholder]')">
+                <div class="cyber-pill-inner">
+                    <div class="text-right">
+                        <div class="text-3xl font-bold text-white tracking-wider drop-shadow-[0_0_8px_rgba(162,92,250,0.8)]">14,500</div>
+                        <div class="text-[#a25cfa] text-[10px] mono-font tracking-widest uppercase">Total Void Dust</div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full border border-[#a25cfa] flex items-center justify-center bg-[#a25cfa]/10">
+                        <span class="text-xl">🌌</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cyber-pill-wrapper !shadow-[0_0_20px_rgba(0,240,255,0.3)] !bg-gradient-to-r from-[#00f0ff] to-[#a25cfa]" onclick="alert('Opening invite graph... [Placeholder]')">
+                <div class="cyber-pill-inner">
+                    <div class="text-right">
+                        <div class="text-3xl font-bold text-white tracking-wider drop-shadow-[0_0_8px_rgba(0,240,255,0.8)]">34</div>
+                        <div class="text-[#00f0ff] text-[10px] mono-font tracking-widest uppercase">Nodes Anchored</div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full border border-[#00f0ff] flex items-center justify-center bg-[#00f0ff]/10">
+                        <span class="text-xl">⚡</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cyber-pill-wrapper !shadow-[0_0_20px_rgba(255,255,255,0.1)] !bg-gradient-to-r from-gray-500 to-gray-700 hover:!shadow-[0_0_30px_rgba(255,255,255,0.4)]">
+                <div class="cyber-pill-inner !bg-[#0a0a0f]">
+                    <div class="text-right">
+                        <div class="text-xl font-bold text-gray-300 tracking-widest uppercase mt-1">Encrypted</div>
+                        <div class="text-gray-500 text-[10px] mono-font tracking-widest uppercase">Genesis Artifact</div>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg border border-gray-600 flex items-center justify-center bg-gray-800/50">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w-full flex flex-col gap-4">
+            <h2 class="text-white text-sm mono-font uppercase tracking-widest mb-2 border-b border-white/10 pb-2 w-full text-left">
+                Active Directives
+            </h2>
+
+            <div class="phase-box">
+                <div class="phase-header p-5 flex justify-between items-center" onclick="toggleDropdown('phase1', this)">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded bg-[#a25cfa]/20 border border-[#a25cfa]/50 flex items-center justify-center text-[#a25cfa]">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-bold tracking-widest uppercase">Phase 1: Initialization</h3>
+                            <p class="text-gray-500 text-xs mono-font tracking-wider mt-1">Status: <span class="text-[#00f0ff]">Active</span></p>
+                        </div>
+                    </div>
+                    <svg class="w-5 h-5 text-gray-400 transform transition-transform duration-300" id="icon-phase1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div id="phase1" class="dropdown-content bg-black/40 px-5 overflow-hidden">
+                    <ul class="py-4 space-y-3">
+                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                            <span class="text-gray-300 text-sm">Connect Web3 Wallet</span>
+                            <span class="text-[#a25cfa] text-xs mono-font">150 DUST</span>
+                        </li>
+                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                            <span class="text-gray-300 text-sm">Achieve Observer Role in Discord</span>
+                            <span class="text-[#a25cfa] text-xs mono-font">150 DUST</span>
+                        </li>
+                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                            <span class="text-gray-300 text-sm">Adopt The Frequency (X Profile)</span>
+                            <span class="text-[#a25cfa] text-xs mono-font">200 DUST</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="phase-box">
+                <div class="phase-header p-5 flex justify-between items-center" onclick="toggleDropdown('phase2', this)">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded bg-[#a25cfa]/20 border border-[#a25cfa]/50 flex items-center justify-center text-[#a25cfa]">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-bold tracking-widest uppercase">Phase 2: Observer Protocol</h3>
+                            <p class="text-gray-500 text-xs mono-font tracking-wider mt-1">Status: <span class="text-[#00f0ff]">Active</span></p>
+                        </div>
+                    </div>
+                    <svg class="w-5 h-5 text-gray-400 transform transition-transform duration-300" id="icon-phase2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div id="phase2" class="dropdown-content bg-black/40 px-5 overflow-hidden">
+                    <ul class="py-4 space-y-3">
+                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                            <span class="text-gray-300 text-sm">Identify the Telegram Anomaly</span>
+                            <span class="text-[#a25cfa] text-xs mono-font">250 DUST</span>
+                        </li>
+                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                            <span class="text-gray-300 text-sm">Decode the Whisper (Base64)</span>
+                            <span class="text-[#a25cfa] text-xs mono-font">300 DUST</span>
+                        </li>
+                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                            <span class="text-gray-300 text-sm">Subvert the Trend</span>
+                            <span class="text-[#a25cfa] text-xs mono-font">350 DUST</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="phase-box phase-locked">
+                <div class="phase-header p-5 flex justify-between items-center">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded bg-red-900/30 border border-red-500/30 flex items-center justify-center text-red-500">
+                            <svg class="w-4 h-4 lock-icon" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-gray-400 font-bold tracking-widest uppercase">Phase 3: Constructing the Void</h3>
+                            <p class="text-gray-600 text-xs mono-font tracking-wider mt-1">Requires 25,000 Dust to Unlock</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="phase-box phase-locked">
+                <div class="phase-header p-5 flex justify-between items-center">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded bg-red-900/30 border border-red-500/30 flex items-center justify-center text-red-500">
+                            <svg class="w-4 h-4 lock-icon" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-gray-400 font-bold tracking-widest uppercase">Phase 4: Tactical Raids</h3>
+                            <p class="text-gray-600 text-xs mono-font tracking-wider mt-1">Condition: Ecosystem Alignment Pending</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="phase-box phase-locked border-t-[3px] border-t-red-900/50">
+                <div class="phase-header p-5 flex justify-between items-center">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded bg-black flex items-center justify-center text-red-700 shadow-[0_0_10px_rgba(255,0,0,0.2)]">
+                            <svg class="w-4 h-4 lock-icon" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-gray-500 font-extrabold tracking-[0.3em] uppercase">The Genesis Gate</h3>
+                            <p class="text-red-900 text-[10px] mono-font tracking-[0.2em] mt-1 uppercase animate-pulse">Classified Sequence</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w-full flex justify-center mt-16">
+            <a href="index.html" class="text-gray-600 hover:text-red-500 text-xs mono-font uppercase tracking-[0.2em] transition-all border-b border-transparent hover:border-red-500 pb-1 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                Terminate Session
+            </a>
+        </div>
+
+    </main>
+
+    <script>
+        // Dropdown Toggle Logic
+        function toggleDropdown(id, headerElement) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('open');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Open Phase 1 by default
+        window.onload = () => {
+            const firstPhase = document.getElementById('phase1');
+            const firstIcon = document.getElementById('icon-phase1');
+            if(firstPhase) {
+                firstPhase.classList.add('open');
+                firstIcon.style.transform = 'rotate(180deg)';
+            }
+        };
+
+        // Canvas Particle Engine
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        let particles = [];
+        for(let i=0; i<80; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.5,
+                d: Math.random() + 0.1
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(162, 92, 250, 0.4)';
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+                p.y += p.d;
+                if(p.y > canvas.height) {
+                    p.y = 0;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+    </script>
+</body>
+</html>
