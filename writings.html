@@ -6,6 +6,10 @@
     <title>VoidPanda — Writings</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Supabase Library for Authentication -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         body {
             font-family: 'Orbitron', sans-serif;
@@ -192,22 +196,39 @@
 
                 <div class="font-sans text-gray-300 text-lg leading-relaxed space-y-8">
                     
+                    <!-- Free Sample Area (Always Visible) -->
                     <p><span class="text-[#a25cfa] font-bold text-2xl float-left mr-2 leading-none">T</span>he screen flickers green. A pulse of dopamine. The screen flashes red. A spike of cortisol. For the average participant in the modern digital market, the experience of trading is entirely physiological.</p>
 
                     <p>This is not an accident. The infrastructure of charts, candles, and real-time order books was not designed to provide clarity. It was designed to provide <strong class="text-white">stimulation</strong>. Stimulation demands reaction, and reaction creates liquidity for those who have mastered the art of observation.</p>
 
-                    <h3 class="text-2xl font-bold text-white font-orbitron mt-12 mb-4 tracking-wide">The Reaction Trap</h3>
-                    <p>When you stare at a 1-minute chart, you are not analyzing data. You are staring at noise. The human brain, evolved to spot predators in the tall grass, attempts to find patterns where none exist. We see a sequence of three green candles and our biology tells us a trend is forming. We see a sudden drop and our biology tells us to flee.</p>
+                    <!-- Protected Content Area -->
+                    <div class="relative mt-8">
+                        
+                        <!-- Content restricted by max-height unless logged in -->
+                        <div id="full-text" class="space-y-8 max-h-[250px] overflow-hidden">
+                            <h3 class="text-2xl font-bold text-white font-orbitron mt-12 mb-4 tracking-wide">The Reaction Trap</h3>
+                            <p>When you stare at a 1-minute chart, you are not analyzing data. You are staring at noise. The human brain, evolved to spot predators in the tall grass, attempts to find patterns where none exist. We see a sequence of three green candles and our biology tells us a trend is forming. We see a sudden drop and our biology tells us to flee.</p>
 
-                    <p>This is the illusion of signal. We mistake velocity for direction.</p>
+                            <p>This is the illusion of signal. We mistake velocity for direction.</p>
 
-                    <h3 class="text-2xl font-bold text-white font-orbitron mt-12 mb-4 tracking-wide">Stepping Outside the Frame</h3>
-                    <p>To survive the Void, one must recognize that the chaos is a feature of the system, not a bug. The market is an engine fueled by the impatience of the many, designed to transfer resources to the patient few.</p>
+                            <h3 class="text-2xl font-bold text-white font-orbitron mt-12 mb-4 tracking-wide">Stepping Outside the Frame</h3>
+                            <p>To survive the Void, one must recognize that the chaos is a feature of the system, not a bug. The market is an engine fueled by the impatience of the many, designed to transfer resources to the patient few.</p>
 
-                    <p>By stepping back—by increasing the timeframe of observation and severing the emotional response to immediate volatility—the noise fades. What is left behind is structure. What is left behind is opportunity.</p>
+                            <p>By stepping back—by increasing the timeframe of observation and severing the emotional response to immediate volatility—the noise fades. What is left behind is structure. What is left behind is opportunity.</p>
 
-                    <div class="mt-16 p-8 border border-[#a25cfa]/20 bg-[#a25cfa]/5 rounded-xl text-center">
-                        <p class="font-orbitron text-[#a25cfa] font-bold uppercase tracking-widest">End of Observation</p>
+                            <div class="mt-16 p-8 border border-[#a25cfa]/20 bg-[#a25cfa]/5 rounded-xl text-center">
+                                <p class="font-orbitron text-[#a25cfa] font-bold uppercase tracking-widest">End of Observation</p>
+                            </div>
+                        </div>
+
+                        <!-- Fade Out Overlay Gate (Hidden via JS if logged in) -->
+                        <div id="content-gate" class="absolute bottom-0 left-0 w-full h-[250px] bg-gradient-to-t from-[#0a0a12] via-[#0a0a12]/95 to-transparent flex flex-col items-center justify-end pb-2">
+                            <h4 class="text-white font-bold uppercase tracking-widest mb-2 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Transmission Fragmented</h4>
+                            <p class="text-gray-400 text-center text-sm max-w-md mb-6 font-sans">Register your frequency to observe the complete signal.</p>
+                            <button onclick="closeBlogModal(); setTimeout(openEarlyAccess, 300);" class="btn-glow px-8 py-3 rounded-lg text-white font-bold tracking-widest uppercase border border-[#a25cfa] mt-2 text-sm">Enter the Void</button>
+                            <p class="mt-4 text-xs text-gray-500 font-sans">Already registered? <a href="index.html" class="text-[#a25cfa] hover:text-white transition-colors underline">Authenticate here</a>.</p>
+                        </div>
+                        
                     </div>
 
                 </div>
@@ -255,6 +276,33 @@
 
         </div>
     </div>
+
+    <!-- ADDED: Dynamic Gate Logic -->
+    <script>
+        const supabaseUrl = 'https://lhcvnxbsbxpeisseosap.supabase.co';
+        const supabaseKey = 'sb_publishable_NA2BPqJkDpBoEbaulYxHUw_kb2_tc4L';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function checkSession() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            
+            const gate = document.getElementById('content-gate');
+            const fullText = document.getElementById('full-text');
+
+            if (session && !error) {
+                // If logged in: Remove the gate and expand the text
+                if (gate) gate.style.display = 'none';
+                if (fullText) fullText.classList.remove('max-h-[250px]', 'overflow-hidden');
+            } else {
+                // If not logged in: Ensure gate is visible and text is restricted
+                if (gate) gate.style.display = 'flex';
+                if (fullText) fullText.classList.add('max-h-[250px]', 'overflow-hidden');
+            }
+        }
+        
+        // Check immediately on load
+        checkSession();
+    </script>
 
     <script>
         // Blog Modal Logic
