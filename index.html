@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Supabase Library -->
+    <!-- ADDED: Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -112,7 +112,17 @@
             -webkit-text-fill-color: white !important;
         }
 
+        /* Restored Intro Sequence Animations */
         @keyframes pulseLogo { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } }
+        @keyframes storyFade { 0% { opacity: 0; transform: translateY(10px); } 10% { opacity: 1; transform: translateY(0); } 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
+
+        .story-line {
+            opacity: 0;
+            position: absolute;
+            text-shadow: 0 0 20px rgba(162, 92, 250, 0.6);
+            width: 100%;
+            text-align: center;
+        }
         .pulse-logo { animation: pulseLogo 4s ease-in-out infinite; }
 
     </style>
@@ -123,11 +133,20 @@
     <div id="noise"></div>
     <div class="cursor-glow" id="cursorGlow"></div>
 
-    <!-- Intro Sequence -->
+    <!-- Restored Intro Sequence -->
     <div id="storyPopup" class="fixed inset-0 z-[100] flex flex-col items-center justify-center text-center bg-[radial-gradient(circle_at_top,#0f0f1a,#050508_80%)] transition-opacity duration-700 px-4">
-        <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-64 md:w-80 mb-8 pulse-logo filter drop-shadow-[0_0_20px_rgba(162,92,250,0.5)]">
         
-        <button id="skipBtn" onclick="hideIntro()" class="px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white hover:border-white/50 hover:bg-white/5 transition-all text-sm tracking-wider relative z-20 cursor-pointer font-orbitron">
+        <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-64 md:w-80 mb-12 pulse-logo filter drop-shadow-[0_0_20px_rgba(162,92,250,0.5)]">
+        
+        <div id="storyLines" class="relative h-24 w-full max-w-3xl flex items-center justify-center">
+            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">The Void is the market — chaotic, emotional, and unforgiving.</p>
+            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Most get lost in it.</p>
+            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">VoidPanda entered it.</p>
+            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Not to escape the chaos…</p>
+            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">But to bring order to it.</p>
+        </div>
+        
+        <button id="skipBtn" onclick="hideIntro()" class="mt-16 px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white hover:border-white/50 hover:bg-white/5 transition-all text-sm tracking-wider relative z-[9999] cursor-pointer font-orbitron">
             Skip Intro
         </button>
     </div>
@@ -225,33 +244,48 @@
     </div>
 
     <script>
-        // Intro Sequence & First-Visit Logic
-        document.addEventListener("DOMContentLoaded", () => {
-            const hasVisited = localStorage.getItem('voidPandaVisited');
+        // Intro Sequence Script - Restored Text Animations
+        let introTimeout;
+        let lineTimeouts = [];
+
+        function startIntro() {
             const popup = document.getElementById('storyPopup');
-            
-            if (!hasVisited) {
-                // First visit: set flag and auto-hide after 4 seconds
-                localStorage.setItem('voidPandaVisited', 'true');
-                setTimeout(hideIntro, 4000); 
-            } else {
-                // Returning user: remove intro instantly, unlock scroll
-                if (popup) {
-                    popup.style.display = 'none';
-                }
-                document.body.style.overflow = 'auto';
-            }
-        });
+            if (!popup) return;
+
+            // Trigger text animations
+            const lines = document.querySelectorAll('.story-line');
+            lines.forEach((line, index) => {
+                const timeout = setTimeout(() => { 
+                    line.style.animation = `storyFade 2400ms ease-in-out forwards`; 
+                }, index * 2400);
+                lineTimeouts.push(timeout);
+            });
+
+            // Auto-hide after sequence
+            introTimeout = setTimeout(hideIntro, 12000);
+        }
 
         function hideIntro() {
             const popup = document.getElementById('storyPopup');
-            if (popup && popup.style.display !== 'none') {
+            if (popup) {
+                // Clear any pending timeouts if skipped
+                clearTimeout(introTimeout);
+                lineTimeouts.forEach(t => clearTimeout(t));
+                
+                // Stop any running animations
+                const lines = document.querySelectorAll('.story-line');
+                lines.forEach(line => line.style.animation = 'none');
+
                 popup.style.opacity = '0';
                 popup.style.pointerEvents = 'none'; 
                 document.body.style.overflow = 'auto'; 
+                
                 setTimeout(() => { popup.style.display = 'none'; }, 700);
             }
         }
+
+        // Start intro on load
+        document.addEventListener("DOMContentLoaded", startIntro);
 
         window.addEventListener('scroll', () => {
             const navPanda = document.getElementById('navPandaContainer');
