@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- ADDED: Supabase Library -->
+    <!-- Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -113,13 +113,6 @@
         }
 
         @keyframes pulseLogo { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } }
-        @keyframes storyFade { 0% { opacity: 0; transform: translateY(10px); } 10% { opacity: 1; transform: translateY(0); } 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
-
-        .story-line {
-            opacity: 0;
-            position: absolute;
-            text-shadow: 0 0 20px rgba(162, 92, 250, 0.6);
-        }
         .pulse-logo { animation: pulseLogo 4s ease-in-out infinite; }
 
     </style>
@@ -130,16 +123,11 @@
     <div id="noise"></div>
     <div class="cursor-glow" id="cursorGlow"></div>
 
+    <!-- Intro Sequence -->
     <div id="storyPopup" class="fixed inset-0 z-[100] flex flex-col items-center justify-center text-center bg-[radial-gradient(circle_at_top,#0f0f1a,#050508_80%)] transition-opacity duration-700 px-4">
-        <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-64 md:w-80 mb-12 pulse-logo filter drop-shadow-[0_0_20px_rgba(162,92,250,0.5)]">
-        <div id="storyLines" class="relative h-24 w-full flex items-center justify-center">
-            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">The Void is the market — chaotic, emotional, and unforgiving.</p>
-            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Most get lost in it.</p>
-            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">VoidPanda entered it.</p>
-            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Not to escape the chaos…</p>
-            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">But to bring order to it.</p>
-        </div>
-        <button id="skipBtn" onclick="hideIntro()" class="mt-16 px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white hover:border-white/50 hover:bg-white/5 transition-all text-sm tracking-wider z-10 cursor-pointer font-orbitron">
+        <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-64 md:w-80 mb-8 pulse-logo filter drop-shadow-[0_0_20px_rgba(162,92,250,0.5)]">
+        
+        <button id="skipBtn" onclick="hideIntro()" class="px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white hover:border-white/50 hover:bg-white/5 transition-all text-sm tracking-wider relative z-20 cursor-pointer font-orbitron">
             Skip Intro
         </button>
     </div>
@@ -167,7 +155,7 @@
             <p class="text-gray-400 text-sm md:text-base font-semibold uppercase tracking-widest mt-0 mb-6 animate-pulse relative z-20">Order in the Chaos.</p>
         </section>
 
-        <!-- ADDED: Styled Authentication Section -->
+        <!-- Authentication Section -->
         <section id="auth-section" class="observe-section w-full max-w-md -mt-10 mb-20 flex flex-col items-center text-center relative z-20 bg-[#0a0a12] p-8 rounded-2xl border border-[#a25cfa]/50 shadow-[0_0_40px_rgba(162,92,250,0.15)]">
             <h2 class="text-2xl font-bold text-white mb-2 uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Portal Access</h2>
             <p class="text-gray-400 text-xs sm:text-sm text-center mb-6 uppercase tracking-widest">Authenticate your signal.</p>
@@ -237,21 +225,33 @@
     </div>
 
     <script>
+        // Intro Sequence & First-Visit Logic
+        document.addEventListener("DOMContentLoaded", () => {
+            const hasVisited = localStorage.getItem('voidPandaVisited');
+            const popup = document.getElementById('storyPopup');
+            
+            if (!hasVisited) {
+                // First visit: set flag and auto-hide after 4 seconds
+                localStorage.setItem('voidPandaVisited', 'true');
+                setTimeout(hideIntro, 4000); 
+            } else {
+                // Returning user: remove intro instantly, unlock scroll
+                if (popup) {
+                    popup.style.display = 'none';
+                }
+                document.body.style.overflow = 'auto';
+            }
+        });
+
         function hideIntro() {
             const popup = document.getElementById('storyPopup');
-            if (popup) {
+            if (popup && popup.style.display !== 'none') {
                 popup.style.opacity = '0';
                 popup.style.pointerEvents = 'none'; 
                 document.body.style.overflow = 'auto'; 
                 setTimeout(() => { popup.style.display = 'none'; }, 700);
             }
         }
-        setTimeout(hideIntro, 12000);
-
-        const lines = document.querySelectorAll('.story-line');
-        lines.forEach((line, index) => {
-            setTimeout(() => { line.style.animation = `storyFade 2400ms ease-in-out forwards`; }, index * 2400);
-        });
 
         window.addEventListener('scroll', () => {
             const navPanda = document.getElementById('navPandaContainer');
@@ -346,7 +346,7 @@
             observer.observe(sec);
         });
 
-        // ADDED: Supabase Authentication Logic
+        // Supabase Authentication Logic
         const supabaseUrl = 'https://lhcvnxbsbxpeisseosap.supabase.co';
         const supabaseKey = 'sb_publishable_NA2BPqJkDpBoEbaulYxHUw_kb2_tc4L';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
