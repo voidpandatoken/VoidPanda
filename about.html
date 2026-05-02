@@ -48,7 +48,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px; /* Reduced for mobile */
+            padding: 20px; 
             transition: all 1.5s ease-in-out;
             overflow: hidden;
         }
@@ -58,7 +58,7 @@
                 width: 90%;
                 height: 65vh;
                 min-height: 450px;
-                padding: 40px; /* Restored for desktop */
+                padding: 40px; 
             }
         }
 
@@ -74,7 +74,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 85%; /* Using width instead of height for better mobile fit */
+            width: 85%; 
             max-width: 400px;
             object-fit: contain;
             opacity: 0.02; 
@@ -106,12 +106,12 @@
         .slide {
             position: absolute;
             width: 100%;
-            padding: 0 15px; /* Reduced padding for mobile */
+            padding: 0 15px; 
             text-align: center;
             opacity: 0;
             transform: translateY(15px) scale(0.98);
             filter: blur(12px);
-            letter-spacing: 2px; /* Reduced letter spacing for mobile */
+            letter-spacing: 2px; 
             transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s cubic-bezier(0.16, 1, 0.3, 1), letter-spacing 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: none;
             visibility: hidden;
@@ -134,7 +134,6 @@
             visibility: visible;
         }
 
-        /* Fluid typography: 1.1rem on mobile, up to 1.5rem on desktop */
         .order-state p { 
             animation: textOrder 4s infinite ease-in-out; 
             color: #ffffff; 
@@ -181,14 +180,14 @@
 
         #next-btn {
             position: absolute;
-            bottom: 15px; /* Lifted slightly for mobile tapping */
+            bottom: 15px; 
             right: 20px;
             color: rgba(162, 92, 250, 0.6);
             font-size: 24px;
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 20;
-            padding: 10px; /* Bigger tap target for thumbs */
+            padding: 10px; 
         }
         
         @media (min-width: 768px) {
@@ -239,16 +238,19 @@
 
     <canvas id="space-canvas"></canvas>
 
-    <nav class="fixed top-0 w-full flex justify-center items-center gap-4 md:gap-8 p-4 md:p-5 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
-        <a href="index.html" class="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 z-50 cursor-pointer">
-            <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Home" class="w-8 h-8 md:w-10 md:h-10 nav-panda-anim">
+    <nav class="fixed top-0 w-full flex justify-center items-center p-4 md:p-5 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
+        <a href="index.html" class="absolute left-3 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 z-50 cursor-pointer">
+            <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Home" class="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 nav-panda-anim">
         </a>
-        <a href="index.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Home</a>
-        <a href="lore.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Lore</a>
-        <a href="writings.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Writings</a>
-        <a href="about.html" class="nav-link text-white font-bold transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">About</a>
-        <a href="portal.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Portal</a>
-        <button onclick="openEarlyAccess()" class="ml-2 md:ml-4 text-[#a25cfa] hover:text-white font-bold transition-colors text-xs md:text-sm hidden sm:block">Join Early Access</button>
+        
+        <div class="flex items-center justify-center gap-3 sm:gap-4 md:gap-8 pl-8 sm:pl-10 md:pl-0">
+            <a href="index.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Home</a>
+            <a href="lore.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Lore</a>
+            <a href="writings.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Writings</a>
+            <a href="about.html" class="nav-link text-white font-bold transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">About</a>
+            <a href="portal.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Portal</a>
+            <button onclick="openEarlyAccess()" class="ml-1 md:ml-4 text-[#a25cfa] hover:text-white font-bold transition-colors text-[10px] sm:text-xs md:text-sm hidden sm:block">Join Early Access</button>
+        </div>
     </nav>
 
     <main id="neon-box">
