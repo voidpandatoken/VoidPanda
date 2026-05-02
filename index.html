@@ -12,7 +12,7 @@
         body {
             font-family: 'Orbitron', sans-serif;
             background-color: #050508;
-            /* RESTORED: The exact radial star background from before */
+            /* FOUNDATION: The starry gradient you loved */
             background-image: radial-gradient(circle at top, #0f0f1a, #050508 80%);
             background-attachment: fixed;
             min-height: 100vh;
@@ -21,7 +21,7 @@
             margin: 0;
         }
 
-        /* --- VIDEO BACKGROUND --- */
+        /* --- VIDEO ENGINE --- */
         .void-video-bg {
             position: fixed;
             top: 50%;
@@ -56,7 +56,7 @@
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle, transparent 20%, rgba(5, 5, 8, 0.5) 100%);
+            background: radial-gradient(circle, transparent 20%, rgba(5, 5, 8, 0.4) 100%);
             z-index: -1;
         }
 
@@ -81,20 +81,20 @@
             box-shadow: 0 0 15px rgba(162, 92, 250, 0.5);
             transition: all 0.3s ease;
         }
-        .btn-pulse-custom:hover {
-            box-shadow: 0 0 30px rgba(162, 92, 250, 1);
-            transform: scale(1.05);
-        }
 
-        /* Intro Sequence */
+        /* Intro Sequence Animations */
         .story-line { opacity: 0; position: absolute; text-shadow: 0 0 20px rgba(162, 92, 250, 0.6); width: 100%; text-align: center; }
-        @keyframes storyFade { 0% { opacity: 0; transform: translateY(10px); } 10% { opacity: 1; transform: translateY(0); } 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
+        @keyframes storyFade { 
+            0% { opacity: 0; transform: translateY(10px); } 
+            10% { opacity: 1; transform: translateY(0); } 
+            90% { opacity: 1; transform: translateY(0); } 
+            100% { opacity: 0; transform: translateY(-10px); } 
+        }
         .story-line.seq-1 { animation: storyFade 2400ms ease-in-out 0s forwards; }
         .story-line.seq-2 { animation: storyFade 2400ms ease-in-out 2400ms forwards; }
         .story-line.seq-3 { animation: storyFade 2400ms ease-in-out 4800ms forwards; }
         .story-line.seq-4 { animation: storyFade 2400ms ease-in-out 7200ms forwards; }
         .story-line.seq-5 { animation: storyFade 2400ms ease-in-out 9600ms forwards; }
-
     </style>
 </head>
 <body class="w-full h-full m-0" style="overflow: hidden;">
@@ -165,8 +165,8 @@
                 <h2 class="text-xl md:text-2xl font-bold text-white mb-2 uppercase tracking-widest text-center">Terminal Access</h2>
                 <p class="text-gray-400 text-[10px] text-center mb-10 uppercase tracking-widest">Authenticate your signal.</p>
                 <div class="space-y-4">
-                    <input type="email" id="email" placeholder="Enter Email" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa] text-sm font-sans">
-                    <input type="password" id="password" placeholder="Enter Password" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa] text-sm font-sans">
+                    <input type="email" id="email" placeholder="Enter Email" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa] text-sm">
+                    <input type="password" id="password" placeholder="Enter Password" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa] text-sm">
                     <div class="flex gap-4 pt-4">
                         <button onclick="signUp()" class="w-1/2 py-4 rounded-xl border border-white/10 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all">Sign Up</button>
                         <button onclick="login()" class="w-1/2 btn-pulse-custom py-4 rounded-xl text-white font-bold uppercase tracking-widest text-[10px]">Log In</button>
@@ -188,27 +188,6 @@
     <footer class="relative z-30 w-full text-center py-10 bg-[#050508] border-t border-white/5 text-gray-600 text-[10px] tracking-widest">
         © 2026 VOIDPANDA. EMBRACE THE CHAOS.
     </footer>
-
-    <div id="earlyAccessModal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300 opacity-0">
-        <div class="relative w-full max-w-md bg-[#0a0a12] border border-[#a25cfa]/50 rounded-2xl p-8 flex flex-col items-center">
-            <button onclick="closeEarlyAccess()" class="absolute top-4 right-6 text-gray-500 hover:text-white text-3xl leading-none">&times;</button>
-            <div id="formState" class="w-full text-center">
-                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-16 h-16 mx-auto mb-6">
-                <h2 class="text-lg font-bold text-white mb-8 uppercase tracking-widest">Enter the Void</h2>
-                <form onsubmit="submitWaitlist(event)" class="space-y-4">
-                    <input type="text" required placeholder="Name" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm font-sans">
-                    <input type="email" required placeholder="Email" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm font-sans">
-                    <button type="submit" class="w-full btn-pulse-custom py-3 rounded-lg text-white font-bold uppercase tracking-widest text-sm">Initialize</button>
-                </form>
-            </div>
-            <div id="successState" class="hidden flex-col items-center text-center py-6">
-                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-20 h-20 mb-6">
-                <h3 class="text-xl font-bold text-white mb-2 uppercase tracking-widest">Entered the Void.</h3>
-                <p class="text-[#a25cfa] font-bold mb-6">STAY TUNED.</p>
-                <p class="text-gray-400 text-xs leading-relaxed max-w-[250px]">Your signal has been registered. The sequence will begin when conditions align.</p>
-            </div>
-        </div>
-    </div>
 
     <script>
         let introTimeout = setTimeout(hideIntro, 12000);
@@ -236,8 +215,6 @@
 
         function openEarlyAccess() {
             const modal = document.getElementById('earlyAccessModal');
-            document.getElementById('formState').style.display = 'block';
-            document.getElementById('successState').style.display = 'none';
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             setTimeout(() => modal.classList.remove('opacity-0'), 10);
@@ -250,14 +227,11 @@
             setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); document.body.style.overflow = 'auto'; }, 300);
         }
 
-        function submitWaitlist(e) { e.preventDefault(); document.getElementById('formState').style.display = 'none'; document.getElementById('successState').style.display = 'flex'; }
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.remove('opacity-0', 'translate-y-12');
                     entry.target.classList.add('opacity-100', 'translate-y-0');
-                    observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
@@ -267,7 +241,7 @@
             observer.observe(sec);
         });
 
-        // WAKE UP SCRIPT: Tries to bypass the low-battery autoplay block on first interaction
+        // WAKE UP SCRIPT: Tries to bypass mobile autoplay blocks
         window.addEventListener('touchstart', function() {
             document.querySelectorAll('video').forEach(v => {
                 v.play().catch(() => {});
