@@ -81,14 +81,14 @@
 
     <div id="storyPopup" class="fixed inset-0 z-[100] flex flex-col items-center justify-center text-center bg-[#050508] transition-opacity duration-700 px-4">
         <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-64 md:w-80 mb-12 filter drop-shadow-[0_0_20px_rgba(162,92,250,0.5)]">
-        <div class="relative h-24 w-full max-w-3xl flex items-center justify-center">
+        <div class="relative h-24 w-full max-w-3xl flex items-center justify-center pointer-events-none">
             <p class="story-line seq-1 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">The Void is the market — chaotic, emotional, and unforgiving.</p>
             <p class="story-line seq-2 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Most get lost in it.</p>
             <p class="story-line seq-3 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">VoidPanda entered it.</p>
             <p class="story-line seq-4 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Not to escape the chaos…</p>
             <p class="story-line seq-5 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">But to bring order to it.</p>
         </div>
-        <button onclick="hideIntro()" class="mt-16 px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white transition-all text-sm tracking-wider font-orbitron">Skip Intro</button>
+        <button onclick="hideIntro()" class="mt-16 px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white transition-all text-sm tracking-wider font-orbitron relative z-50 pointer-events-auto cursor-pointer">Skip Intro</button>
     </div>
 
     <nav class="fixed top-0 w-full flex justify-center items-center p-4 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
@@ -138,10 +138,10 @@
                     <input type="password" id="password" placeholder="Enter Password" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa]/50 text-xs text-center">
                     
                     <div class="flex w-full gap-3 pt-4">
-                        <button onclick="handleSignUp()" class="flex-1 py-4 rounded-xl border border-white/5 text-gray-400 font-bold uppercase tracking-widest text-[9px] hover:bg-white/5 transition-all text-center flex justify-center items-center">
+                        <button onclick="handleSignUp()" class="flex-1 py-4 rounded-xl border border-white/5 text-gray-400 font-bold uppercase tracking-widest text-[9px] hover:bg-white/5 transition-all text-center flex justify-center items-center cursor-pointer">
                             Sign Up
                         </button>
-                        <button onclick="handleLogin()" class="flex-1 bg-gradient-to-r from-[#885cfa] to-[#a25cfa] shadow-[0_0_15px_rgba(162,92,250,0.4)] hover:shadow-[0_0_25px_rgba(162,92,250,0.8)] transition-all py-4 rounded-xl text-white font-bold uppercase tracking-widest text-[9px] text-center flex justify-center items-center">
+                        <button onclick="handleLogin()" class="flex-1 bg-gradient-to-r from-[#885cfa] to-[#a25cfa] shadow-[0_0_15px_rgba(162,92,250,0.4)] hover:shadow-[0_0_25px_rgba(162,92,250,0.8)] transition-all py-4 rounded-xl text-white font-bold uppercase tracking-widest text-[9px] text-center flex justify-center items-center cursor-pointer">
                             Log In
                         </button>
                     </div>
@@ -187,7 +187,17 @@
     </div>
 
     <script>
-        // Clean, Keyless Frontend Routing
+        function hideIntro() {
+            const popup = document.getElementById('storyPopup');
+            if (popup) {
+                popup.style.opacity = '0';
+                popup.style.pointerEvents = 'none'; 
+                document.body.style.overflow = 'auto'; 
+                setTimeout(() => popup.style.display = 'none', 500);
+            }
+        }
+        setTimeout(hideIntro, 12000);
+
         function handleSignUp() {
             const msg = document.getElementById('auth-msg');
             msg.innerText = "SIGNAL REGISTERED. ROUTING...";
@@ -199,17 +209,6 @@
             msg.innerText = "AUTHENTICATED. ENTERING THE VOID...";
             setTimeout(() => { window.location.href = "portal.html"; }, 1200);
         }
-
-        function hideIntro() {
-            const popup = document.getElementById('storyPopup');
-            if (popup) {
-                popup.style.opacity = '0';
-                popup.style.pointerEvents = 'none'; 
-                document.body.style.overflow = 'auto'; 
-                setTimeout(() => popup.style.display = 'none', 700);
-            }
-        }
-        setTimeout(hideIntro, 12000);
 
         function openEarlyAccess() {
             const modal = document.getElementById('earlyAccessModal');
