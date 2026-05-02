@@ -12,7 +12,7 @@
         body {
             font-family: 'Orbitron', sans-serif;
             background-color: #050508;
-            /* RESTORED: The starry background you liked */
+            /* RESTORED: The exact radial star background from before */
             background-image: radial-gradient(circle at top, #0f0f1a, #050508 80%);
             background-attachment: fixed;
             min-height: 100vh;
@@ -33,7 +33,6 @@
             z-index: -100;
             transform: translate(-50%, -50%);
             object-fit: cover;
-            opacity: 1;
         }
 
         @media (max-width: 768px) {
@@ -57,7 +56,7 @@
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle, transparent 20%, rgba(5, 5, 8, 0.4) 100%);
+            background: radial-gradient(circle, transparent 20%, rgba(5, 5, 8, 0.5) 100%);
             z-index: -1;
         }
 
@@ -76,36 +75,26 @@
             text-decoration: none;
         }
 
-        .btn-glow {
-            display: inline-flex;
-            background: linear-gradient(90deg, #885cfa, #a25cfa);
-            box-shadow: 0 0 20px rgba(162, 92, 250, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        @keyframes customPulse {
-            0%, 100% { box-shadow: 0 0 15px rgba(162, 92, 250, 0.5); transform: scale(1); }
-            50% { box-shadow: 0 0 35px rgba(162, 92, 250, 1); transform: scale(1.04); }
-        }
         .btn-pulse-custom {
             display: inline-flex;
             background: linear-gradient(90deg, #885cfa, #a25cfa);
-            animation: customPulse 2.5s infinite ease-in-out;
+            box-shadow: 0 0 15px rgba(162, 92, 250, 0.5);
+            transition: all 0.3s ease;
+        }
+        .btn-pulse-custom:hover {
+            box-shadow: 0 0 30px rgba(162, 92, 250, 1);
+            transform: scale(1.05);
         }
 
         /* Intro Sequence */
         .story-line { opacity: 0; position: absolute; text-shadow: 0 0 20px rgba(162, 92, 250, 0.6); width: 100%; text-align: center; }
-        @keyframes storyFade { 
-            0% { opacity: 0; transform: translateY(10px); } 
-            10% { opacity: 1; transform: translateY(0); } 
-            90% { opacity: 1; transform: translateY(0); } 
-            100% { opacity: 0; transform: translateY(-10px); } 
-        }
+        @keyframes storyFade { 0% { opacity: 0; transform: translateY(10px); } 10% { opacity: 1; transform: translateY(0); } 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
         .story-line.seq-1 { animation: storyFade 2400ms ease-in-out 0s forwards; }
         .story-line.seq-2 { animation: storyFade 2400ms ease-in-out 2400ms forwards; }
         .story-line.seq-3 { animation: storyFade 2400ms ease-in-out 4800ms forwards; }
         .story-line.seq-4 { animation: storyFade 2400ms ease-in-out 7200ms forwards; }
         .story-line.seq-5 { animation: storyFade 2400ms ease-in-out 9600ms forwards; }
+
     </style>
 </head>
 <body class="w-full h-full m-0" style="overflow: hidden;">
@@ -147,10 +136,143 @@
 
     <main class="relative z-10 flex flex-col items-center w-full">
         
-        <section id="home" class="text-center w-full min-h-screen flex flex-col items-center justify-center relative pt-20">
+        <section id="home" class="text-center w-full min-h-screen flex flex-col items-center justify-center relative pt-20 px-6">
             <div class="hero-overlay"></div>
-            <div class="relative z-10 flex flex-col items-center px-6">
+            <div class="relative z-10 flex flex-col items-center w-full">
                 <a href="#auth-section" class="flashing-title font-bold text-lg md:text-xl uppercase tracking-widest mb-10 cursor-pointer">Access Terminal</a>
-                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[220px] md:max-w-[320px] mb-6">
-                <div class="relative w-full max-w-[200px] md:max-w-[280px] h-12 mb-4">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[220px] md:max-w-[300px] mb-8">
+                <div class="relative w-full max-w-[180px] md:max-w-[260px] h-10 mb-6">
                     <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="absolute w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)]">
+                </div>
+                <p class="text-gray-400 text-[10px] md:text-sm font-semibold uppercase tracking-widest mb-12">Order in the Chaos.</p>
+                <a href="thevoid.html" class="btn-pulse-custom px-10 py-4 rounded-xl text-white font-bold tracking-widest uppercase border border-[#a25cfa] text-xs md:text-base">Enter the Void</a>
+            </div>
+        </section>
+
+        <section id="lore-section" class="observe-section w-full py-40 bg-[#050508] flex flex-col items-center text-center relative z-20 border-t border-white/5">
+            <p class="text-gray-400 text-base md:text-lg leading-relaxed max-w-2xl font-semibold tracking-wide mb-14 px-6">
+                Not everything is available at once.<br>
+                Some things must be observed over time.
+            </p>
+            <div class="flex gap-6 md:gap-10 flex-wrap justify-center px-4">
+                <a href="lore.html" class="btn-pulse-custom px-8 py-4 rounded-xl text-white font-bold tracking-wide border border-[#a25cfa] text-xs md:text-base">Enter Lore</a>
+                <a href="writings.html" class="btn-pulse-custom px-8 py-4 rounded-xl text-white font-bold tracking-wide border border-[#a25cfa] text-xs md:text-base">Read Writings</a>
+            </div>
+        </section>
+
+        <section id="auth-section" class="observe-section scroll-mt-24 w-full py-40 bg-[#08080c] flex flex-col items-center relative z-20 px-6">
+            <div class="w-full max-w-md bg-[#0a0a12] p-10 rounded-3xl border border-[#a25cfa]/30 shadow-2xl">
+                <h2 class="text-xl md:text-2xl font-bold text-white mb-2 uppercase tracking-widest text-center">Terminal Access</h2>
+                <p class="text-gray-400 text-[10px] text-center mb-10 uppercase tracking-widest">Authenticate your signal.</p>
+                <div class="space-y-4">
+                    <input type="email" id="email" placeholder="Enter Email" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa] text-sm font-sans">
+                    <input type="password" id="password" placeholder="Enter Password" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa] text-sm font-sans">
+                    <div class="flex gap-4 pt-4">
+                        <button onclick="signUp()" class="w-1/2 py-4 rounded-xl border border-white/10 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all">Sign Up</button>
+                        <button onclick="login()" class="w-1/2 btn-pulse-custom py-4 rounded-xl text-white font-bold uppercase tracking-widest text-[10px]">Log In</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="community" class="observe-section w-full py-40 bg-[#050508] text-center relative z-20">
+            <h2 class="text-2xl md:text-3xl font-bold mb-14 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#a25cfa] uppercase tracking-widest">The Network</h2>
+            <div class="flex flex-wrap justify-center gap-8 px-6">
+                <a href="https://t.me/+Py4jTI2rI584ZTQx" target="_blank" class="px-10 py-4 rounded-xl border border-white/10 hover:border-[#a25cfa] hover:bg-[#a25cfa]/10 transition-all font-bold uppercase tracking-widest text-xs">Telegram</a>
+                <a href="https://discord.gg/7RSDCcCP" target="_blank" class="px-10 py-4 rounded-xl border border-white/10 hover:border-[#a25cfa] hover:bg-[#a25cfa]/10 transition-all font-bold uppercase tracking-widest text-xs">Discord</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="relative z-30 w-full text-center py-10 bg-[#050508] border-t border-white/5 text-gray-600 text-[10px] tracking-widest">
+        © 2026 VOIDPANDA. EMBRACE THE CHAOS.
+    </footer>
+
+    <div id="earlyAccessModal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300 opacity-0">
+        <div class="relative w-full max-w-md bg-[#0a0a12] border border-[#a25cfa]/50 rounded-2xl p-8 flex flex-col items-center">
+            <button onclick="closeEarlyAccess()" class="absolute top-4 right-6 text-gray-500 hover:text-white text-3xl leading-none">&times;</button>
+            <div id="formState" class="w-full text-center">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-16 h-16 mx-auto mb-6">
+                <h2 class="text-lg font-bold text-white mb-8 uppercase tracking-widest">Enter the Void</h2>
+                <form onsubmit="submitWaitlist(event)" class="space-y-4">
+                    <input type="text" required placeholder="Name" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm font-sans">
+                    <input type="email" required placeholder="Email" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm font-sans">
+                    <button type="submit" class="w-full btn-pulse-custom py-3 rounded-lg text-white font-bold uppercase tracking-widest text-sm">Initialize</button>
+                </form>
+            </div>
+            <div id="successState" class="hidden flex-col items-center text-center py-6">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-20 h-20 mb-6">
+                <h3 class="text-xl font-bold text-white mb-2 uppercase tracking-widest">Entered the Void.</h3>
+                <p class="text-[#a25cfa] font-bold mb-6">STAY TUNED.</p>
+                <p class="text-gray-400 text-xs leading-relaxed max-w-[250px]">Your signal has been registered. The sequence will begin when conditions align.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let introTimeout = setTimeout(hideIntro, 12000);
+        function hideIntro() {
+            const popup = document.getElementById('storyPopup');
+            if (popup) {
+                clearTimeout(introTimeout);
+                popup.style.opacity = '0';
+                popup.style.pointerEvents = 'none'; 
+                document.body.style.overflow = 'auto'; 
+                setTimeout(() => popup.style.display = 'none', 700);
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            const navPanda = document.getElementById('navPandaContainer');
+            if (window.scrollY > 300) {
+                navPanda.classList.remove('opacity-0', 'pointer-events-none');
+                navPanda.classList.add('opacity-100');
+            } else {
+                navPanda.classList.remove('opacity-100');
+                navPanda.classList.add('opacity-0', 'pointer-events-none');
+            }
+        });
+
+        function openEarlyAccess() {
+            const modal = document.getElementById('earlyAccessModal');
+            document.getElementById('formState').style.display = 'block';
+            document.getElementById('successState').style.display = 'none';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEarlyAccess() {
+            const modal = document.getElementById('earlyAccessModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); document.body.style.overflow = 'auto'; }, 300);
+        }
+
+        function submitWaitlist(e) { e.preventDefault(); document.getElementById('formState').style.display = 'none'; document.getElementById('successState').style.display = 'flex'; }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-12');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.observe-section').forEach(sec => {
+            sec.classList.add('opacity-0', 'translate-y-12', 'transition-all', 'duration-1000', 'ease-out');
+            observer.observe(sec);
+        });
+
+        // WAKE UP SCRIPT: Tries to bypass the low-battery autoplay block on first interaction
+        window.addEventListener('touchstart', function() {
+            document.querySelectorAll('video').forEach(v => {
+                v.play().catch(() => {});
+            });
+        }, {once: true});
+    </script>
+</body>
+</html>
