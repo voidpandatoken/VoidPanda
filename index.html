@@ -66,14 +66,8 @@
         }
 
         @keyframes customPulse {
-            0%, 100% { 
-                box-shadow: 0 0 15px rgba(162, 92, 250, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.2); 
-                transform: scale(1); 
-            }
-            50% { 
-                box-shadow: 0 0 35px rgba(162, 92, 250, 1), inset 0 0 15px rgba(255, 255, 255, 0.4); 
-                transform: scale(1.04); 
-            }
+            0%, 100% { box-shadow: 0 0 15px rgba(162, 92, 250, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.2); transform: scale(1); }
+            50% { box-shadow: 0 0 35px rgba(162, 92, 250, 1), inset 0 0 15px rgba(255, 255, 255, 0.4); transform: scale(1.04); }
         }
         
         .btn-pulse-custom {
@@ -82,7 +76,6 @@
             animation: customPulse 2.5s infinite ease-in-out;
             transition: all 0.3s ease;
         }
-        
         .btn-pulse-custom:hover {
             animation-play-state: paused;
             box-shadow: 0 0 25px rgba(162, 92, 250, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.3);
@@ -90,31 +83,34 @@
         }
 
         @keyframes bouncePulse {
-            0%, 100% {
-                transform: translateY(0) scale(1);
-                filter: drop-shadow(0 0 10px rgba(162, 92, 250, 0.4));
-            }
-            50% {
-                transform: translateY(-4px) scale(1.05);
-                filter: drop-shadow(0 0 20px rgba(162, 92, 250, 0.9));
-            }
+            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px rgba(162, 92, 250, 0.4)); }
+            50% { transform: translateY(-4px) scale(1.05); filter: drop-shadow(0 0 20px rgba(162, 92, 250, 0.9)); }
         }
-        .nav-panda-anim {
-            animation: bouncePulse 2.5s ease-in-out infinite;
+        .nav-panda-anim { animation: bouncePulse 2.5s ease-in-out infinite; }
+
+        input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px #0a0a12 inset !important; -webkit-text-fill-color: white !important;
         }
 
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover, 
-        input:-webkit-autofill:focus, 
-        input:-webkit-autofill:active{
-            -webkit-box-shadow: 0 0 0 30px #0a0a12 inset !important;
-            -webkit-text-fill-color: white !important;
-        }
-
-        /* Intro Sequence Animations */
+        /* Intro Sequence - PURE CSS ANIMATIONS (Crash Proof) */
         @keyframes pulseLogo { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } }
-        @keyframes storyFade { 0% { opacity: 0; transform: translateY(10px); } 10% { opacity: 1; transform: translateY(0); } 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
+        @-webkit-keyframes pulseLogo { 0%, 100% { -webkit-transform: scale(1); opacity: 0.8; } 50% { -webkit-transform: scale(1.05); opacity: 1; } }
+        
+        @keyframes storyFade { 
+            0% { opacity: 0; transform: translateY(10px); } 
+            10% { opacity: 1; transform: translateY(0); } 
+            90% { opacity: 1; transform: translateY(0); } 
+            100% { opacity: 0; transform: translateY(-10px); } 
+        }
+        @-webkit-keyframes storyFade { 
+            0% { opacity: 0; -webkit-transform: translateY(10px); } 
+            10% { opacity: 1; -webkit-transform: translateY(0); } 
+            90% { opacity: 1; -webkit-transform: translateY(0); } 
+            100% { opacity: 0; -webkit-transform: translateY(-10px); } 
+        }
 
+        .pulse-logo { animation: pulseLogo 4s ease-in-out infinite; -webkit-animation: pulseLogo 4s ease-in-out infinite; }
+        
         .story-line {
             opacity: 0;
             position: absolute;
@@ -122,7 +118,13 @@
             width: 100%;
             text-align: center;
         }
-        .pulse-logo { animation: pulseLogo 4s ease-in-out infinite; }
+
+        /* Hardcoded animation delays - Text overlays cannot fail now */
+        .story-line.seq-1 { animation: storyFade 2400ms ease-in-out 0s forwards; -webkit-animation: storyFade 2400ms ease-in-out 0s forwards; }
+        .story-line.seq-2 { animation: storyFade 2400ms ease-in-out 2400ms forwards; -webkit-animation: storyFade 2400ms ease-in-out 2400ms forwards; }
+        .story-line.seq-3 { animation: storyFade 2400ms ease-in-out 4800ms forwards; -webkit-animation: storyFade 2400ms ease-in-out 4800ms forwards; }
+        .story-line.seq-4 { animation: storyFade 2400ms ease-in-out 7200ms forwards; -webkit-animation: storyFade 2400ms ease-in-out 7200ms forwards; }
+        .story-line.seq-5 { animation: storyFade 2400ms ease-in-out 9600ms forwards; -webkit-animation: storyFade 2400ms ease-in-out 9600ms forwards; }
 
     </style>
 </head>
@@ -137,14 +139,14 @@
         <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-64 md:w-80 mb-12 pulse-logo filter drop-shadow-[0_0_20px_rgba(162,92,250,0.5)]">
         
         <div id="storyLines" class="relative h-24 w-full max-w-3xl flex items-center justify-center">
-            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">The Void is the market — chaotic, emotional, and unforgiving.</p>
-            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Most get lost in it.</p>
-            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">VoidPanda entered it.</p>
-            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Not to escape the chaos…</p>
-            <p class="story-line text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">But to bring order to it.</p>
+            <p class="story-line seq-1 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">The Void is the market — chaotic, emotional, and unforgiving.</p>
+            <p class="story-line seq-2 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Most get lost in it.</p>
+            <p class="story-line seq-3 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">VoidPanda entered it.</p>
+            <p class="story-line seq-4 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Not to escape the chaos…</p>
+            <p class="story-line seq-5 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">But to bring order to it.</p>
         </div>
         
-        <button id="skipBtn" onclick="hideIntro()" class="mt-16 px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white hover:border-white/50 hover:bg-white/5 transition-all text-sm tracking-wider relative z-[9999] cursor-pointer font-orbitron">
+        <button onclick="hideIntro()" class="mt-16 px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white hover:border-white/50 hover:bg-white/5 transition-all text-sm tracking-wider relative z-[9999] cursor-pointer font-orbitron">
             Skip Intro
         </button>
     </div>
@@ -164,12 +166,12 @@
         </div>
     </nav>
 
-    <main class="relative z-10 flex flex-col items-center w-full pt-20 px-6 pb-12">
+    <main class="relative z-10 flex flex-col items-center w-full px-6 pb-12">
         
-        <section id="home" class="observe-section text-center w-full max-w-4xl flex flex-col items-center justify-center min-h-[70vh] md:min-h-[calc(100vh-6rem)] relative">
+        <section id="home" class="observe-section text-center w-full max-w-4xl flex flex-col items-center justify-start pt-[15vh] md:justify-center md:pt-0 min-h-[60vh] md:min-h-[calc(100vh-6rem)] relative">
             <div class="absolute top-1/2 left-1/2 w-3/4 h-3/4 bg-[#7878ff]/10 blur-[120px] -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"></div>
             
-            <div class="relative z-10 flex flex-col items-center -mt-16 md:mt-0">
+            <div class="relative z-10 flex flex-col items-center">
                 <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[220px] sm:max-w-[280px] mb-4">
                 <div class="relative w-full max-w-[200px] sm:max-w-[240px] h-[40px] sm:h-[50px] mb-2">
                     <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="logo-glow absolute w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -219,43 +221,19 @@
     </footer>
 
     <script>
-        // Intro Sequence Script
-        let introTimeout;
-        let lineTimeouts = [];
-
-        function startIntro() {
-            const popup = document.getElementById('storyPopup');
-            if (!popup) return;
-
-            const lines = document.querySelectorAll('.story-line');
-            lines.forEach((line, index) => {
-                const timeout = setTimeout(() => { 
-                    line.style.animation = `storyFade 2400ms ease-in-out forwards`; 
-                }, index * 2400);
-                lineTimeouts.push(timeout);
-            });
-
-            introTimeout = setTimeout(hideIntro, 12000);
-        }
+        // JS only hides the intro now. Text animations run automatically in CSS.
+        let introTimeout = setTimeout(hideIntro, 12000);
 
         function hideIntro() {
             const popup = document.getElementById('storyPopup');
             if (popup) {
                 clearTimeout(introTimeout);
-                lineTimeouts.forEach(t => clearTimeout(t));
-                
-                const lines = document.querySelectorAll('.story-line');
-                lines.forEach(line => line.style.animation = 'none');
-
                 popup.style.opacity = '0';
                 popup.style.pointerEvents = 'none'; 
                 document.body.style.overflow = 'auto'; 
-                
                 setTimeout(() => { popup.style.display = 'none'; }, 700);
             }
         }
-
-        document.addEventListener("DOMContentLoaded", startIntro);
 
         window.addEventListener('scroll', () => {
             const navPanda = document.getElementById('navPandaContainer');
@@ -268,7 +246,6 @@
             }
         });
 
-        // Background Particles
         const canvas = document.getElementById('particles');
         if (canvas) {
             const ctx = canvas.getContext('2d');
@@ -296,7 +273,6 @@
             animateParticles();
         }
 
-        // Cursor Glow
         const glow = document.getElementById('cursorGlow');
         if (glow) {
             window.addEventListener('mousemove', e => {
@@ -307,7 +283,7 @@
             });
         }
 
-        // Scroll Animations
+        // Failsafe Intersection Observer
         const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -323,6 +299,16 @@
             sec.classList.add('opacity-0', 'translate-y-12', 'transition-all', 'duration-1000', 'ease-out');
             observer.observe(sec);
         });
+
+        // Hard Failsafe: Force reveal all elements if the observer gets blocked
+        setTimeout(() => {
+            document.querySelectorAll('.observe-section').forEach(sec => {
+                if (sec.classList.contains('opacity-0')) {
+                    sec.classList.remove('opacity-0', 'translate-y-12');
+                    sec.classList.add('opacity-100', 'translate-y-0');
+                }
+            });
+        }, 2000);
     </script>
 
     <script>
@@ -334,42 +320,32 @@
                 const supabaseKey = 'sb_publishable_NA2BPqJkDpBoEbaulYxHUw_kb2_tc4L';
                 supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
             } else {
-                console.warn("Supabase library failed to load (likely blocked by an extension).");
+                console.warn("Supabase library failed to load.");
             }
         } catch (error) {
-            console.error("Database connection entirely bypassed to protect UI:", error);
+            console.error("Database connection bypassed:", error);
         }
 
         async function signUp() {
-            if (!supabaseClient) {
-                alert("Database connection blocked. Please disable tracking protection to register.");
-                return;
-            }
+            if (!supabaseClient) return alert("Database connection blocked. Please disable tracking protection to register.");
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             try {
                 const { data, error } = await supabaseClient.auth.signUp({ email, password });
                 if (error) throw error;
                 alert("Initiation successful. You may now log in.");
-            } catch (err) {
-                alert(err.message);
-            }
+            } catch (err) { alert(err.message); }
         }
 
         async function login() {
-            if (!supabaseClient) {
-                alert("Database connection blocked. Please disable tracking protection to log in.");
-                return;
-            }
+            if (!supabaseClient) return alert("Database connection blocked. Please disable tracking protection to log in.");
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             try {
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
                 if (error) throw error;
                 window.location.href = "terminal.html"; 
-            } catch (err) {
-                alert(err.message);
-            }
+            } catch (err) { alert(err.message); }
         }
     </script>
 </body>
