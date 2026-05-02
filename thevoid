@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en" class="h-full w-full scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoidPanda Ecosystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #050508;
+            background-image: radial-gradient(circle at top, #0f0f1a, #050508 80%);
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        #noise {
+            position: fixed;
+            inset: 0;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .cursor-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(120, 120, 255, 0.15), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            transition: transform 0.1s ease-out;
+        }
+
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        
+        .hero-img {
+            filter: drop-shadow(0 0 30px rgba(120, 120, 255, 0.6)) drop-shadow(0 0 60px rgba(140, 120, 255, 0.4));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .logo-glow {
+            filter: drop-shadow(0 0 20px rgba(162, 92, 250, 0.7));
+        }
+
+        .btn-glow {
+            display: inline-flex;
+            background: linear-gradient(90deg, #885cfa, #a25cfa);
+            box-shadow: 0 0 15px rgba(162, 92, 250, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(162, 92, 250, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        @keyframes customPulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(162, 92, 250, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.2); transform: scale(1); }
+            50% { box-shadow: 0 0 35px rgba(162, 92, 250, 1), inset 0 0 15px rgba(255, 255, 255, 0.4); transform: scale(1.04); }
+        }
+        
+        .btn-pulse-custom {
+            display: inline-flex;
+            background: linear-gradient(90deg, #885cfa, #a25cfa);
+            animation: customPulse 2.5s infinite ease-in-out;
+            transition: all 0.3s ease;
+        }
+        .btn-pulse-custom:hover {
+            animation-play-state: paused;
+            box-shadow: 0 0 25px rgba(162, 92, 250, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        @keyframes bouncePulse {
+            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px rgba(162, 92, 250, 0.4)); }
+            50% { transform: translateY(-4px) scale(1.05); filter: drop-shadow(0 0 20px rgba(162, 92, 250, 0.9)); }
+        }
+        .nav-panda-anim { animation: bouncePulse 2.5s ease-in-out infinite; }
+
+        /* Flashing Title Animation */
+        @keyframes flashWhitePurple {
+            0%, 100% { color: #fff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); }
+            50% { color: #a25cfa; text-shadow: 0 0 25px rgba(162, 92, 250, 0.9); }
+        }
+        .flashing-title {
+            animation: flashWhitePurple 2.5s infinite ease-in-out;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
+        .flashing-title:hover {
+            transform: scale(1.05);
+        }
+
+        input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px #0a0a12 inset !important; -webkit-text-fill-color: white !important;
+        }
+
+        /* Intro Sequence - PURE CSS ANIMATIONS (Crash Proof) */
+        @keyframes pulseLogo { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } }
+        @-webkit-keyframes pulseLogo { 0%, 100% { -webkit-transform: scale(1); opacity: 0.8; } 50% { -webkit-transform: scale(1.05); opacity: 1; } }
+        
+        @keyframes storyFade { 
+            0% { opacity: 0; transform: translateY(10px); } 
+            10% { opacity: 1; transform: translateY(0); } 
+            90% { opacity: 1; transform: translateY(0); } 
+            100% { opacity: 0; transform: translateY(-10px); } 
+        }
+        @-webkit-keyframes storyFade { 
+            0% { opacity: 0; -webkit-transform: translateY(10px); } 
+            10% { opacity: 1; -webkit-transform: translateY(0); } 
+            90% { opacity: 1; -webkit-transform: translateY(0); } 
+            100% { opacity: 0; -webkit-transform: translateY(-10px); } 
+        }
+
+        .pulse-logo { animation: pulseLogo 4s ease-in-out infinite; -webkit-animation: pulseLogo 4s ease-in-out infinite; }
+        
+        .story-line {
+            opacity: 0;
+            position: absolute;
+            text-shadow: 0 0 20px rgba(162, 92, 250, 0.6);
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Hardcoded animation delays - Text overlays cannot fail now */
+        .story-line.seq-1 { animation: storyFade 2400ms ease-in-out 0s forwards; -webkit-animation: storyFade 2400ms ease-in-out 0s forwards; }
+        .story-line.seq-2 { animation: storyFade 2400ms ease-in-out 2400ms forwards; -webkit-animation: storyFade 2400ms ease-in-out 2400ms forwards; }
+        .story-line.seq-3 { animation: storyFade 2400ms ease-in-out 4800ms forwards; -webkit-animation: storyFade 2400ms ease-in-out 4800ms forwards; }
+        .story-line.seq-4 { animation: storyFade 2400ms ease-in-out 7200ms forwards; -webkit-animation: storyFade 2400ms ease-in-out 7200ms forwards; }
+        .story-line.seq-5 { animation: storyFade 2400ms ease-in-out 9600ms forwards; -webkit-animation: storyFade 2400ms ease-in-out 9600ms forwards; }
+
+    </style>
+</head>
+<body class="w-full h-full m-0" style="overflow: hidden;">
+
+    <canvas id="particles" class="fixed top-0 left-0 z-0 pointer-events-none"></canvas>
+    <div id="noise"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <div id="storyPopup" class="fixed inset-0 z-[100] flex flex-col items-center justify-center text-center bg-[radial-gradient(circle_at_top,#0f0f1a,#050508_80%)] transition-opacity duration-700 px-4">
+        
+        <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-64 md:w-80 mb-12 pulse-logo filter drop-shadow-[0_0_20px_rgba(162,92,250,0.5)]">
+        
+        <div id="storyLines" class="relative h-24 w-full max-w-3xl flex items-center justify-center">
+            <p class="story-line seq-1 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">The Void is the market — chaotic, emotional, and unforgiving.</p>
+            <p class="story-line seq-2 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Most get lost in it.</p>
+            <p class="story-line seq-3 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">VoidPanda entered it.</p>
+            <p class="story-line seq-4 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Not to escape the chaos…</p>
+            <p class="story-line seq-5 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">But to bring order to it.</p>
+        </div>
+        
+        <button onclick="hideIntro()" class="mt-16 px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white hover:border-white/50 hover:bg-white/5 transition-all text-sm tracking-wider relative z-[9999] cursor-pointer font-orbitron">
+            Skip Intro
+        </button>
+    </div>
+
+    <nav class="fixed top-0 w-full flex justify-center items-center p-4 md:p-5 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
+        <div id="navPandaContainer" class="absolute left-3 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 opacity-0 pointer-events-none transition-opacity duration-500 cursor-pointer" onclick="window.scrollTo(0,0)">
+            <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 nav-panda-anim">
+        </div>
+        
+        <div class="flex items-center justify-center gap-3 sm:gap-4 md:gap-8 pl-8 sm:pl-10 md:pl-0">
+            <a href="index.html" class="nav-link text-white font-bold transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Home</a>
+            <a href="lore.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Lore</a>
+            <a href="writings.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Writings</a>
+            <a href="about.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">About</a>
+            <a href="portal.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Portal</a>
+            <button onclick="openEarlyAccess()" class="ml-1 md:ml-4 text-[#a25cfa] hover:text-white font-bold transition-colors text-[10px] sm:text-xs md:text-sm hidden sm:block">Join Early Access</button>
+        </div>
+    </nav>
+
+    <main class="relative z-10 flex flex-col items-center w-full px-6 pb-12">
+        
+        <section id="home" class="observe-section text-center w-full max-w-4xl flex flex-col items-center justify-start pt-[15vh] md:justify-center md:pt-0 min-h-[60vh] md:min-h-[calc(100vh-6rem)] relative">
+            <div class="absolute top-1/2 left-1/2 w-3/4 h-3/4 bg-[#7878ff]/10 blur-[120px] -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"></div>
+            
+            <div class="relative z-10 flex flex-col items-center -mt-8 md:-mt-4">
+                
+                <a href="#auth-section" class="flashing-title font-orbitron font-bold text-lg md:text-xl uppercase tracking-widest mb-6 md:mb-8 cursor-pointer z-20">
+                    Access Terminal
+                </a>
+
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[220px] sm:max-w-[280px] mb-4">
+                
+                <div class="relative w-full max-w-[200px] sm:max-w-[240px] h-[40px] sm:h-[50px] mb-2">
+                    <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="logo-glow absolute w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                </div>
+                <p class="text-gray-400 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-widest mt-0 mb-6 animate-pulse">Order in the Chaos.</p>
+            </div>
+        </section>
+
+        <section id="lore-section" class="observe-section w-full max-w-5xl mt-4 md:mt-10 mb-24 flex flex-col items-center text-center relative z-20">
+            <p class="text-gray-400 text-lg md:text-xl leading-relaxed max-w-2xl font-semibold tracking-wide mb-10">
+                Not everything is available at once.<br>
+                Some things must be observed over time.
+            </p>
+            <div class="flex justify-center items-center gap-4 sm:gap-8 w-full flex-wrap">
+                <a href="lore.html" class="btn-pulse-custom px-8 py-3 rounded-xl text-white font-bold tracking-wide border border-[#a25cfa]">Enter Lore</a>
+                <a href="writings.html" class="btn-pulse-custom px-8 py-3 rounded-xl text-white font-bold tracking-wide border border-[#a25cfa]">Read Writings</a>
+            </div>
+        </section>
+
+        <section id="auth-section" class="observe-section scroll-mt-24 w-full max-w-md mb-24 flex flex-col items-center text-center relative z-20 bg-[#0a0a12] p-8 rounded-2xl border border-[#a25cfa]/50 shadow-[0_0_40px_rgba(162,92,250,0.15)]">
+            <h2 class="text-2xl font-bold text-white mb-2 uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Terminal Access</h2>
+            <p class="text-gray-400 text-xs sm:text-sm text-center mb-6 uppercase tracking-widest">Authenticate your signal.</p>
+            
+            <div id="auth-container" class="w-full space-y-4">
+                <input type="email" id="email" placeholder="Enter Email" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans">
+                <input type="password" id="password" placeholder="Enter Password" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans">
+                
+                <div class="flex gap-4 mt-4">
+                    <button onclick="signUp()" class="w-full px-6 py-3 rounded-lg text-white font-bold tracking-widest uppercase border border-white/20 hover:border-[#a25cfa] hover:bg-[#a25cfa]/10 transition-all font-orbitron text-sm">Sign Up</button>
+                    <button onclick="login()" class="w-full btn-glow px-6 py-3 rounded-lg text-white font-bold tracking-widest uppercase border border-[#a25cfa] font-orbitron text-sm">Log In</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="community" class="observe-section w-full max-w-5xl mt-10 text-center pb-20">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#a25cfa]">Enter the Void</h2>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="https://t.me/+Py4jTI2rI584ZTQx" target="_blank" class="px-8 py-3 rounded-xl border border-white/20 hover:border-[#a25cfa] hover:bg-[#a25cfa]/10 transition-all font-semibold">Telegram</a>
+                <a href="https://discord.gg/7RSDCcCP" target="_blank" class="px-8 py-3 rounded-xl border border-white/20 hover:border-[#a25cfa] hover:bg-[#a25cfa]/10 transition-all font-semibold">Discord</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="relative z-10 w-full text-center py-8 border-t border-white/5 bg-black/40 backdrop-blur-md text-gray-600 text-sm">
+        © 2026 VoidPanda. Embrace the Chaos.
+    </footer>
+
+    <script>
+        // JS only hides the intro now. Text animations run automatically in CSS.
+        let introTimeout = setTimeout(hideIntro, 12000);
+
+        function hideIntro() {
+            const popup = document.getElementById('storyPopup');
+            if (popup) {
+                clearTimeout(introTimeout);
+                popup.style.opacity = '0';
+                popup.style.pointerEvents = 'none'; 
+                document.body.style.overflow = 'auto'; 
+                setTimeout(() => { popup.style.display = 'none'; }, 700);
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            const navPanda = document.getElementById('navPandaContainer');
+            if (window.scrollY > 250) {
+                navPanda.classList.remove('opacity-0', 'pointer-events-none');
+                navPanda.classList.add('opacity-100');
+            } else {
+                navPanda.classList.remove('opacity-100');
+                navPanda.classList.add('opacity-0', 'pointer-events-none');
+            }
+        });
+
+        const canvas = document.getElementById('particles');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            resize();
+            window.addEventListener("resize", resize);
+
+            let particles = [];
+            for(let i=0; i<100; i++) {
+                particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 1.5, d: Math.random() + 0.2 });
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
+                    p.y += p.d;
+                    if(p.y > canvas.height) { p.y = 0; p.x = Math.random() * canvas.width; }
+                });
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+        }
+
+        const glow = document.getElementById('cursorGlow');
+        if (glow) {
+            window.addEventListener('mousemove', e => {
+                requestAnimationFrame(() => {
+                    glow.style.left = e.clientX + 'px';
+                    glow.style.top = e.clientY + 'px';
+                });
+            });
+        }
+
+        // Failsafe Intersection Observer
+        const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-12');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.observe-section').forEach(sec => {
+            sec.classList.add('opacity-0', 'translate-y-12', 'transition-all', 'duration-1000', 'ease-out');
+            observer.observe(sec);
+        });
+
+        // Hard Failsafe: Force reveal all elements if the observer gets blocked
+        setTimeout(() => {
+            document.querySelectorAll('.observe-section').forEach(sec => {
+                if (sec.classList.contains('opacity-0')) {
+                    sec.classList.remove('opacity-0', 'translate-y-12');
+                    sec.classList.add('opacity-100', 'translate-y-0');
+                }
+            });
+        }, 2000);
+    </script>
+
+    <script>
+        let supabaseClient = null;
+
+        try {
+            if (window.supabase) {
+                const supabaseUrl = 'https://lhcvnxbsbxpeisseosap.supabase.co';
+                const supabaseKey = 'sb_publishable_NA2BPqJkDpBoEbaulYxHUw_kb2_tc4L';
+                supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+            } else {
+                console.warn("Supabase library failed to load.");
+            }
+        } catch (error) {
+            console.error("Database connection bypassed:", error);
+        }
+
+        async function signUp() {
+            if (!supabaseClient) return alert("Database connection blocked. Please disable tracking protection to register.");
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                const { data, error } = await supabaseClient.auth.signUp({ email, password });
+                if (error) throw error;
+                alert("Initiation successful. You may now log in.");
+            } catch (err) { alert(err.message); }
+        }
+
+        async function login() {
+            if (!supabaseClient) return alert("Database connection blocked. Please disable tracking protection to log in.");
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+                window.location.href = "terminal.html"; 
+            } catch (err) { alert(err.message); }
+        }
+    </script>
+</body>
+</html>
