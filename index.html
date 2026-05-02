@@ -380,12 +380,23 @@
             observer.observe(sec);
         });
 
-        // Supabase Authentication Logic
-        const supabaseUrl = 'https://lhcvnxbsbxpeisseosap.supabase.co';
-        const supabaseKey = 'sb_publishable_NA2BPqJkDpBoEbaulYxHUw_kb2_tc4L';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        // --- FIXED: Safe Supabase Authentication Logic ---
+        let supabase;
+        try {
+            if (window.supabase) {
+                const supabaseUrl = 'https://lhcvnxbsbxpeisseosap.supabase.co';
+                const supabaseKey = 'sb_publishable_NA2BPqJkDpBoEbaulYxHUw_kb2_tc4L';
+                supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+            } else {
+                console.warn("Supabase script was blocked. Database features will be unavailable.");
+            }
+        } catch (error) {
+            console.error("Error initializing Supabase:", error);
+        }
 
         async function signUp() {
+            if (!supabase) return alert("Database connection blocked by your browser. Please disable ad-blockers or tracking protection to sign up.");
+            
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const { data, error } = await supabase.auth.signUp({ email, password });
@@ -398,6 +409,8 @@
         }
 
         async function login() {
+            if (!supabase) return alert("Database connection blocked by your browser. Please disable ad-blockers or tracking protection to log in.");
+            
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const { data, error } = await supabase.auth.signInWithPassword({ email, password });
