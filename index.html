@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -133,7 +132,6 @@
     <div id="noise"></div>
     <div class="cursor-glow" id="cursorGlow"></div>
 
-    <!-- Restored Intro Sequence -->
     <div id="storyPopup" class="fixed inset-0 z-[100] flex flex-col items-center justify-center text-center bg-[radial-gradient(circle_at_top,#0f0f1a,#050508_80%)] transition-opacity duration-700 px-4">
         
         <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-64 md:w-80 mb-12 pulse-logo filter drop-shadow-[0_0_20px_rgba(162,92,250,0.5)]">
@@ -174,7 +172,6 @@
             <p class="text-gray-400 text-sm md:text-base font-semibold uppercase tracking-widest mt-0 mb-6 animate-pulse relative z-20">Order in the Chaos.</p>
         </section>
 
-        <!-- Authentication Section -->
         <section id="auth-section" class="observe-section w-full max-w-md -mt-10 mb-20 flex flex-col items-center text-center relative z-20 bg-[#0a0a12] p-8 rounded-2xl border border-[#a25cfa]/50 shadow-[0_0_40px_rgba(162,92,250,0.15)]">
             <h2 class="text-2xl font-bold text-white mb-2 uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Portal Access</h2>
             <p class="text-gray-400 text-xs sm:text-sm text-center mb-6 uppercase tracking-widest">Authenticate your signal.</p>
@@ -215,7 +212,6 @@
         © 2026 VoidPanda. Embrace the Chaos.
     </footer>
 
-    <!-- SCRIPT 1: UI & Animations (100% Isolated from Database) -->
     <script>
         // Intro Sequence Script
         let introTimeout;
@@ -323,7 +319,6 @@
         });
     </script>
 
-    <!-- SCRIPT 2: Supabase (Isolated inside a Try/Catch sandbox) -->
     <script>
         let supabaseClient = null;
 
@@ -365,7 +360,7 @@
             try {
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
                 if (error) throw error;
-                window.location.href = "lore.html"; 
+                window.location.href = "terminal.html"; 
             } catch (err) {
                 alert(err.message);
             }
