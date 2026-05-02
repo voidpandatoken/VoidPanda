@@ -12,8 +12,8 @@
         body {
             font-family: 'Orbitron', sans-serif;
             background-color: #050508;
-            /* FOUNDATION: The starry gradient you loved */
-            background-image: radial-gradient(circle at top, #0f0f1a, #050508 80%);
+            /* STAR FOUNDATION: This is your default background */
+            background-image: radial-gradient(circle at top, #1a1a2e, #050508 70%);
             background-attachment: fixed;
             min-height: 100vh;
             color: #fff;
@@ -21,7 +21,7 @@
             margin: 0;
         }
 
-        /* --- VIDEO ENGINE --- */
+        /* --- VIDEO BACKGROUND --- */
         .void-video-bg {
             position: fixed;
             top: 50%;
@@ -35,6 +35,7 @@
             object-fit: cover;
         }
 
+        /* Logic to hide/show correct video */
         @media (max-width: 768px) {
             #desktop-video { display: none !important; }
             #mobile-video { display: block !important; }
@@ -56,7 +57,7 @@
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle, transparent 20%, rgba(5, 5, 8, 0.4) 100%);
+            background: radial-gradient(circle, transparent 20%, rgba(5, 5, 8, 0.6) 100%);
             z-index: -1;
         }
 
@@ -78,23 +79,19 @@
         .btn-pulse-custom {
             display: inline-flex;
             background: linear-gradient(90deg, #885cfa, #a25cfa);
-            box-shadow: 0 0 15px rgba(162, 92, 250, 0.5);
+            box-shadow: 0 0 20px rgba(162, 92, 250, 0.4);
             transition: all 0.3s ease;
         }
 
-        /* Intro Sequence Animations */
+        /* Intro Sequence */
         .story-line { opacity: 0; position: absolute; text-shadow: 0 0 20px rgba(162, 92, 250, 0.6); width: 100%; text-align: center; }
-        @keyframes storyFade { 
-            0% { opacity: 0; transform: translateY(10px); } 
-            10% { opacity: 1; transform: translateY(0); } 
-            90% { opacity: 1; transform: translateY(0); } 
-            100% { opacity: 0; transform: translateY(-10px); } 
-        }
+        @keyframes storyFade { 0% { opacity: 0; transform: translateY(10px); } 10% { opacity: 1; transform: translateY(0); } 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
         .story-line.seq-1 { animation: storyFade 2400ms ease-in-out 0s forwards; }
         .story-line.seq-2 { animation: storyFade 2400ms ease-in-out 2400ms forwards; }
         .story-line.seq-3 { animation: storyFade 2400ms ease-in-out 4800ms forwards; }
         .story-line.seq-4 { animation: storyFade 2400ms ease-in-out 7200ms forwards; }
         .story-line.seq-5 { animation: storyFade 2400ms ease-in-out 9600ms forwards; }
+
     </style>
 </head>
 <body class="w-full h-full m-0" style="overflow: hidden;">
@@ -139,18 +136,18 @@
         <section id="home" class="text-center w-full min-h-screen flex flex-col items-center justify-center relative pt-20 px-6">
             <div class="hero-overlay"></div>
             <div class="relative z-10 flex flex-col items-center w-full">
-                <a href="#auth-section" class="flashing-title font-bold text-lg md:text-xl uppercase tracking-widest mb-10 cursor-pointer">Access Terminal</a>
-                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[220px] md:max-w-[300px] mb-8">
+                <a href="#auth-section" class="flashing-title font-bold text-base md:text-xl uppercase tracking-widest mb-8 cursor-pointer">Access Terminal</a>
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[200px] md:max-w-[300px] mb-8">
                 <div class="relative w-full max-w-[180px] md:max-w-[260px] h-10 mb-6">
                     <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="absolute w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)]">
                 </div>
-                <p class="text-gray-400 text-[10px] md:text-sm font-semibold uppercase tracking-widest mb-12">Order in the Chaos.</p>
+                <p class="text-gray-400 text-[10px] md:text-sm font-semibold uppercase tracking-widest mb-10">Order in the Chaos.</p>
                 <a href="thevoid.html" class="btn-pulse-custom px-10 py-4 rounded-xl text-white font-bold tracking-widest uppercase border border-[#a25cfa] text-xs md:text-base">Enter the Void</a>
             </div>
         </section>
 
         <section id="lore-section" class="observe-section w-full py-40 bg-[#050508] flex flex-col items-center text-center relative z-20 border-t border-white/5">
-            <p class="text-gray-400 text-base md:text-lg leading-relaxed max-w-2xl font-semibold tracking-wide mb-14 px-6">
+            <p class="text-gray-400 text-sm md:text-lg leading-relaxed max-w-2xl font-semibold tracking-wide mb-14 px-6">
                 Not everything is available at once.<br>
                 Some things must be observed over time.
             </p>
@@ -190,17 +187,16 @@
     </footer>
 
     <script>
-        let introTimeout = setTimeout(hideIntro, 12000);
         function hideIntro() {
             const popup = document.getElementById('storyPopup');
             if (popup) {
-                clearTimeout(introTimeout);
                 popup.style.opacity = '0';
                 popup.style.pointerEvents = 'none'; 
                 document.body.style.overflow = 'auto'; 
                 setTimeout(() => popup.style.display = 'none', 700);
             }
         }
+        setTimeout(hideIntro, 12000);
 
         window.addEventListener('scroll', () => {
             const navPanda = document.getElementById('navPandaContainer');
@@ -221,12 +217,6 @@
             document.body.style.overflow = 'hidden';
         }
 
-        function closeEarlyAccess() {
-            const modal = document.getElementById('earlyAccessModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); document.body.style.overflow = 'auto'; }, 300);
-        }
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -241,7 +231,7 @@
             observer.observe(sec);
         });
 
-        // WAKE UP SCRIPT: Tries to bypass mobile autoplay blocks
+        // WAKE UP SCRIPT
         window.addEventListener('touchstart', function() {
             document.querySelectorAll('video').forEach(v => {
                 v.play().catch(() => {});
