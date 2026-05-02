@@ -215,36 +215,9 @@
         © 2026 VoidPanda. Embrace the Chaos.
     </footer>
 
-    <div id="earlyAccessModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-opacity duration-300 opacity-0">
-        <div class="relative w-full max-w-md bg-[#0a0a12] border border-[#a25cfa]/50 rounded-2xl shadow-[0_0_40px_rgba(162,92,250,0.15)] hover:shadow-[0_0_60px_rgba(162,92,250,0.5)] hover:-translate-y-1 transition-all duration-300 p-8 sm:p-10 overflow-hidden flex flex-col">
-            <button onclick="closeEarlyAccess()" class="absolute top-4 right-6 text-gray-500 hover:text-white transition-colors text-3xl leading-none z-20">&times;</button>
-            
-            <div id="formState" class="w-full relative z-10">
-                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-14 h-14 mx-auto mb-4 animate-[float_4s_ease-in-out_infinite] filter drop-shadow-[0_0_12px_rgba(162,92,250,0.6)]">
-                <h2 class="text-2xl font-bold text-white mb-2 uppercase tracking-widest text-center drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Enter the Void</h2>
-                <p class="text-gray-400 text-xs sm:text-sm text-center mb-8 uppercase tracking-widest">Register your frequency.</p>
-                
-                <form id="waitlistForm" onsubmit="submitWaitlist(event)" class="space-y-5">
-                    <div><input type="text" required placeholder="Name" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans"></div>
-                    <div><input type="email" required placeholder="Email Address" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans"></div>
-                    <div><input type="tel" placeholder="WhatsApp / Phone (Optional)" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans"></div>
-                    <button type="submit" class="w-full btn-glow px-8 py-3.5 rounded-lg text-white font-bold tracking-widest uppercase border border-[#a25cfa] mt-4 font-orbitron">Initialize</button>
-                </form>
-            </div>
-
-            <div id="successState" class="hidden flex-col items-center justify-center text-center py-6 relative z-10">
-                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-20 h-20 mb-6 animate-[float_4s_ease-in-out_infinite] filter drop-shadow-[0_0_15px_rgba(162,92,250,0.6)]">
-                <h3 class="text-2xl font-bold text-white mb-2 uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Entered the Void.</h3>
-                <h4 class="text-[#a25cfa] text-lg font-bold uppercase tracking-widest mb-6">Stay tuned.</h4>
-                <div class="h-px w-16 bg-white/20 mb-6"></div>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-[250px] font-sans">Your signal has been registered.<br><br>The sequence will begin when conditions align. Do not react until contacted.</p>
-                <button onclick="closeEarlyAccess()" class="mt-10 text-gray-500 hover:text-white text-xs uppercase tracking-widest transition-colors border-b border-transparent hover:border-white pb-1 font-orbitron">Return</button>
-            </div>
-        </div>
-    </div>
-
+    <!-- SCRIPT 1: UI & Animations (100% Isolated from Database) -->
     <script>
-        // Intro Sequence Script - Restored Text Animations
+        // Intro Sequence Script
         let introTimeout;
         let lineTimeouts = [];
 
@@ -252,7 +225,6 @@
             const popup = document.getElementById('storyPopup');
             if (!popup) return;
 
-            // Trigger text animations
             const lines = document.querySelectorAll('.story-line');
             lines.forEach((line, index) => {
                 const timeout = setTimeout(() => { 
@@ -261,18 +233,15 @@
                 lineTimeouts.push(timeout);
             });
 
-            // Auto-hide after sequence
             introTimeout = setTimeout(hideIntro, 12000);
         }
 
         function hideIntro() {
             const popup = document.getElementById('storyPopup');
             if (popup) {
-                // Clear any pending timeouts if skipped
                 clearTimeout(introTimeout);
                 lineTimeouts.forEach(t => clearTimeout(t));
                 
-                // Stop any running animations
                 const lines = document.querySelectorAll('.story-line');
                 lines.forEach(line => line.style.animation = 'none');
 
@@ -284,7 +253,6 @@
             }
         }
 
-        // Start intro on load
         document.addEventListener("DOMContentLoaded", startIntro);
 
         window.addEventListener('scroll', () => {
@@ -298,72 +266,46 @@
             }
         });
 
-        function openEarlyAccess() {
-            const modal = document.getElementById('earlyAccessModal');
-            document.getElementById('formState').style.display = 'block';
-            document.getElementById('successState').style.display = 'none';
-            document.getElementById('waitlistForm').reset();
-            
-            modal.classList.remove('hidden');
-            modal.classList.add('flex'); 
-            
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-            document.body.style.overflow = 'hidden'; 
-        }
-
-        function closeEarlyAccess() {
-            const modal = document.getElementById('earlyAccessModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex'); 
-                document.body.style.overflow = 'auto'; 
-            }, 300);
-        }
-
-        function submitWaitlist(e) {
-            e.preventDefault(); 
-            document.getElementById('formState').style.display = 'none';
-            document.getElementById('successState').style.display = 'flex';
-        }
-
-        document.getElementById('earlyAccessModal').addEventListener('click', function(e) {
-            if (e.target === this) closeEarlyAccess();
-        });
-
+        // Background Particles
         const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        resize();
-        window.addEventListener("resize", resize);
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            resize();
+            window.addEventListener("resize", resize);
 
-        let particles = [];
-        for(let i=0; i<100; i++) {
-            particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 1.5, d: Math.random() + 0.2 });
+            let particles = [];
+            for(let i=0; i<100; i++) {
+                particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 1.5, d: Math.random() + 0.2 });
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
+                    p.y += p.d;
+                    if(p.y > canvas.height) { p.y = 0; p.x = Math.random() * canvas.width; }
+                });
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
         }
 
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-            particles.forEach(p => {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fill();
-                p.y += p.d;
-                if(p.y > canvas.height) { p.y = 0; p.x = Math.random() * canvas.width; }
-            });
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-
+        // Cursor Glow
         const glow = document.getElementById('cursorGlow');
-        window.addEventListener('mousemove', e => {
-            requestAnimationFrame(() => {
-                glow.style.left = e.clientX + 'px';
-                glow.style.top = e.clientY + 'px';
+        if (glow) {
+            window.addEventListener('mousemove', e => {
+                requestAnimationFrame(() => {
+                    glow.style.left = e.clientX + 'px';
+                    glow.style.top = e.clientY + 'px';
+                });
             });
-        });
+        }
 
+        // Scroll Animations
         const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -379,46 +321,53 @@
             sec.classList.add('opacity-0', 'translate-y-12', 'transition-all', 'duration-1000', 'ease-out');
             observer.observe(sec);
         });
+    </script>
 
-        // --- FIXED: Safe Supabase Authentication Logic ---
-        let supabase;
+    <!-- SCRIPT 2: Supabase (Isolated inside a Try/Catch sandbox) -->
+    <script>
+        let supabaseClient = null;
+
         try {
             if (window.supabase) {
                 const supabaseUrl = 'https://lhcvnxbsbxpeisseosap.supabase.co';
                 const supabaseKey = 'sb_publishable_NA2BPqJkDpBoEbaulYxHUw_kb2_tc4L';
-                supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
             } else {
-                console.warn("Supabase script was blocked. Database features will be unavailable.");
+                console.warn("Supabase library failed to load (likely blocked by an extension).");
             }
         } catch (error) {
-            console.error("Error initializing Supabase:", error);
+            console.error("Database connection entirely bypassed to protect UI:", error);
         }
 
         async function signUp() {
-            if (!supabase) return alert("Database connection blocked by your browser. Please disable ad-blockers or tracking protection to sign up.");
-            
+            if (!supabaseClient) {
+                alert("Database connection blocked. Please disable tracking protection to register.");
+                return;
+            }
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const { data, error } = await supabase.auth.signUp({ email, password });
-            
-            if (error) {
-                alert(error.message);
-            } else {
+            try {
+                const { data, error } = await supabaseClient.auth.signUp({ email, password });
+                if (error) throw error;
                 alert("Initiation successful. You may now log in.");
+            } catch (err) {
+                alert(err.message);
             }
         }
 
         async function login() {
-            if (!supabase) return alert("Database connection blocked by your browser. Please disable ad-blockers or tracking protection to log in.");
-            
+            if (!supabaseClient) {
+                alert("Database connection blocked. Please disable tracking protection to log in.");
+                return;
+            }
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-            
-            if (error) {
-                alert(error.message);
-            } else {
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) throw error;
                 window.location.href = "lore.html"; 
+            } catch (err) {
+                alert(err.message);
             }
         }
     </script>
