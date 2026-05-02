@@ -111,8 +111,8 @@
             
             <div class="flex flex-col items-center w-full">
                 <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[180px] md:max-w-[280px] block">
-                <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="w-full max-w-[140px] md:max-w-[220px] -mt-1 md:-mt-2 block filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)]">
-                <p class="text-gray-400 text-[10px] md:text-xs font-semibold uppercase tracking-[0.4em] mt-4 md:mt-6 block">Order in the Chaos.</p>
+                <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="w-full max-w-[140px] md:max-w-[220px] -mt-4 md:-mt-6 block filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)]">
+                <p class="text-gray-400 text-[10px] md:text-xs font-semibold uppercase tracking-[0.4em] mt-3 md:mt-4 block">Order in the Chaos.</p>
             </div>
 
             <a href="thevoid.html" class="btn-pulse px-10 py-3 rounded-xl text-white font-bold tracking-widest uppercase border border-[#a25cfa] text-[10px] md:text-sm mt-12 mb-20">Enter the Void</a>
@@ -135,4 +135,34 @@
                 <p class="text-gray-500 text-[9px] text-center mb-8 uppercase tracking-[0.2em]">Authenticate your signal.</p>
                 <div class="space-y-4">
                     <input type="email" id="email" placeholder="Enter Email" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa]/50 text-xs text-center">
-                    <input type="password" id="password" placeholder="Enter Password" class="w-full bg-black/40
+                    <input type="password" id="password" placeholder="Enter Password" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa]/50 text-xs text-center">
+                    
+                    <div class="flex w-full gap-3 pt-4">
+                        <button onclick="handleSignUp()" class="flex-1 py-4 rounded-xl border border-white/5 text-gray-400 font-bold uppercase tracking-widest text-[9px] hover:bg-white/5 transition-all text-center flex justify-center items-center">
+                            Sign Up
+                        </button>
+                        <button onclick="handleLogin()" class="flex-1 bg-gradient-to-r from-[#885cfa] to-[#a25cfa] shadow-[0_0_15px_rgba(162,92,250,0.4)] hover:shadow-[0_0_25px_rgba(162,92,250,0.8)] transition-all py-4 rounded-xl text-white font-bold uppercase tracking-widest text-[9px] text-center flex justify-center items-center">
+                            Log In
+                        </button>
+                    </div>
+
+                </div>
+                <p id="auth-msg" class="mt-6 text-[10px] text-center font-bold tracking-widest text-[#a25cfa] h-4"></p>
+            </div>
+        </section>
+
+        <section id="community" class="observe-section w-full py-24 bg-[#050508] text-center relative z-20">
+            <h2 class="text-xl md:text-3xl font-bold mb-10 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#a25cfa] uppercase tracking-widest">The Network</h2>
+            <div class="flex flex-wrap justify-center gap-8 px-6">
+                <a href="https://t.me/+Py4jTI2rI584ZTQx" target="_blank" class="px-10 py-4 rounded-xl border border-white/10 hover:border-[#a25cfa] hover:bg-[#a25cfa]/10 transition-all font-bold uppercase tracking-widest text-xs flex justify-center items-center">Telegram</a>
+                <a href="https://discord.gg/7RSDCcCP" target="_blank" class="px-10 py-4 rounded-xl border border-white/10 hover:border-[#a25cfa] hover:bg-[#a25cfa]/10 transition-all font-bold uppercase tracking-widest text-xs flex justify-center items-center">Discord</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="relative z-30 w-full text-center py-12 bg-[#050508] border-t border-white/5 text-gray-700 text-[8px] tracking-[0.5em]">
+        © 2026 VOIDPANDA. EMBRACE THE CHAOS.
+    </footer>
+
+    <div id="earlyAccessModal" class="fixed
