@@ -31,27 +31,35 @@
             opacity: 0.9; 
         }
 
-        /* 2. TERMINAL BOX */
+        /* 2. TERMINAL BOX - MOBILE RESPONSIVE */
         #neon-box {
             position: relative;
-            width: 90%;
+            width: 92%;
             max-width: 850px;
-            height: 65vh;
-            min-height: 450px;
+            height: 70vh;
+            min-height: 400px;
             max-height: 650px;
             background: rgba(10, 10, 18, 0.7); 
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: none; 
-            box-shadow: none; 
             border-radius: 16px;
             z-index: 10;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px;
+            padding: 20px; /* Reduced for mobile */
             transition: all 1.5s ease-in-out;
             overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            #neon-box {
+                width: 90%;
+                height: 65vh;
+                min-height: 450px;
+                padding: 40px; /* Restored for desktop */
+            }
         }
 
         #neon-box.dissolved {
@@ -60,14 +68,14 @@
             -webkit-backdrop-filter: blur(0px);
         }
 
-        /* 3. PROGRESSIVE PANDA WATERMARK IMAGE */
+        /* 3. PROGRESSIVE PANDA WATERMARK - MOBILE SCALED */
         #bg-panda {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            height: 85%;
-            max-height: 500px;
+            width: 85%; /* Using width instead of height for better mobile fit */
+            max-width: 400px;
             object-fit: contain;
             opacity: 0.02; 
             transition: opacity 1.5s ease-in-out, transform 2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -80,7 +88,16 @@
             opacity: 0.8 !important; 
         }
 
-        /* 4. SLIDE & TYPOGRAPHY SNAP-FOCUS STATES */
+        @media (min-width: 768px) {
+            #bg-panda {
+                height: 85%;
+                width: auto;
+                max-width: none;
+                max-height: 500px;
+            }
+        }
+
+        /* 4. SLIDE & TYPOGRAPHY SNAP-FOCUS STATES - DYNAMIC SCALING */
         @keyframes textOrder {
             0%, 100% { text-shadow: 0 0 10px rgba(162,92,250,0.4), 0 0 20px rgba(162,92,250,0.2); }
             50% { text-shadow: 0 0 22px rgba(162,92,250,0.9), 0 0 38px rgba(162,92,250,0.6); }
@@ -89,20 +106,26 @@
         .slide {
             position: absolute;
             width: 100%;
-            padding: 0 40px;
+            padding: 0 15px; /* Reduced padding for mobile */
             text-align: center;
             opacity: 0;
-            /* Pro Micro-Interaction: Expands, blurs, and shifts down slightly when hidden */
             transform: translateY(15px) scale(0.98);
             filter: blur(12px);
-            letter-spacing: 4px;
+            letter-spacing: 2px; /* Reduced letter spacing for mobile */
             transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s cubic-bezier(0.16, 1, 0.3, 1), letter-spacing 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: none;
             visibility: hidden;
             z-index: 10;
         }
+        
+        @media (min-width: 768px) {
+            .slide {
+                padding: 0 40px;
+                letter-spacing: 4px;
+            }
+        }
+
         .slide.active {
-            /* Pro Micro-Interaction: Snaps perfectly into pure focus */
             opacity: 1;
             transform: translateY(0) scale(1);
             filter: blur(0px);
@@ -111,10 +134,11 @@
             visibility: visible;
         }
 
+        /* Fluid typography: 1.1rem on mobile, up to 1.5rem on desktop */
         .order-state p { 
             animation: textOrder 4s infinite ease-in-out; 
             color: #ffffff; 
-            font-size: 1.5rem; 
+            font-size: clamp(1rem, 4vw, 1.5rem); 
             line-height: 1.6;
         }
 
@@ -141,7 +165,6 @@
             background: #a25cfa;
             box-shadow: 0 0 10px #a25cfa;
         }
-        /* Pro Upgrade: The concentrated leading edge flare */
         #progress-bar::after {
             content: '';
             position: absolute;
@@ -158,14 +181,24 @@
 
         #next-btn {
             position: absolute;
-            bottom: 20px;
-            right: 24px;
+            bottom: 15px; /* Lifted slightly for mobile tapping */
+            right: 20px;
             color: rgba(162, 92, 250, 0.6);
             font-size: 24px;
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 20;
+            padding: 10px; /* Bigger tap target for thumbs */
         }
+        
+        @media (min-width: 768px) {
+            #next-btn {
+                bottom: 20px;
+                right: 24px;
+                padding: 0;
+            }
+        }
+
         #next-btn:hover {
             color: #fff;
             transform: translateX(4px);
@@ -206,24 +239,24 @@
 
     <canvas id="space-canvas"></canvas>
 
-    <nav class="fixed top-0 w-full flex justify-center items-center gap-4 md:gap-8 p-5 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
-        <a href="index.html" class="absolute left-6 top-1/2 -translate-y-1/2 z-50 cursor-pointer">
-            <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Home" class="w-10 h-10 nav-panda-anim">
+    <nav class="fixed top-0 w-full flex justify-center items-center gap-4 md:gap-8 p-4 md:p-5 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
+        <a href="index.html" class="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 z-50 cursor-pointer">
+            <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Home" class="w-8 h-8 md:w-10 md:h-10 nav-panda-anim">
         </a>
-        <a href="index.html" class="nav-link text-gray-400 hover:text-white transition-colors text-xs md:text-sm uppercase tracking-wide">Home</a>
-        <a href="lore.html" class="nav-link text-gray-400 hover:text-white transition-colors text-xs md:text-sm uppercase tracking-wide">Lore</a>
-        <a href="writings.html" class="nav-link text-gray-400 hover:text-white transition-colors text-xs md:text-sm uppercase tracking-wide">Writings</a>
-        <a href="about.html" class="nav-link text-white font-bold transition-colors text-xs md:text-sm uppercase tracking-wide">About</a>
-        <a href="portal.html" class="nav-link text-gray-400 hover:text-white transition-colors text-xs md:text-sm uppercase tracking-wide">Portal</a>
-        <button onclick="openEarlyAccess()" class="ml-4 text-[#a25cfa] hover:text-white font-bold transition-colors text-sm hidden md:block">Join Early Access</button>
+        <a href="index.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Home</a>
+        <a href="lore.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Lore</a>
+        <a href="writings.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Writings</a>
+        <a href="about.html" class="nav-link text-white font-bold transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">About</a>
+        <a href="portal.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Portal</a>
+        <button onclick="openEarlyAccess()" class="ml-2 md:ml-4 text-[#a25cfa] hover:text-white font-bold transition-colors text-xs md:text-sm hidden sm:block">Join Early Access</button>
     </nav>
 
     <main id="neon-box">
         <img id="bg-panda" src="https://i.imgur.com/tUNi5wM.png" alt="VoidPanda Background">
         
         <div class="slide active order-state">
-            <h1 class="text-5xl md:text-7xl font-bold text-white tracking-widest uppercase bg-clip-text text-transparent bg-gradient-to-b from-white to-[#a25cfa] drop-shadow-[0_0_15px_rgba(162,92,250,0.2)]">VoidPanda</h1>
-            <p class="font-tech uppercase tracking-[0.3em] mt-6">A system of <b>observation</b></p>
+            <h1 class="text-3xl md:text-5xl lg:text-7xl font-bold text-white tracking-widest uppercase bg-clip-text text-transparent bg-gradient-to-b from-white to-[#a25cfa] drop-shadow-[0_0_15px_rgba(162,92,250,0.2)]">VoidPanda</h1>
+            <p class="font-tech uppercase tracking-[0.1em] md:tracking-[0.3em] mt-4 md:mt-6">A system of <b>observation</b></p>
         </div>
 
         <div class="slide order-state">
@@ -275,7 +308,7 @@
         </div>
 
         <div class="slide order-state">
-            <p class="font-orbitron text-3xl md:text-5xl font-bold leading-loose tracking-widest uppercase">
+            <p class="font-orbitron text-xl md:text-3xl lg:text-5xl font-bold leading-relaxed md:leading-loose tracking-widest uppercase">
                 VoidPanda does not remove chaos.<br><br>
                 It <b>gives it form</b>.
             </p>
@@ -288,23 +321,23 @@
     </main>
 
     <div id="earlyAccessModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-opacity duration-300 opacity-0">
-        <div class="relative w-full max-w-md bg-[#0a0a12] border border-[#a25cfa]/50 rounded-2xl shadow-[0_0_40px_rgba(162,92,250,0.15)] hover:shadow-[0_0_60px_rgba(162,92,250,0.5)] hover:-translate-y-1 transition-all duration-300 p-8 sm:p-10 overflow-hidden flex flex-col">
+        <div class="relative w-full max-w-md bg-[#0a0a12] border border-[#a25cfa]/50 rounded-2xl shadow-[0_0_40px_rgba(162,92,250,0.15)] hover:shadow-[0_0_60px_rgba(162,92,250,0.5)] hover:-translate-y-1 transition-all duration-300 p-6 sm:p-10 overflow-hidden flex flex-col">
             <button onclick="closeEarlyAccess()" class="absolute top-4 right-6 text-gray-500 hover:text-white transition-colors text-3xl leading-none z-20">&times;</button>
             <div id="formState" class="w-full relative z-10">
                 <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-14 h-14 mx-auto mb-4 animate-[float_4s_ease-in-out_infinite] filter drop-shadow-[0_0_12px_rgba(162,92,250,0.6)]">
-                <h2 class="text-2xl font-bold text-white mb-2 uppercase tracking-widest text-center drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Enter the Void</h2>
-                <form id="waitlistForm" onsubmit="submitWaitlist(event)" class="space-y-5">
-                    <div><input type="text" required placeholder="Name" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans"></div>
-                    <div><input type="email" required placeholder="Email Address" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans"></div>
-                    <div><input type="tel" placeholder="WhatsApp / Phone (Optional)" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans"></div>
-                    <button type="submit" class="w-full btn-glow px-8 py-3.5 rounded-lg text-white font-bold tracking-widest uppercase border border-[#a25cfa] mt-4 font-orbitron">Initialize</button>
+                <h2 class="text-xl sm:text-2xl font-bold text-white mb-2 uppercase tracking-widest text-center drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Enter the Void</h2>
+                <form id="waitlistForm" onsubmit="submitWaitlist(event)" class="space-y-4 sm:space-y-5 mt-4">
+                    <div><input type="text" required placeholder="Name" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans text-sm"></div>
+                    <div><input type="email" required placeholder="Email Address" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans text-sm"></div>
+                    <div><input type="tel" placeholder="WhatsApp / Phone (Optional)" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans text-sm"></div>
+                    <button type="submit" class="w-full btn-glow px-8 py-3 rounded-lg text-white font-bold tracking-widest uppercase border border-[#a25cfa] mt-2 font-orbitron text-sm">Initialize</button>
                 </form>
             </div>
             <div id="successState" class="hidden flex-col items-center justify-center text-center py-6 relative z-10">
                 <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-20 h-20 mb-6 animate-[float_4s_ease-in-out_infinite] filter drop-shadow-[0_0_15px_rgba(162,92,250,0.6)]">
-                <h3 class="text-2xl font-bold text-white mb-2 uppercase tracking-widest">Entered the Void.</h3>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-[250px] font-sans mt-4">Your signal has been registered. The sequence will begin when conditions align.</p>
-                <button onclick="closeEarlyAccess()" class="mt-10 text-gray-500 hover:text-white text-xs uppercase tracking-widest transition-colors border-b border-transparent hover:border-white pb-1 font-orbitron">Return</button>
+                <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 uppercase tracking-widest">Entered the Void.</h3>
+                <p class="text-gray-400 text-xs sm:text-sm leading-relaxed max-w-[250px] font-sans mt-4">Your signal has been registered. The sequence will begin when conditions align.</p>
+                <button onclick="closeEarlyAccess()" class="mt-8 sm:mt-10 text-gray-500 hover:text-white text-xs uppercase tracking-widest transition-colors border-b border-transparent hover:border-white pb-1 font-orbitron">Return</button>
             </div>
         </div>
     </div>
@@ -379,7 +412,7 @@
             });
         }
 
-        // Dying Sparks class (ignites and fades out)
+        // Dying Sparks class
         let sparks = [];
         class Spark {
             constructor() {
@@ -417,7 +450,6 @@
             spaceCtx.fillStyle = 'rgba(3, 3, 5, 0.4)';
             spaceCtx.fillRect(0, 0, spaceCanvas.width, spaceCanvas.height);
             
-            // Render baseline stars
             spaceParticles.forEach(p => {
                 spaceCtx.beginPath();
                 spaceCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -427,7 +459,6 @@
                 if(p.y > spaceCanvas.height) p.y = 0;
             });
 
-            // Pro Upgrade: Dynamic spark intensity scaling with current slide
             let slidePercent = currentSlide / (slides.length - 1);
             let sparkProb = 0.02 + (slidePercent * 0.5); 
             
