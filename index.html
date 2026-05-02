@@ -261,3 +261,116 @@
             const navPanda = document.getElementById('navPandaContainer');
             if (window.scrollY > 250) {
                 navPanda.classList.remove('opacity-0', 'pointer-events-none');
+                navPanda.classList.add('opacity-100');
+            } else {
+                navPanda.classList.remove('opacity-100');
+                navPanda.classList.add('opacity-0', 'pointer-events-none');
+            }
+        });
+
+        // Background Particles
+        const canvas = document.getElementById('particles');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            resize();
+            window.addEventListener("resize", resize);
+
+            let particles = [];
+            for(let i=0; i<100; i++) {
+                particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 1.5, d: Math.random() + 0.2 });
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
+                    p.y += p.d;
+                    if(p.y > canvas.height) { p.y = 0; p.x = Math.random() * canvas.width; }
+                });
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+        }
+
+        // Cursor Glow
+        const glow = document.getElementById('cursorGlow');
+        if (glow) {
+            window.addEventListener('mousemove', e => {
+                requestAnimationFrame(() => {
+                    glow.style.left = e.clientX + 'px';
+                    glow.style.top = e.clientY + 'px';
+                });
+            });
+        }
+
+        // Scroll Animations
+        const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-12');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.observe-section').forEach(sec => {
+            sec.classList.add('opacity-0', 'translate-y-12', 'transition-all', 'duration-1000', 'ease-out');
+            observer.observe(sec);
+        });
+    </script>
+
+    <script>
+        let supabaseClient = null;
+
+        try {
+            if (window.supabase) {
+                const supabaseUrl = 'https://lhcvnxbsbxpeisseosap.supabase.co';
+                const supabaseKey = 'sb_publishable_NA2BPqJkDpBoEbaulYxHUw_kb2_tc4L';
+                supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+            } else {
+                console.warn("Supabase library failed to load (likely blocked by an extension).");
+            }
+        } catch (error) {
+            console.error("Database connection entirely bypassed to protect UI:", error);
+        }
+
+        async function signUp() {
+            if (!supabaseClient) {
+                alert("Database connection blocked. Please disable tracking protection to register.");
+                return;
+            }
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                const { data, error } = await supabaseClient.auth.signUp({ email, password });
+                if (error) throw error;
+                alert("Initiation successful. You may now log in.");
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        async function login() {
+            if (!supabaseClient) {
+                alert("Database connection blocked. Please disable tracking protection to log in.");
+                return;
+            }
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+                window.location.href = "terminal.html"; 
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+    </script>
+</body>
+</html>
