@@ -85,4 +85,167 @@
             <p class="story-line seq-1 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">The Void is the market — chaotic, emotional, and unforgiving.</p>
             <p class="story-line seq-2 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Most get lost in it.</p>
             <p class="story-line seq-3 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">VoidPanda entered it.</p>
-            <p class="story-line seq-4 text-lg md:text-3xl text-[#a25cfa
+            <p class="story-line seq-4 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Not to escape the chaos…</p>
+            <p class="story-line seq-5 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">But to bring order to it.</p>
+        </div>
+        <button onclick="hideIntro()" class="mt-16 px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white transition-all text-sm tracking-wider font-orbitron relative z-50 pointer-events-auto cursor-pointer">Skip Intro</button>
+    </div>
+
+    <nav class="fixed top-0 w-full flex justify-center items-center p-4 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
+        <div id="navPandaContainer" class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 opacity-0 pointer-events-none transition-opacity duration-500 cursor-pointer" onclick="window.scrollTo(0,0)">
+            <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-7 md:w-10 h-7 md:h-10">
+        </div>
+        <div class="flex items-center gap-5 text-[10px] md:text-sm uppercase tracking-wide font-bold">
+            <a href="index.html" class="text-white">Home</a>
+            <a href="lore.html" class="text-gray-400 hover:text-white">Lore</a>
+            <a href="writings.html" class="text-gray-400 hover:text-white">Writings</a>
+            <a href="about.html" class="text-gray-400 hover:text-white">About</a>
+            <a href="portal.html" class="text-gray-400 hover:text-white">Portal</a>
+        </div>
+    </nav>
+
+    <main class="relative z-10 flex flex-col items-center w-full">
+        
+        <section id="home" class="text-center w-full flex flex-col items-center justify-start pt-24 px-6 min-h-screen">
+            <a href="#auth-section" class="flashing-title font-bold text-sm md:text-xl uppercase tracking-[0.3em] mb-10 cursor-pointer block">Access Terminal</a>
+            
+            <div class="flex flex-col items-center w-full">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[180px] md:max-w-[280px] block relative z-10">
+                <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="w-full max-w-[140px] md:max-w-[220px] -mt-[45px] md:-mt-[70px] block filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)] relative z-20">
+                <p class="text-gray-400 text-[10px] md:text-xs font-semibold uppercase tracking-[0.4em] mt-1 block relative z-20">Order in the Chaos.</p>
+            </div>
+
+            <a href="thevoid.html" class="btn-pulse px-10 py-3 rounded-xl text-white font-bold tracking-widest uppercase border border-[#a25cfa] text-[10px] md:text-sm mt-12 mb-20">Enter the Void</a>
+        </section>
+
+        <section id="lore-section" class="observe-section w-full py-20 bg-[#050508] flex flex-col items-center text-center relative z-20 border-t border-white/5">
+            <p class="text-gray-400 text-xs md:text-base leading-relaxed max-w-xl font-semibold tracking-widest mb-10 px-6 uppercase">
+                Not everything is available at once.<br>
+                Some things must be observed over time.
+            </p>
+            <div class="flex gap-4 md:gap-8 flex-wrap justify-center px-4">
+                <a href="lore.html" class="btn-pulse px-8 py-3 rounded-lg text-white font-bold tracking-widest border border-[#a25cfa] text-[10px] md:text-xs">Enter Lore</a>
+                <a href="writings.html" class="btn-pulse px-8 py-3 rounded-lg text-white font-bold tracking-widest border border-[#a25cfa] text-[10px] md:text-xs">Read Writings</a>
+            </div>
+        </section>
+
+        <section id="auth-section" class="scroll-mt-24 w-full py-24 bg-[#08080c] flex flex-col items-center relative z-20 px-6">
+            <div class="w-full max-w-md bg-[#0a0a12] p-10 rounded-3xl border border-[#a25cfa]/20 shadow-2xl">
+                <h2 class="text-lg md:text-xl font-bold text-white mb-2 uppercase tracking-widest text-center">Terminal Access</h2>
+                <p class="text-gray-500 text-[9px] text-center mb-8 uppercase tracking-[0.2em]">Authenticate your signal.</p>
+                <div class="space-y-4">
+                    <input type="email" id="email" placeholder="Enter Email" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa]/50 text-xs text-center">
+                    <input type="password" id="password" placeholder="Enter Password" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa]/50 text-xs text-center">
+                    
+                    <div class="flex w-full gap-3 pt-4">
+                        <button onclick="routeToTerminal()" class="flex-1 py-4 rounded-xl border border-white/5 text-gray-400 font-bold uppercase tracking-widest text-[9px] hover:bg-white/5 transition-all text-center flex justify-center items-center cursor-pointer">
+                            Sign Up
+                        </button>
+                        <button onclick="routeToTerminal()" class="flex-1 bg-gradient-to-r from-[#885cfa] to-[#a25cfa] shadow-[0_0_15px_rgba(162,92,250,0.4)] hover:shadow-[0_0_25px_rgba(162,92,250,0.8)] transition-all py-4 rounded-xl text-white font-bold uppercase tracking-widest text-[9px] text-center flex justify-center items-center cursor-pointer">
+                            Log In
+                        </button>
+                    </div>
+
+                </div>
+                <p id="auth-msg" class="mt-6 text-[10px] text-center font-bold tracking-widest text-[#a25cfa] h-4"></p>
+            </div>
+        </section>
+
+        <section id="community" class="observe-section w-full py-24 bg-[#050508] text-center relative z-20">
+            <h2 class="text-xl md:text-3xl font-bold mb-10 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#a25cfa] uppercase tracking-widest">The Network</h2>
+            <div class="flex flex-wrap justify-center gap-8 px-6">
+                <a href="https://t.me/+Py4jTI2rI584ZTQx" target="_blank" class="px-10 py-4 rounded-xl border border-white/10 hover:border-[#a25cfa] hover:bg-[#a25cfa]/10 transition-all font-bold uppercase tracking-widest text-xs flex justify-center items-center">Telegram</a>
+                <a href="https://discord.gg/7RSDCcCP" target="_blank" class="px-10 py-4 rounded-xl border border-white/10 hover:border-[#a25cfa] hover:bg-[#a25cfa]/10 transition-all font-bold uppercase tracking-widest text-xs flex justify-center items-center">Discord</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="relative z-30 w-full text-center py-12 bg-[#050508] border-t border-white/5 text-gray-700 text-[8px] tracking-[0.5em]">
+        © 2026 VOIDPANDA. EMBRACE THE CHAOS.
+    </footer>
+
+    <div id="earlyAccessModal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300 opacity-0">
+        <div class="relative w-full max-w-md bg-[#0a0a12] border border-[#a25cfa]/50 rounded-2xl p-8 flex flex-col items-center">
+            <button onclick="closeEarlyAccess()" class="absolute top-4 right-6 text-gray-500 hover:text-white text-3xl leading-none">&times;</button>
+            <div id="formState" class="w-full text-center">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-16 h-16 mx-auto mb-6">
+                <h2 class="text-lg font-bold text-white mb-8 uppercase tracking-widest">Enter the Void</h2>
+                <form onsubmit="submitWaitlist(event)" class="space-y-4">
+                    <input type="text" required placeholder="Name" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm text-center">
+                    <input type="email" required placeholder="Email" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm text-center">
+                    <button type="submit" class="w-full btn-pulse py-3 rounded-lg text-white font-bold uppercase tracking-widest text-sm text-center flex justify-center items-center">Initialize</button>
+                </form>
+            </div>
+            <div id="successState" class="hidden flex-col items-center text-center py-6">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-20 h-20 mb-6">
+                <h3 class="text-xl font-bold text-white mb-2 uppercase tracking-widest">Entered the Void.</h3>
+                <p class="text-[#a25cfa] font-bold mb-6">STAY TUNED.</p>
+                <p class="text-gray-400 text-xs leading-relaxed max-w-[250px]">Your signal has been registered. The sequence will begin when conditions align.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function hideIntro() {
+            const popup = document.getElementById('storyPopup');
+            if (popup) {
+                popup.style.opacity = '0';
+                popup.style.pointerEvents = 'none'; 
+                document.body.style.overflow = 'auto'; 
+                setTimeout(() => popup.style.display = 'none', 500);
+            }
+        }
+
+        function routeToTerminal() {
+            const msg = document.getElementById('auth-msg');
+            msg.innerText = "AUTHENTICATED. ROUTING TO TERMINAL...";
+            setTimeout(() => { window.location.href = "terminal.html"; }, 1000);
+        }
+
+        function openEarlyAccess() {
+            const modal = document.getElementById('earlyAccessModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function closeEarlyAccess() {
+            const modal = document.getElementById('earlyAccessModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
+        }
+
+        window.addEventListener('scroll', () => {
+            const navPanda = document.getElementById('navPandaContainer');
+            if (window.scrollY > 200) {
+                navPanda.classList.remove('opacity-0', 'pointer-events-none');
+                navPanda.classList.add('opacity-100');
+            } else {
+                navPanda.classList.remove('opacity-100');
+                navPanda.classList.add('opacity-0', 'pointer-events-none');
+            }
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-8');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.observe-section').forEach(sec => {
+            sec.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-700', 'ease-out');
+            observer.observe(sec);
+        });
+
+        window.addEventListener('touchstart', function() {
+            document.querySelectorAll('video').forEach(v => {
+                v.play().catch(() => {});
+            });
+        }, {once: true});
+    </script>
+</body>
+</html>
