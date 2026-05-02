@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Supabase Library for Authentication -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -102,6 +101,39 @@
         .nav-panda-anim {
             animation: bouncePulse 2.5s ease-in-out infinite;
             transition: filter 0.3s ease, transform 0.3s ease;
+        }
+        .nav-panda-anim:hover {
+            animation: none; 
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 25px rgba(255, 255, 255, 1));
+        }
+    </style>
+</head>
+<body class="w-full h-full m-0">
+
+    <canvas id="particles" class="fixed top-0 left-0 z-0 pointer-events-none"></canvas>
+    <div id="noise"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <nav class="fixed top-0 w-full flex justify-center items-center p-4 md:p-5 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
+        <a href="index.html" class="absolute left-3 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 z-50 cursor-pointer">
+            <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Home" class="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 nav-panda-anim">
+        </a>
+        
+        <div class="flex items-center justify-center gap-3 sm:gap-4 md:gap-8 pl-8 sm:pl-10 md:pl-0">
+            <a href="index.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Home</a>
+            <a href="lore.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Lore</a>
+            <a href="writings.html" class="nav-link text-white font-bold transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Writings</a>
+            <a href="about.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">About</a>
+            <a href="portal.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Portal</a>
+            <button onclick="openEarlyAccess()" class="ml-1 md:ml-4 text-[#a25cfa] hover:text-white font-bold transition-colors text-[10px] sm:text-xs md:text-sm hidden sm:block">Join Early Access</button>
+        </div>
+    </nav>
+
+    <main class="relative z-10 flex flex-col items-center w-full pt-32 md:pt-40 px-4 md:px-6 pb-24">
+        
+        <div class="w-full max-w-4xl text-center mb-12 md:mb-20 flex flex-col items-center">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient
         }
         .nav-panda-anim:hover {
             animation: none; /* Stops the bounce so the white glow holds steady */
