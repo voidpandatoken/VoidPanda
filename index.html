@@ -149,16 +149,19 @@
         </button>
     </div>
 
-    <nav class="fixed top-0 w-full flex justify-center items-center gap-4 md:gap-8 p-5 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
-        <div id="navPandaContainer" class="absolute left-6 top-1/2 -translate-y-1/2 opacity-0 pointer-events-none transition-opacity duration-500 cursor-pointer" onclick="window.scrollTo(0,0)">
-            <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-10 h-10 nav-panda-anim">
+    <nav class="fixed top-0 w-full flex justify-center items-center p-4 md:p-5 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
+        <div id="navPandaContainer" class="absolute left-3 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 opacity-0 pointer-events-none transition-opacity duration-500 cursor-pointer" onclick="window.scrollTo(0,0)">
+            <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 nav-panda-anim">
         </div>
-        <a href="index.html" class="nav-link text-white font-bold transition-colors text-xs md:text-sm uppercase tracking-wide">Home</a>
-        <a href="lore.html" class="nav-link text-gray-400 hover:text-white transition-colors text-xs md:text-sm uppercase tracking-wide">Lore</a>
-        <a href="writings.html" class="nav-link text-gray-400 hover:text-white transition-colors text-xs md:text-sm uppercase tracking-wide">Writings</a>
-        <a href="about.html" class="nav-link text-gray-400 hover:text-white transition-colors text-xs md:text-sm uppercase tracking-wide">About</a>
-        <a href="portal.html" class="nav-link text-gray-400 hover:text-white transition-colors text-xs md:text-sm uppercase tracking-wide">Portal</a>
-        <button onclick="openEarlyAccess()" class="ml-4 text-[#a25cfa] hover:text-white font-bold transition-colors text-sm hidden md:block">Join Early Access</button>
+        
+        <div class="flex items-center justify-center gap-3 sm:gap-4 md:gap-8 pl-8 sm:pl-10 md:pl-0">
+            <a href="index.html" class="nav-link text-white font-bold transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Home</a>
+            <a href="lore.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Lore</a>
+            <a href="writings.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Writings</a>
+            <a href="about.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">About</a>
+            <a href="portal.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Portal</a>
+            <button onclick="openEarlyAccess()" class="ml-1 md:ml-4 text-[#a25cfa] hover:text-white font-bold transition-colors text-[10px] sm:text-xs md:text-sm hidden sm:block">Join Early Access</button>
+        </div>
     </nav>
 
     <main class="relative z-10 flex flex-col items-center w-full pt-20 px-6 pb-12">
