@@ -91,6 +91,34 @@
         <button onclick="hideIntro()" class="mt-16 px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white transition-all text-sm tracking-wider font-orbitron relative z-50 pointer-events-auto cursor-pointer">Skip Intro</button>
     </div>
 
+    <script>
+        if (localStorage.getItem('voidIntroPlayed') === 'true') {
+            document.getElementById('storyPopup').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        } else {
+            localStorage.setItem('voidIntroPlayed', 'true');
+            setTimeout(() => {
+                const popup = document.getElementById('storyPopup');
+                if (popup) {
+                    popup.style.opacity = '0';
+                    popup.style.pointerEvents = 'none'; 
+                    document.body.style.overflow = 'auto'; 
+                    setTimeout(() => popup.style.display = 'none', 500);
+                }
+            }, 12000);
+        }
+        
+        function hideIntro() {
+            const popup = document.getElementById('storyPopup');
+            if (popup) {
+                popup.style.opacity = '0';
+                popup.style.pointerEvents = 'none'; 
+                document.body.style.overflow = 'auto'; 
+                setTimeout(() => popup.style.display = 'none', 500);
+            }
+        }
+    </script>
+
     <nav class="fixed top-0 w-full flex justify-center items-center p-4 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
         <div id="navPandaContainer" class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 opacity-0 pointer-events-none transition-opacity duration-500 cursor-pointer" onclick="window.scrollTo(0,0)">
             <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-7 md:w-10 h-7 md:h-10">
@@ -187,39 +215,17 @@
     </div>
 
     <script>
-        // ONE-TIME INTRO LOGIC
-        function hideIntro() {
-            const popup = document.getElementById('storyPopup');
-            if (popup) {
-                popup.style.opacity = '0';
-                popup.style.pointerEvents = 'none'; 
-                document.body.style.overflow = 'auto'; 
-                setTimeout(() => popup.style.display = 'none', 500);
-            }
-        }
-
-        if (sessionStorage.getItem('voidIntroPlayed')) {
-            const popup = document.getElementById('storyPopup');
-            if(popup) popup.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        } else {
-            sessionStorage.setItem('voidIntroPlayed', 'true');
-            setTimeout(hideIntro, 12000);
-        }
-
-        // AUTH ROUTING LOGIC
+        // FIXED ROUTING: Now targets terminal.html directly
         function handleSignUp() {
             const msg = document.getElementById('auth-msg');
             msg.innerText = "SIGNAL REGISTERED. ROUTING...";
-            localStorage.setItem('supabase.auth.token', 'bypass-dummy-token'); // Dummy token to trick portal
-            setTimeout(() => { window.location.href = "portal.html"; }, 1200);
+            setTimeout(() => { window.location.href = "terminal.html"; }, 1000);
         }
 
         function handleLogin() {
             const msg = document.getElementById('auth-msg');
             msg.innerText = "AUTHENTICATED. ENTERING THE VOID...";
-            localStorage.setItem('supabase.auth.token', 'bypass-dummy-token'); // Dummy token to trick portal
-            setTimeout(() => { window.location.href = "portal.html"; }, 1200);
+            setTimeout(() => { window.location.href = "terminal.html"; }, 1000);
         }
 
         function openEarlyAccess() {
