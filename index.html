@@ -12,7 +12,6 @@
         body {
             font-family: 'Orbitron', sans-serif;
             background-color: #050508;
-            /* Star Foundation */
             background-image: radial-gradient(circle at top, #1a1a2e, #050508 70%);
             background-attachment: fixed;
             min-height: 100vh;
@@ -38,12 +37,8 @@
             #desktop-video { display: none !important; }
             #mobile-video { display: block !important; }
         }
-        @media (min-width: 769px) {
-            #mobile-video { display: none !important; }
-            #desktop-video { display: block !important; }
-        }
 
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         .hero-img {
             filter: drop-shadow(0 0 30px rgba(162, 92, 250, 0.5));
             animation: float 4s ease-in-out infinite;
@@ -59,7 +54,9 @@
         }
 
         .btn-pulse {
-            display: inline-flex;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: linear-gradient(90deg, #885cfa, #a25cfa);
             box-shadow: 0 0 15px rgba(162, 92, 250, 0.4);
             transition: all 0.3s ease;
@@ -95,7 +92,7 @@
         <button onclick="hideIntro()" class="mt-16 px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white transition-all text-sm tracking-wider font-orbitron">Skip Intro</button>
     </div>
 
-    <nav class="fixed top-0 w-full h-16 flex justify-center items-center p-4 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
+    <nav class="fixed top-0 w-full flex justify-center items-center p-4 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
         <div id="navPandaContainer" class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 opacity-0 pointer-events-none transition-opacity duration-500 cursor-pointer" onclick="window.scrollTo(0,0)">
             <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-7 md:w-10 h-7 md:h-10">
         </div>
@@ -110,54 +107,62 @@
 
     <main class="relative z-10 flex flex-col items-center w-full">
         
-        <section id="home" class="text-center w-full flex flex-col items-center justify-start pt-20 px-6 min-h-[85vh]">
-            
-            <a href="#auth-section" class="flashing-title font-bold text-sm md:text-xl uppercase tracking-[0.3em] mt-4 mb-10 cursor-pointer block">Access Terminal</a>
+        <section id="home" class="text-center w-full flex flex-col items-center justify-start pt-24 px-6 min-h-screen">
+            <a href="#auth-section" class="flashing-title font-bold text-sm md:text-xl uppercase tracking-[0.3em] mb-10 cursor-pointer block">Access Terminal</a>
             
             <div class="flex flex-col items-center w-full">
-                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[200px] md:max-w-[300px] mb-0 block">
-                
-                <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="w-full max-w-[160px] md:max-w-[240px] -mt-6 md:-mt-10 block filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)]">
-                
-                <p class="text-gray-400 text-[10px] md:text-xs font-semibold uppercase tracking-[0.4em] -mt-2 md:-mt-4 block">Order in the Chaos.</p>
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[180px] md:max-w-[280px] block">
+                <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="w-full max-w-[140px] md:max-w-[220px] -mt-5 md:-mt-8 block filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)]">
             </div>
 
-            <a href="thevoid.html" class="btn-pulse px-10 py-4 rounded-xl text-white font-bold tracking-widest uppercase border border-[#a25cfa] text-[10px] md:text-sm mt-12 mb-20">Enter the Void</a>
+            <p class="text-gray-400 text-[10px] md:text-xs font-semibold uppercase tracking-[0.4em] mt-8 mb-10">Order in the Chaos.</p>
+            <a href="thevoid.html" class="btn-pulse px-10 py-3 rounded-xl text-white font-bold tracking-widest uppercase border border-[#a25cfa] text-[10px] md:text-sm mb-20">Enter the Void</a>
         </section>
 
-        <section id="lore-section" class="observe-section w-full py-20 bg-[#050508] flex flex-col items-center text-center relative z-20 border-t border-white/5">
-            <p class="text-gray-400 text-xs md:text-base leading-relaxed max-w-xl font-semibold tracking-widest mb-10 px-6 uppercase">
-                Not everything is available at once.<br>
-                Some things must be observed over time.
-            </p>
-            <div class="flex gap-4 md:gap-8 flex-wrap justify-center px-4">
-                <a href="lore.html" class="btn-pulse px-8 py-3 rounded-lg text-white font-bold tracking-widest border border-[#a25cfa] text-[10px] md:text-xs">Enter Lore</a>
-                <a href="writings.html" class="btn-pulse px-8 py-3 rounded-lg text-white font-bold tracking-widest border border-[#a25cfa] text-[10px] md:text-xs">Read Writings</a>
-            </div>
-        </section>
-
-        <section id="auth-section" class="observe-section scroll-mt-24 w-full py-24 bg-[#08080c] flex flex-col items-center relative z-20 px-6">
+        <section id="auth-section" class="scroll-mt-24 w-full py-24 bg-[#08080c] flex flex-col items-center relative z-20 px-6">
             <div class="w-full max-w-md bg-[#0a0a12] p-10 rounded-3xl border border-[#a25cfa]/20 shadow-2xl">
                 <h2 class="text-lg md:text-xl font-bold text-white mb-2 uppercase tracking-widest text-center">Terminal Access</h2>
                 <p class="text-gray-500 text-[9px] text-center mb-8 uppercase tracking-[0.2em]">Authenticate your signal.</p>
                 <div class="space-y-4">
-                    <input type="email" placeholder="Enter Email" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#a25cfa]/50 text-xs">
-                    <input type="password" placeholder="Enter Password" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#a25cfa]/50 text-xs">
+                    <input type="email" id="email" placeholder="Enter Email" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#a25cfa]/50 text-xs">
+                    <input type="password" id="password" placeholder="Enter Password" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#a25cfa]/50 text-xs">
                     <div class="flex gap-4 pt-2">
-                        <button class="w-1/2 py-3 rounded-xl border border-white/5 text-gray-400 font-bold uppercase tracking-widest text-[9px]">Sign Up</button>
-                        <button class="w-1/2 btn-pulse py-3 rounded-xl text-white font-bold uppercase tracking-widest text-[9px]">Log In</button>
+                        <button onclick="handleSignUp()" class="w-1/2 py-3 rounded-xl border border-white/5 text-gray-400 font-bold uppercase tracking-widest text-[9px] hover:bg-white/5 transition-all">Sign Up</button>
+                        <button onclick="handleLogin()" class="w-1/2 btn-pulse py-3 rounded-xl text-white font-bold uppercase tracking-widest text-[9px]">Log In</button>
                     </div>
                 </div>
+                <p id="auth-msg" class="mt-4 text-[9px] text-center uppercase tracking-widest text-[#a25cfa]"></p>
             </div>
         </section>
 
     </main>
 
-    <footer class="relative z-30 w-full text-center py-12 bg-[#050508] border-t border-white/5 text-gray-700 text-[8px] tracking-[0.5em]">
-        © 2026 VOIDPANDA. EMBRACE THE CHAOS.
-    </footer>
-
     <script>
+        // INSERT YOUR SUPABASE KEYS HERE
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function handleSignUp() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const msg = document.getElementById('auth-msg');
+            
+            const { data, error } = await _supabase.auth.signUp({ email, password });
+            if (error) msg.innerText = error.message;
+            else msg.innerText = "Check your email for confirmation link.";
+        }
+
+        async function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const msg = document.getElementById('auth-msg');
+
+            const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+            if (error) msg.innerText = error.message;
+            else window.location.href = "portal.html"; // Redirect on success
+        }
+
         function hideIntro() {
             const popup = document.getElementById('storyPopup');
             if (popup) {
@@ -178,21 +183,6 @@
                 navPanda.classList.remove('opacity-100');
                 navPanda.classList.add('opacity-0', 'pointer-events-none');
             }
-        });
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.remove('opacity-0', 'translate-y-8');
-                    entry.target.classList.add('opacity-100', 'translate-y-0');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.observe-section').forEach(sec => {
-            sec.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-700', 'ease-out');
-            observer.observe(sec);
         });
 
         window.addEventListener('touchstart', function() {
