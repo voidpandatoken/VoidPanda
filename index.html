@@ -165,4 +165,103 @@
         © 2026 VOIDPANDA. EMBRACE THE CHAOS.
     </footer>
 
-    <div id="earlyAccessModal" class="fixed
+    <div id="earlyAccessModal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300 opacity-0">
+        <div class="relative w-full max-w-md bg-[#0a0a12] border border-[#a25cfa]/50 rounded-2xl p-8 flex flex-col items-center">
+            <button onclick="closeEarlyAccess()" class="absolute top-4 right-6 text-gray-500 hover:text-white text-3xl leading-none">&times;</button>
+            <div id="formState" class="w-full text-center">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-16 h-16 mx-auto mb-6">
+                <h2 class="text-lg font-bold text-white mb-8 uppercase tracking-widest">Enter the Void</h2>
+                <form onsubmit="submitWaitlist(event)" class="space-y-4">
+                    <input type="text" required placeholder="Name" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm text-center">
+                    <input type="email" required placeholder="Email" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm text-center">
+                    <button type="submit" class="w-full btn-pulse py-3 rounded-lg text-white font-bold uppercase tracking-widest text-sm text-center flex justify-center items-center">Initialize</button>
+                </form>
+            </div>
+            <div id="successState" class="hidden flex-col items-center text-center py-6">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-20 h-20 mb-6">
+                <h3 class="text-xl font-bold text-white mb-2 uppercase tracking-widest">Entered the Void.</h3>
+                <p class="text-[#a25cfa] font-bold mb-6">STAY TUNED.</p>
+                <p class="text-gray-400 text-xs leading-relaxed max-w-[250px]">Your signal has been registered. The sequence will begin when conditions align.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Clean, Keyless Frontend Routing
+        function handleSignUp() {
+            const msg = document.getElementById('auth-msg');
+            msg.innerText = "SIGNAL REGISTERED. ROUTING...";
+            setTimeout(() => { window.location.href = "portal.html"; }, 1200);
+        }
+
+        function handleLogin() {
+            const msg = document.getElementById('auth-msg');
+            msg.innerText = "AUTHENTICATED. ENTERING THE VOID...";
+            setTimeout(() => { window.location.href = "portal.html"; }, 1200);
+        }
+
+        function hideIntro() {
+            const popup = document.getElementById('storyPopup');
+            if (popup) {
+                popup.style.opacity = '0';
+                popup.style.pointerEvents = 'none'; 
+                document.body.style.overflow = 'auto'; 
+                setTimeout(() => popup.style.display = 'none', 700);
+            }
+        }
+        setTimeout(hideIntro, 12000);
+
+        function openEarlyAccess() {
+            const modal = document.getElementById('earlyAccessModal');
+            document.getElementById('formState').style.display = 'block';
+            document.getElementById('successState').style.display = 'none';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function closeEarlyAccess() {
+            const modal = document.getElementById('earlyAccessModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
+        }
+
+        function submitWaitlist(e) {
+            e.preventDefault();
+            document.getElementById('formState').style.display = 'none';
+            document.getElementById('successState').style.display = 'flex';
+        }
+
+        window.addEventListener('scroll', () => {
+            const navPanda = document.getElementById('navPandaContainer');
+            if (window.scrollY > 200) {
+                navPanda.classList.remove('opacity-0', 'pointer-events-none');
+                navPanda.classList.add('opacity-100');
+            } else {
+                navPanda.classList.remove('opacity-100');
+                navPanda.classList.add('opacity-0', 'pointer-events-none');
+            }
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-8');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.observe-section').forEach(sec => {
+            sec.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-700', 'ease-out');
+            observer.observe(sec);
+        });
+
+        window.addEventListener('touchstart', function() {
+            document.querySelectorAll('video').forEach(v => {
+                v.play().catch(() => {});
+            });
+        }, {once: true});
+    </script>
+</body>
+</html>
