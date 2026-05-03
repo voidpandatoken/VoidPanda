@@ -67,19 +67,10 @@
 </head>
 <body class="w-full h-full m-0" style="overflow: hidden;">
 
-    <video id="bg-video" class="void-video-bg" autoplay loop muted playsinline></video>
-
-    <script>
-        // Force the correct video to load based on screen size, bypassing mobile browser blocking
-        const videoElement = document.getElementById('bg-video');
-        if (window.innerWidth <= 768) {
-            videoElement.src = "void-bg-mobile.mp4";
-        } else {
-            videoElement.src = "void-bg-desktop.mp4";
-        }
-        videoElement.load();
-        videoElement.play().catch(() => {});
-    </script>
+    <video autoplay loop muted playsinline class="void-video-bg">
+        <source src="void-bg-desktop.mp4" media="(min-width: 768px)">
+        <source src="void-bg-mobile.mp4">
+    </video>
 
     <div id="storyPopup" class="fixed inset-0 z-[100] flex flex-col items-center justify-center text-center bg-[#050508] transition-opacity duration-700 px-4">
         <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-64 md:w-80 mb-12 filter drop-shadow-[0_0_20px_rgba(162,92,250,0.5)]">
@@ -112,9 +103,11 @@
             <a href="#auth-section" class="flashing-title font-bold text-sm md:text-xl uppercase tracking-[0.3em] mb-10 cursor-pointer block">Access Terminal</a>
             
             <div class="flex flex-col items-center w-full">
-                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[180px] md:max-w-[280px] block relative z-10">
-                <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="w-full max-w-[140px] md:max-w-[220px] -mt-[45px] md:-mt-[70px] block filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)] relative z-20">
-                <p class="text-gray-400 text-[10px] md:text-xs font-semibold uppercase tracking-[0.4em] mt-1 block relative z-20">Order in the Chaos.</p>
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[180px] md:max-w-[280px] block" style="position: relative; z-index: 10;">
+                
+                <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="w-full max-w-[140px] md:max-w-[220px] block filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)]" style="margin-top: -55px; position: relative; z-index: 20;">
+                
+                <p class="text-gray-400 text-[10px] md:text-xs font-semibold uppercase tracking-[0.4em] block" style="margin-top: 10px; position: relative; z-index: 20;">Order in the Chaos.</p>
             </div>
 
             <a href="thevoid.html" class="btn-pulse px-10 py-3 rounded-xl text-white font-bold tracking-widest uppercase border border-[#a25cfa] text-[10px] md:text-sm mt-12 mb-20">Enter the Void</a>
@@ -244,7 +237,7 @@
         });
 
         window.addEventListener('touchstart', function() {
-            const bgVideo = document.getElementById('bg-video');
+            const bgVideo = document.querySelector('video');
             if(bgVideo) bgVideo.play().catch(() => {});
         }, {once: true});
     </script>
