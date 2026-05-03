@@ -67,10 +67,19 @@
 </head>
 <body class="w-full h-full m-0" style="overflow: hidden;">
 
-    <video autoplay loop muted playsinline id="bg-video" class="void-video-bg">
-        <source media="(max-width: 768px)" src="void-bg-mobile.mp4" type="video/mp4">
-        <source media="(min-width: 769px)" src="void-bg-desktop.mp4" type="video/mp4">
-    </video>
+    <video id="bg-video" class="void-video-bg" autoplay loop muted playsinline></video>
+
+    <script>
+        // Force the correct video to load based on screen size, bypassing mobile browser blocking
+        const videoElement = document.getElementById('bg-video');
+        if (window.innerWidth <= 768) {
+            videoElement.src = "void-bg-mobile.mp4";
+        } else {
+            videoElement.src = "void-bg-desktop.mp4";
+        }
+        videoElement.load();
+        videoElement.play().catch(() => {});
+    </script>
 
     <div id="storyPopup" class="fixed inset-0 z-[100] flex flex-col items-center justify-center text-center bg-[#050508] transition-opacity duration-700 px-4">
         <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-64 md:w-80 mb-12 filter drop-shadow-[0_0_20px_rgba(162,92,250,0.5)]">
@@ -104,8 +113,8 @@
             
             <div class="flex flex-col items-center w-full">
                 <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[180px] md:max-w-[280px] block relative z-10">
-                <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="w-full max-w-[140px] md:max-w-[220px] -mt-12 md:-mt-16 block filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)] relative z-20">
-                <p class="text-gray-400 text-[10px] md:text-xs font-semibold uppercase tracking-[0.4em] mt-2 block relative z-20">Order in the Chaos.</p>
+                <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="w-full max-w-[140px] md:max-w-[220px] -mt-[45px] md:-mt-[70px] block filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)] relative z-20">
+                <p class="text-gray-400 text-[10px] md:text-xs font-semibold uppercase tracking-[0.4em] mt-1 block relative z-20">Order in the Chaos.</p>
             </div>
 
             <a href="thevoid.html" class="btn-pulse px-10 py-3 rounded-xl text-white font-bold tracking-widest uppercase border border-[#a25cfa] text-[10px] md:text-sm mt-12 mb-20">Enter the Void</a>
