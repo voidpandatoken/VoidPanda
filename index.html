@@ -32,9 +32,12 @@
             object-fit: cover;
         }
 
-        @media (max-width: 768px) {
-            #desktop-video { display: none !important; }
-            #mobile-video { display: block !important; }
+        #desktop-video { display: none; }
+        #star-canvas { display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -100; pointer-events: none; }
+
+        @media (min-width: 769px) {
+            #desktop-video { display: block !important; }
+            #star-canvas { display: none !important; }
         }
 
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
@@ -75,9 +78,8 @@
     <video autoplay loop muted playsinline class="void-video-bg" id="desktop-video">
         <source src="void-bg-desktop.mp4" type="video/mp4">
     </video>
-    <video autoplay loop muted playsinline class="void-video-bg" id="mobile-video">
-        <source src="void-bg-mobile.mp4" type="video/mp4">
-    </video>
+
+    <canvas id="star-canvas"></canvas>
 
     <div id="storyPopup" class="fixed inset-0 z-[100] flex flex-col items-center justify-center text-center bg-[#050508] transition-opacity duration-700 px-4">
         <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-64 md:w-80 mb-12 filter drop-shadow-[0_0_20px_rgba(162,92,250,0.5)]">
@@ -112,7 +114,7 @@
             <div class="flex flex-col items-center w-full">
                 <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[180px] md:max-w-[280px] block relative z-10">
                 
-                <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="w-full max-w-[140px] md:max-w-[220px] block filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)] relative z-20" style="margin-top: -65px;">
+                <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="w-full max-w-[140px] md:max-w-[220px] block filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)] relative z-20" style="margin-top: -90px;">
                 
                 <p class="text-gray-400 text-[10px] md:text-xs font-semibold uppercase tracking-[0.4em] mt-2 block relative z-20">Order in the Chaos.</p>
             </div>
@@ -167,7 +169,90 @@
         © 2026 VOIDPANDA. EMBRACE THE CHAOS.
     </footer>
 
+    <div id="earlyAccessModal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300 opacity-0">
+        <div class="relative w-full max-w-md bg-[#0a0a12] border border-[#a25cfa]/50 rounded-2xl p-8 flex flex-col items-center">
+            <button onclick="closeEarlyAccess()" class="absolute top-4 right-6 text-gray-500 hover:text-white text-3xl leading-none">&times;</button>
+            <div id="formState" class="w-full text-center">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-16 h-16 mx-auto mb-6">
+                <h2 class="text-lg font-bold text-white mb-8 uppercase tracking-widest">Enter the Void</h2>
+                <form onsubmit="submitWaitlist(event)" class="space-y-4">
+                    <input type="text" required placeholder="Name" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm text-center">
+                    <input type="email" required placeholder="Email" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm text-center">
+                    <button type="submit" class="w-full btn-pulse py-3 rounded-lg text-white font-bold uppercase tracking-widest text-sm text-center flex justify-center items-center">Initialize</button>
+                </form>
+            </div>
+            <div id="successState" class="hidden flex-col items-center text-center py-6">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-20 h-20 mb-6">
+                <h3 class="text-xl font-bold text-white mb-2 uppercase tracking-widest">Entered the Void.</h3>
+                <p class="text-[#a25cfa] font-bold mb-6">STAY TUNED.</p>
+                <p class="text-gray-400 text-xs leading-relaxed max-w-[250px]">Your signal has been registered. The sequence will begin when conditions align.</p>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Star Canvas Animation Logic
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random();
+                this.fadeSpeed = (Math.random() * 0.02) + 0.005;
+                this.fadeDir = Math.random() > 0.5 ? 1 : -1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                
+                this.opacity += this.fadeSpeed * this.fadeDir;
+                if (this.opacity >= 1) { this.fadeDir = -1; this.opacity = 1; }
+                if (this.opacity <= 0) { this.fadeDir = 1; this.opacity = 0; }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < 150; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animateStars);
+        }
+
+        if (window.innerWidth <= 768) {
+            initStars();
+            animateStars();
+        }
+
         function hideIntro() {
             const popup = document.getElementById('storyPopup');
             if (popup) {
@@ -183,6 +268,19 @@
             const msg = document.getElementById('auth-msg');
             msg.innerText = "AUTHENTICATED. ROUTING TO TERMINAL...";
             setTimeout(() => { window.location.href = "terminal.html"; }, 1000);
+        }
+
+        function openEarlyAccess() {
+            const modal = document.getElementById('earlyAccessModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function closeEarlyAccess() {
+            const modal = document.getElementById('earlyAccessModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
         }
 
         window.addEventListener('scroll', () => {
@@ -211,9 +309,8 @@
         });
 
         window.addEventListener('touchstart', function() {
-            document.querySelectorAll('video').forEach(v => {
-                v.play().catch(() => {});
-            });
+            const video = document.getElementById('desktop-video');
+            if(video) video.play().catch(() => {});
         }, {once: true});
     </script>
 </body>
