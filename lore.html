@@ -74,7 +74,6 @@
         /* The flickering transmission class applied to Chapter 1 */
         .transmission-flicker {
             animation: containerTransmission 5s linear infinite;
-            /* FIXED: Removed pointer-events: none so it can be clicked */
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -537,19 +536,23 @@
 
         async function checkSession() {
             if (!supabaseClient) {
-                // If database is blocked, boot them to index to preserve security
-                window.location.href = "index.html"; 
+                console.warn("Operating in locked public mode.");
                 return;
             }
 
             try {
                 const { data: { session }, error } = await supabaseClient.auth.getSession();
                 if (!session || error) {
-                    window.location.href = "index.html"; 
+                    // User is NOT logged in. 
+                    // Redirects removed. They stay on the page and can only click Chapter 1.
+                    console.log("No active session. Page remains in locked view.");
+                } else {
+                    // User IS logged in.
+                    console.log("Session active. Ready for future unlock logic.");
                 }
             } catch(err) {
                 console.error("Session check failed:", err);
-                window.location.href = "index.html";
+                // Redirect removed.
             }
         }
         
