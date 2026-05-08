@@ -1,119 +1,64 @@
-<!doctype html>
-<html lang="en" class="h-full w-full scroll-smooth">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VoidPanda — Portal</title>
+/* ---------------- PARTICLES (OPTIMIZED) ---------------- */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
 
-<style>
-body {
-    font-family: 'Orbitron', sans-serif;
-    background: radial-gradient(circle at top, #0f0f1a, #050508);
-    color: #fff;
-    margin:0;
+/* MOBILE PERFORMANCE BOOST */
+const PARTICLE_COUNT = window.innerWidth < 768 ? 40 : 100;
+
+let particles = [];
+for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.5,
+        d: Math.random() * 1 + 0.2
+    });
 }
 
-/* Tap targets */
-a,button { min-height:44px; }
+/* FPS LIMITER (huge mobile improvement) */
+let lastTime = 0;
 
-/* Cursor glow OFF on mobile (performance boost) */
-.cursor-glow {
-    position: fixed;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(120,120,255,0.15), transparent);
-    border-radius:50%;
-    pointer-events:none;
-    transform:translate(-50%,-50%);
-}
-@media(max-width:768px){
-    .cursor-glow{ display:none; }
-}
+function animateParticles(time = 0) {
+    if (time - lastTime > 33) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
 
-/* Locked chapters */
-.locked-chapter { opacity:0.35; }
+            p.y += p.d;
 
-/* Panda animation (kept) */
-@keyframes bouncePulse {
-    0%,100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-4px) scale(1.05); }
-}
-.nav-panda-anim {
-    animation:bouncePulse 2.5s infinite;
-}
-.nav-panda-anim:hover {
-    animation:none;
-    transform:scale(1.1);
+            if (p.y > canvas.height) {
+                p.y = 0;
+                p.x = Math.random() * canvas.width;
+            }
+        });
+
+        lastTime = time;
+    }
+
+    requestAnimationFrame(animateParticles);
 }
 
-/* Buttons */
-.btn-glow {
-    background:linear-gradient(90deg,#885cfa,#a25cfa);
-    transition:.3s;
+animateParticles();
+
+/* ---------------- CURSOR (DISABLED ON MOBILE) ---------------- */
+if (window.innerWidth > 768) {
+    const glow = document.getElementById('cursorGlow');
+
+    window.addEventListener('mousemove', e => {
+        requestAnimationFrame(() => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+    });
 }
-.btn-glow:hover { transform:translateY(-2px); }
-
-/* Story animations untouched (kept your cinematic work) */
-
-</style>
-</head>
-
-<body class="flex flex-col min-h-screen">
-
-<!-- PARTICLES -->
-<canvas id="particles" class="fixed inset-0 z-0 pointer-events-none"></canvas>
-
-<!-- CURSOR -->
-<div class="cursor-glow" id="cursorGlow"></div>
-
-<!-- NAV -->
-<nav class="fixed top-0 w-full flex justify-center items-center p-4 bg-black/40 backdrop-blur z-50">
-
-<a href="index.html" class="absolute left-4 top-1/2 -translate-y-1/2">
-    <img src="https://i.imgur.com/x64Wv1U.png"
-         class="w-8 md:w-10 nav-panda-anim">
-</a>
-
-<div class="flex gap-4 text-xs md:text-sm uppercase">
-    <a href="index.html" class="text-gray-400 hover:text-white">Home</a>
-    <a href="#" class="text-white font-bold">Portal</a>
-    <a href="lore.html" class="text-gray-400 hover:text-white">Lore</a>
-    <a href="writings.html" class="text-gray-400 hover:text-white">Writings</a>
-    <a href="about.html" class="text-gray-400 hover:text-white">About</a>
-</div>
-
-</nav>
-
-<!-- MAIN -->
-<main class="relative z-10 flex flex-col items-center pt-32 px-4">
-
-<div class="max-w-3xl text-center mb-20">
-<p class="text-lg md:text-2xl font-bold">
-The Void was never empty.<br><br>
-Most never stopped reacting long enough to see it.
-</p>
-</div>
-
-<!-- CHAPTERS -->
-<div class="max-w-3xl w-full space-y-8">
-
-<div onclick="openChapter1()" class="border-l-2 pl-6 cursor-pointer">
-<h2 class="text-xl font-bold">Chapter 1 — The Market That Ate Itself</h2>
-<p class="text-purple-400 text-sm">Click to observe</p>
-</div>
-
-<!-- LOCKED -->
-<div class="border-l-2 pl-6 locked-chapter">
-<h2>Chapter 2 — Locked</h2>
-</div>
-
-</div>
-
-</main>
-
-<!-- MODAL -->
-<div id="chapterModal" class="fixed inset-0 bg-black hidden flex items-center justify-center z-50">
-
