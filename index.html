@@ -1,317 +1,566 @@
+I will send the other pages.AS well. One of the pages PORTAL is locked. there used to be a login required. I will post each of the codes from each page. and optimize them as needed based on the index page. 
+
+Here is portal below. Make sure the home and the panda on the left top also goes home page. 
+
 <!doctype html>
 <html lang="en" class="h-full w-full scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoidPanda Ecosystem</title>
+    <title>VoidPanda — Lore</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         body {
             font-family: 'Orbitron', sans-serif;
             background-color: #050508;
-            background-image: radial-gradient(circle at top, #1a1a2e, #050508 70%);
+            background-image: radial-gradient(circle at top, #0f0f1a, #050508 80%);
             background-attachment: fixed;
+            background-repeat: no-repeat;
             min-height: 100vh;
             color: #fff;
             overflow-x: hidden;
             margin: 0;
         }
 
-        .void-video-bg {
+        #noise {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -100;
+            inset: 0;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .cursor-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(120, 120, 255, 0.15), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
             transform: translate(-50%, -50%);
-            object-fit: cover;
+            z-index: 1;
+            transition: transform 0.1s ease-out;
+        }
+        
+        /* Locked chapter styling */
+        .locked-chapter {
+            opacity: 0.35;
+            transition: opacity 0.3s ease;
         }
 
-        #desktop-video { display: none; }
-        #star-canvas { display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -100; pointer-events: none; }
-
-        @media (min-width: 769px) {
-            #desktop-video { display: block !important; }
-            #star-canvas { display: none !important; }
+        /* Chapter 1 "In Transmission" Flicker Animations */
+        @keyframes containerTransmission {
+            0%, 19%, 21%, 23%, 25%, 39%, 41%, 56%, 58%, 70%, 72%, 100% {
+                opacity: 0.35;
+                border-left-color: rgba(255, 255, 255, 0.1);
+            }
+            20%, 22%, 24%, 40%, 57%, 71% {
+                opacity: 1;
+                border-left-color: #a25cfa;
+            }
         }
 
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-        .hero-img {
-            filter: drop-shadow(0 0 30px rgba(162, 92, 250, 0.5));
-            animation: float 4s ease-in-out infinite;
+        @keyframes h2Transmission {
+            0%, 19%, 21%, 23%, 25%, 39%, 41%, 56%, 58%, 70%, 72%, 100% { color: #6b7280; }
+            20%, 22%, 24%, 40%, 57%, 71% { color: #fff; }
         }
 
-        @keyframes flashWhitePurple {
-            0%, 100% { color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.6); }
-            50% { color: #a25cfa; text-shadow: 0 0 20px rgba(162, 92, 250, 0.8); }
-        }
-        .flashing-title {
-            animation: flashWhitePurple 2.5s infinite ease-in-out;
-            text-decoration: none;
+        @keyframes pTransmission {
+            0%, 19%, 21%, 23%, 25%, 39%, 41%, 56%, 58%, 70%, 72%, 100% { color: #4b5563; }
+            20%, 22%, 24%, 40%, 57%, 71% { color: #a25cfa; }
         }
 
-        .btn-pulse {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* The flickering transmission class applied to Chapter 1 */
+        .transmission-flicker {
+            animation: containerTransmission 5s linear infinite;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .transmission-flicker:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .transmission-flicker h2 {
+            animation: h2Transmission 5s linear infinite;
+        }
+        .transmission-flicker p {
+            animation: pTransmission 5s linear infinite;
+        }
+
+        /* Slow Fade for Top Tagline */
+        @keyframes slowFadeIn {
+            0% { opacity: 0; transform: translateY(20px); filter: blur(5px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+        }
+        .fade-in-slow {
+            animation: slowFadeIn 4s ease-out 0.5s forwards;
+        }
+
+        /* Cinematic Background Pulse */
+        @keyframes bgBreathe {
+            0%, 100% { opacity: 0.20; transform: scale(1); filter: drop-shadow(0 0 0px transparent); }
+            50% { opacity: 0.40; transform: scale(1.02); filter: drop-shadow(0 0 20px rgba(162,92,250,0.3)); }
+        }
+
+        /* Base Story Sequence Fades */
+        .ch1-line {
+            opacity: 0;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+        }
+
+        @keyframes ch1Fade {
+            0% { opacity: 0; transform: translate(-50%, 15px); filter: blur(4px); }
+            15% { opacity: 1; transform: translate(-50%, 0); filter: blur(0px); }
+            85% { opacity: 1; transform: translate(-50%, 0); filter: blur(0px); }
+            100% { opacity: 0; transform: translate(-50%, -15px); filter: blur(4px); }
+        }
+
+        @keyframes ch1FadeLast {
+            0% { opacity: 0; transform: translate(-50%, 15px); filter: blur(4px); }
+            15% { opacity: 1; transform: translate(-50%, 0); filter: blur(0px); }
+            100% { opacity: 1; transform: translate(-50%, 0); filter: blur(0px); }
+        }
+
+        /* Specific Story Element Animations triggered by .run-story class */
+        .run-story .seq-1 { animation: ch1Fade 3s ease-in-out 0.5s forwards; }
+        .run-story .seq-2 { animation: ch1Fade 4s ease-in-out 3.5s forwards; }
+        .run-story .seq-3 { animation: ch1Fade 4s ease-in-out 7.5s forwards; }
+        .run-story .seq-4 { animation: ch1Fade 4s ease-in-out 11.5s forwards; }
+        .run-story .seq-5 { animation: ch1Fade 4s ease-in-out 15.5s forwards; }
+        .run-story .seq-6 { animation: ch1Fade 4s ease-in-out 19.5s forwards; }
+        .run-story .seq-7 { animation: ch1FadeLast 4s ease-in-out 23.5s forwards; }
+
+        @keyframes textGlitch {
+            0%, 100% { text-shadow: none; transform: skewX(0deg); }
+            20%, 60% { text-shadow: -3px 0 red, 3px 0 cyan; transform: skewX(-8deg); }
+            40%, 80% { text-shadow: 3px 0 red, -3px 0 cyan; transform: skewX(8deg); }
+        }
+        .run-story .anim-glitch { animation: textGlitch 4s ease-in-out 3.5s forwards; display: inline-block; }
+
+        @keyframes colorShift {
+            0%, 45% { color: #4ade80; text-shadow: 0 0 25px rgba(34,197,94,0.8); } /* Green */
+            50%, 100% { color: #f87171; text-shadow: 0 0 25px rgba(239,68,68,0.8); } /* Red */
+        }
+        .run-story .anim-candles { animation: colorShift 4s ease-in-out 7.5s forwards; display: inline-block; }
+
+        @keyframes trembleText {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        .run-story .anim-tremble { animation: trembleText 4s ease-in-out 11.5s forwards; display: inline-block; }
+
+        /* Form input styling overrides */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px #0a0a12 inset !important;
+            -webkit-text-fill-color: white !important;
+        }
+
+        .btn-glow {
+            display: inline-flex;
             background: linear-gradient(90deg, #885cfa, #a25cfa);
-            box-shadow: 0 0 15px rgba(162, 92, 250, 0.4);
+            box-shadow: 0 0 15px rgba(162, 92, 250, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
         }
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(162, 92, 250, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
 
-        .story-line { opacity: 0; position: absolute; text-shadow: 0 0 20px rgba(162, 92, 250, 0.6); width: 100%; text-align: center; }
-        @keyframes storyFade { 0% { opacity: 0; transform: translateY(10px); } 10% { opacity: 1; transform: translateY(0); } 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
-        .story-line.seq-1 { animation: storyFade 2400ms ease-in-out 0s forwards; }
-        .story-line.seq-2 { animation: storyFade 2400ms ease-in-out 2400ms forwards; }
-        .story-line.seq-3 { animation: storyFade 2400ms ease-in-out 4800ms forwards; }
-        .story-line.seq-4 { animation: storyFade 2400ms ease-in-out 7200ms forwards; }
-        .story-line.seq-5 { animation: storyFade 2400ms ease-in-out 9600ms forwards; }
+        /* Nav Panda Bouncing, Pulsating, and Hover Glow Animation */
+        @keyframes bouncePulse {
+            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px rgba(162, 92, 250, 0.4)); }
+            50% { transform: translateY(-4px) scale(1.05); filter: drop-shadow(0 0 20px rgba(162, 92, 250, 0.9)); }
+        }
+        .nav-panda-anim {
+            animation: bouncePulse 2.5s ease-in-out infinite;
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+        .nav-panda-anim:hover {
+            animation: none; 
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 25px rgba(255, 255, 255, 1));
+        }
+
     </style>
 </head>
-<body class="w-full h-full m-0" style="overflow: hidden;">
+<body class="w-full h-full m-0 flex flex-col min-h-screen">
 
-    <video autoplay loop muted playsinline class="void-video-bg" id="desktop-video">
-        <source src="void-bg-desktop.mp4" type="video/mp4">
-    </video>
+    <canvas id="particles" class="fixed top-0 left-0 z-0 pointer-events-none"></canvas>
+    <div id="noise"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
 
-    <canvas id="star-canvas"></canvas>
-
-    <div id="storyPopup" class="fixed inset-0 z-[100] flex flex-col items-center justify-center text-center bg-[#050508] transition-opacity duration-700 px-4">
-        <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-64 md:w-80 mb-12 filter drop-shadow-[0_0_20px_rgba(162,92,250,0.5)]">
-        <div class="relative h-24 w-full max-w-3xl flex items-center justify-center pointer-events-none">
-            <p class="story-line seq-1 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">The Void is the market — chaotic, emotional, and unforgiving.</p>
-            <p class="story-line seq-2 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Most get lost in it.</p>
-            <p class="story-line seq-3 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">VoidPanda entered it.</p>
-            <p class="story-line seq-4 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">Not to escape the chaos…</p>
-            <p class="story-line seq-5 text-lg md:text-3xl text-[#a25cfa] font-bold uppercase tracking-widest">But to bring order to it.</p>
-        </div>
-        <button onclick="hideIntro()" class="mt-16 px-6 py-2 border border-white/20 rounded-full text-white/50 hover:text-white transition-all text-sm tracking-wider font-orbitron relative z-50 pointer-events-auto cursor-pointer">Skip Intro</button>
-    </div>
-
-    <nav class="fixed top-0 w-full flex justify-center items-center p-4 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
-        <div id="navPandaContainer" class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 opacity-0 pointer-events-none transition-opacity duration-500 cursor-pointer" onclick="window.scrollTo(0,0)">
-            <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-7 md:w-10 h-7 md:h-10">
-        </div>
-        <div class="flex items-center gap-5 text-[10px] md:text-sm uppercase tracking-wide font-bold">
-            <a href="index.html" class="text-white">Home</a>
-            <a href="lore.html" class="text-gray-400 hover:text-white">Lore</a>
-            <a href="writings.html" class="text-gray-400 hover:text-white">Writings</a>
-            <a href="about.html" class="text-gray-400 hover:text-white">About</a>
-            <a href="portal.html" class="text-gray-400 hover:text-white">Portal</a>
+    <nav class="fixed top-0 w-full flex justify-center items-center p-4 md:p-5 bg-black/40 backdrop-blur-xl border-b border-white/5 z-50">
+        <a href="index.html" class="absolute left-3 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 z-50 cursor-pointer">
+            <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Home" class="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 nav-panda-anim">
+        </a>
+        
+        <div class="flex items-center justify-center gap-3 sm:gap-4 md:gap-8 pl-8 sm:pl-10 md:pl-0">
+            <a href="index.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Home</a>
+            <a href="lore.html" class="nav-link text-white font-bold transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Lore</a>
+            <a href="writings.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Writings</a>
+            <a href="about.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">About</a>
+            <a href="portal.html" class="nav-link text-gray-400 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">Portal</a>
+            <button onclick="openEarlyAccess()" class="ml-1 md:ml-4 text-[#a25cfa] hover:text-white font-bold transition-colors text-[10px] sm:text-xs md:text-sm hidden sm:block">Join Early Access</button>
         </div>
     </nav>
 
-    <main class="relative z-10 flex flex-col items-center w-full">
+    <main class="relative z-10 flex flex-col items-center w-full pt-32 md:pt-40 px-4 md:px-6 pb-24 flex-grow">
         
-        <section id="home" class="text-center w-full flex flex-col items-center justify-start pt-24 px-6 min-h-screen">
-            <a href="#auth-section" class="flashing-title font-bold text-sm md:text-xl uppercase tracking-[0.3em] mb-10 cursor-pointer block">Access Terminal</a>
-            
-            <div class="flex flex-col items-center w-full">
-                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda Head" class="hero-img w-full max-w-[180px] md:max-w-[280px] block relative z-10">
-                
-                <img src="https://i.imgur.com/PqRqnD9.png" alt="VoidPanda Logo" class="w-full max-w-[140px] md:max-w-[220px] block filter drop-shadow-[0_0_15px_rgba(162,92,250,0.7)] relative z-20" style="margin-top: -90px;">
-                
-                <p class="text-gray-400 text-[10px] md:text-xs font-semibold uppercase tracking-[0.4em] mt-2 block relative z-20">Order in the Chaos.</p>
-            </div>
-
-            <a href="thevoid.html" class="btn-pulse px-10 py-3 rounded-xl text-white font-bold tracking-widest uppercase border border-[#a25cfa] text-[10px] md:text-sm mt-12 mb-20">Enter the Void</a>
-        </section>
-
-        <section id="lore-section" class="observe-section w-full py-20 bg-[#050508] flex flex-col items-center text-center relative z-20 border-t border-white/5">
-            <p class="text-gray-400 text-xs md:text-base leading-relaxed max-w-xl font-semibold tracking-widest mb-10 px-6 uppercase">
-                Not everything is available at once.<br>
-                Some things must be observed over time.
+        <div id="mainTagline" class="w-full max-w-3xl text-center mb-20 md:mb-32 fade-in-slow opacity-0 transition-opacity duration-500 px-4">
+            <p class="text-lg md:text-2xl font-bold text-white tracking-widest leading-relaxed drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                The Void was never empty.<br><br>
+                Most just never stopped reacting long enough to see it.
             </p>
-            <div class="flex gap-4 md:gap-8 flex-wrap justify-center px-4">
-                <a href="lore.html" class="btn-pulse px-8 py-3 rounded-lg text-white font-bold tracking-widest border border-[#a25cfa] text-[10px] md:text-xs">Enter Lore</a>
-                <a href="writings.html" class="btn-pulse px-8 py-3 rounded-lg text-white font-bold tracking-widest border border-[#a25cfa] text-[10px] md:text-xs">Read Writings</a>
-            </div>
-        </section>
+        </div>
 
-        <section id="auth-section" class="scroll-mt-24 w-full py-24 bg-[#08080c] flex flex-col items-center relative z-20 px-6">
-            <div class="w-full max-w-md bg-[#0a0a12] p-10 rounded-3xl border border-[#a25cfa]/20 shadow-2xl">
-                <h2 class="text-lg md:text-xl font-bold text-white mb-2 uppercase tracking-widest text-center">Terminal Access</h2>
-                <p class="text-gray-500 text-[9px] text-center mb-8 uppercase tracking-[0.2em]">Authenticate your signal.</p>
-                <div class="space-y-4">
-                    <input type="email" id="email" placeholder="Enter Email" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa]/50 text-xs text-center">
-                    <input type="password" id="password" placeholder="Enter Password" class="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-[#a25cfa]/50 text-xs text-center">
-                    
-                    <div class="flex w-full gap-3 pt-4">
-                        <button onclick="routeToTerminal()" class="flex-1 py-4 rounded-xl border border-white/5 text-gray-400 font-bold uppercase tracking-widest text-[9px] hover:bg-white/5 transition-all w-full text-center flex justify-center items-center cursor-pointer">
-                            <span>Sign Up</span>
-                        </button>
-                        <button onclick="routeToTerminal()" class="flex-1 bg-gradient-to-r from-[#885cfa] to-[#a25cfa] shadow-[0_0_15px_rgba(162,92,250,0.4)] hover:shadow-[0_0_25px_rgba(162,92,250,0.8)] transition-all py-4 rounded-xl text-white font-bold uppercase tracking-widest text-[9px] w-full text-center flex justify-center items-center cursor-pointer">
-                            <span>Log In</span>
-                        </button>
-                    </div>
-
-                </div>
-                <p id="auth-msg" class="mt-6 text-[10px] text-center font-bold tracking-widest text-[#a25cfa] h-4"></p>
+        <div class="max-w-3xl mx-auto w-full flex flex-col space-y-8 md:space-y-12">
+            
+            <div class="chapter-block border-l-2 pl-6 md:pl-8 py-2 transmission-flicker" onclick="openChapter1()">
+                <h2 class="text-lg md:text-xl font-bold mb-2 md:mb-4 uppercase tracking-widest">Chapter 1 — The Market That Ate Itself</h2>
+                <p class="italic tracking-wide text-sm md:text-base">Transmission pending. [ Click to Observe ]</p>
             </div>
-        </section>
 
-        <section id="community" class="observe-section w-full py-24 bg-[#050508] text-center relative z-20">
-            <h2 class="text-xl md:text-3xl font-bold mb-10 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#a25cfa] uppercase tracking-widest">The Network</h2>
-            <div class="flex flex-wrap justify-center gap-8 px-6">
-                <a href="https://t.me/+Py4jTI2rI584ZTQx" target="_blank" class="px-10 py-4 rounded-xl border border-white/10 hover:border-[#a25cfa] hover:bg-[#a25cfa]/10 transition-all font-bold uppercase tracking-widest text-xs flex justify-center items-center">Telegram</a>
-                <a href="https://discord.gg/7RSDCcCP" target="_blank" class="px-10 py-4 rounded-xl border border-white/10 hover:border-[#a25cfa] hover:bg-[#a25cfa]/10 transition-all font-bold uppercase tracking-widest text-xs flex justify-center items-center">Discord</a>
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 2 — The Degens</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
             </div>
-        </section>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 3 — The Collapse Cycle</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 4 — The Stillness Beneath</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 5 — The Emergence</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 6 — The First Step Into Chaos</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 7 — The Lantern</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 8 — The First Observers</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 9 — The Mockery</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 10 — The First Lesson</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 11 — The Builders</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 12 — The Code</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 13 — The Storm</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 14 — The Mirror</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 15 — The Resistance</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 16 — The Great Silence</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 17 — The Rebuild</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 18 — The Balance</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 19 — The Realization</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+
+            <div class="chapter-block locked-chapter border-l-2 border-white/10 pl-6 md:pl-8 py-2">
+                <h2 class="text-lg md:text-xl font-bold text-gray-500 mb-2 md:mb-4 uppercase tracking-widest">Chapter 20 — The Eternal Lantern</h2>
+                <p class="text-gray-600 italic tracking-wide text-sm md:text-base">This chapter has not yet been observed.</p>
+            </div>
+        </div>
 
     </main>
 
-    <footer class="relative z-30 w-full text-center py-12 bg-[#050508] border-t border-white/5 text-gray-700 text-[8px] tracking-[0.5em]">
-        © 2026 VOIDPANDA. EMBRACE THE CHAOS.
+    <div id="chapter1Modal" class="fixed inset-0 z-[40] hidden flex-col items-center justify-center bg-[#050508] transition-opacity duration-500 opacity-0 pt-20">
+        
+        <button onclick="closeChapter1()" class="absolute top-24 right-6 md:right-12 text-gray-500 hover:text-white transition-colors text-5xl leading-none z-[60] cursor-pointer">&times;</button>
+        
+        <div class="absolute inset-0 z-0 bg-center bg-contain bg-no-repeat mix-blend-screen" style="background-image: url('Untitled%20design%20(5).jpg'); animation: bgBreathe 8s infinite ease-in-out;"></div>
+        
+        <div id="storySequence" class="relative z-10 w-full h-full flex items-center justify-center px-4 md:px-8 text-center text-xl sm:text-2xl md:text-4xl font-extrabold tracking-widest text-white drop-shadow-[0_0_20px_rgba(0,0,0,1)] leading-relaxed">
+            
+            <p class="ch1-line seq-1">The Void was never empty.</p>
+            
+            <p class="ch1-line seq-2">
+                It was noise.<br>
+                <span class="anim-glitch text-lg sm:text-xl md:text-2xl text-[#a25cfa] mt-4 block font-bold drop-shadow-none uppercase">Charts screamed across glowing screens.</span>
+            </p>
+            
+            <p class="ch1-line seq-3">
+                <span class="anim-candles block uppercase tracking-widest">Green candles ignited euphoria.<br>Red candles triggered collapse.</span>
+            </p>
+            
+            <p class="ch1-line seq-4">
+                <span class="anim-tremble block uppercase text-[#a25cfa]">Degens flooded the system.<br>Chasing, reacting, fleeing.</span>
+            </p>
+            
+            <p class="ch1-line seq-5">Every moment was urgency.<br><span class="text-lg sm:text-xl md:text-2xl text-gray-400 mt-4 block font-semibold drop-shadow-none">Every decision was emotional.</span></p>
+            
+            <p class="ch1-line seq-6">The market did not think.<br><span class="text-2xl sm:text-3xl md:text-5xl text-[#a25cfa] mt-4 block font-extrabold drop-shadow-[0_0_20px_rgba(162,92,250,0.8)]">It reacted.</span></p>
+            
+            <p class="ch1-line seq-7">And in reaction,<br><span class="text-white">it consumed itself.</span></p>
+            
+        </div>
+    </div>
+
+    <footer class="relative z-10 w-full text-center py-6 md:py-8 mt-auto border-t border-white/5 bg-black/40 backdrop-blur-md text-gray-600 text-xs md:text-sm">
+        © 2026 VoidPanda. Embrace the Chaos.
     </footer>
 
-    <div id="earlyAccessModal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300 opacity-0">
-        <div class="relative w-full max-w-md bg-[#0a0a12] border border-[#a25cfa]/50 rounded-2xl p-8 flex flex-col items-center">
-            <button onclick="closeEarlyAccess()" class="absolute top-4 right-6 text-gray-500 hover:text-white text-3xl leading-none">&times;</button>
-            <div id="formState" class="w-full text-center">
-                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-16 h-16 mx-auto mb-6">
-                <h2 class="text-lg font-bold text-white mb-8 uppercase tracking-widest">Enter the Void</h2>
-                <form onsubmit="submitWaitlist(event)" class="space-y-4">
-                    <input type="text" required placeholder="Name" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm text-center">
-                    <input type="email" required placeholder="Email" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm text-center">
-                    <button type="submit" class="w-full btn-pulse py-3 rounded-lg text-white font-bold uppercase tracking-widest text-sm text-center flex justify-center items-center">Initialize</button>
+    <div id="earlyAccessModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-opacity duration-300 opacity-0">
+        <div class="relative w-full max-w-md bg-[#0a0a12] border border-[#a25cfa]/50 rounded-2xl shadow-[0_0_40px_rgba(162,92,250,0.15)] hover:shadow-[0_0_60px_rgba(162,92,250,0.5)] hover:-translate-y-1 transition-all duration-300 p-6 sm:p-10 overflow-hidden flex flex-col">
+            <button onclick="closeEarlyAccess()" class="absolute top-4 right-6 text-gray-500 hover:text-white transition-colors text-3xl leading-none z-20">&times;</button>
+            <div id="formState" class="w-full relative z-10">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-14 h-14 mx-auto mb-4 animate-[float_4s_ease-in-out_infinite] filter drop-shadow-[0_0_12px_rgba(162,92,250,0.6)]">
+                <h2 class="text-xl sm:text-2xl font-bold text-white mb-2 uppercase tracking-widest text-center drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Enter the Void</h2>
+                <p class="text-gray-400 text-xs sm:text-sm text-center mb-6 sm:mb-8 uppercase tracking-widest">Register your frequency.</p>
+                <form id="waitlistForm" onsubmit="submitWaitlist(event)" class="space-y-4 sm:space-y-5">
+                    <div><input type="text" required placeholder="Name" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans text-sm"></div>
+                    <div><input type="email" required placeholder="Email Address" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans text-sm"></div>
+                    <div><input type="tel" placeholder="WhatsApp / Phone (Optional)" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#a25cfa] transition-colors font-sans text-sm"></div>
+                    <button type="submit" class="w-full btn-glow px-8 py-3 rounded-lg text-white font-bold tracking-widest uppercase border border-[#a25cfa] mt-2 font-orbitron text-sm">Initialize</button>
                 </form>
             </div>
-            <div id="successState" class="hidden flex-col items-center text-center py-6">
-                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-20 h-20 mb-6">
-                <h3 class="text-xl font-bold text-white mb-2 uppercase tracking-widest">Entered the Void.</h3>
-                <p class="text-[#a25cfa] font-bold mb-6">STAY TUNED.</p>
-                <p class="text-gray-400 text-xs leading-relaxed max-w-[250px]">Your signal has been registered. The sequence will begin when conditions align.</p>
+            <div id="successState" class="hidden flex-col items-center justify-center text-center py-6 relative z-10">
+                <img src="https://i.imgur.com/x64Wv1U.png" alt="VoidPanda" class="w-20 h-20 mb-6 animate-[float_4s_ease-in-out_infinite] filter drop-shadow-[0_0_15px_rgba(162,92,250,0.6)]">
+                <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 uppercase tracking-widest">Entered the Void.</h3>
+                <h4 class="text-[#a25cfa] text-base sm:text-lg font-bold uppercase tracking-widest mb-6">Stay tuned.</h4>
+                <div class="h-px w-16 bg-white/20 mb-6"></div>
+                <p class="text-gray-400 text-xs sm:text-sm leading-relaxed max-w-[250px] font-sans">
+                    Your signal has been registered.<br><br>The sequence will begin when conditions align. Do not react until contacted.
+                </p>
+                <button onclick="closeEarlyAccess()" class="mt-8 sm:mt-10 text-gray-500 hover:text-white text-xs uppercase tracking-widest transition-colors border-b border-transparent hover:border-white pb-1 font-orbitron">Return</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Star Canvas Animation Logic
-        const canvas = document.getElementById('star-canvas');
+        // Story Sequence Logic
+        let autoCloseTimeout;
+
+        function openChapter1() {
+            document.getElementById('mainTagline').style.display = 'none';
+            const modal = document.getElementById('chapter1Modal');
+            const storySeq = document.getElementById('storySequence');
+            
+            if (!modal || !storySeq) return;
+
+            modal.classList.remove('hidden');
+            void modal.offsetWidth; 
+            modal.classList.remove('opacity-0');
+            document.body.style.overflow = 'hidden'; 
+
+            storySeq.classList.remove('run-story');
+            void storySeq.offsetWidth; 
+            storySeq.classList.add('run-story');
+
+            clearTimeout(autoCloseTimeout);
+            autoCloseTimeout = setTimeout(closeChapter1, 30500); 
+        }
+
+        function closeChapter1() {
+            const modal = document.getElementById('chapter1Modal');
+            if (!modal) return;
+            
+            modal.classList.add('opacity-0');
+            clearTimeout(autoCloseTimeout);
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                if (document.getElementById('earlyAccessModal') && document.getElementById('earlyAccessModal').classList.contains('hidden')) {
+                    document.body.style.overflow = 'auto';
+                }
+                const tagline = document.getElementById('mainTagline');
+                if (tagline) tagline.style.display = 'block';
+                
+                const storySeq = document.getElementById('storySequence');
+                if (storySeq) storySeq.classList.remove('run-story');
+            }, 500);
+        }
+
+        // Modal Logic for Early Access
+        function openEarlyAccess() {
+            const eaModal = document.getElementById('earlyAccessModal');
+            document.getElementById('formState').style.display = 'block';
+            document.getElementById('successState').style.display = 'none';
+            document.getElementById('waitlistForm').reset();
+            
+            eaModal.classList.remove('hidden');
+            eaModal.classList.add('flex'); 
+            
+            setTimeout(() => eaModal.classList.remove('opacity-0'), 10);
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeEarlyAccess() {
+            const eaModal = document.getElementById('earlyAccessModal');
+            eaModal.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                eaModal.classList.add('hidden');
+                eaModal.classList.remove('flex'); 
+                const ch1Modal = document.getElementById('chapter1Modal');
+                if (!ch1Modal || ch1Modal.classList.contains('hidden')) {
+                    document.body.style.overflow = 'auto'; 
+                }
+            }, 300);
+        }
+
+        function submitWaitlist(e) {
+            e.preventDefault(); 
+            document.getElementById('formState').style.display = 'none';
+            document.getElementById('successState').style.display = 'flex';
+        }
+
+        document.getElementById('earlyAccessModal').addEventListener('click', function(e) {
+            if (e.target === this) closeEarlyAccess();
+        });
+
+
+        // Particles logic
+        const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
-        let stars = [];
 
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
-        window.addEventListener('resize', resize);
         resize();
+        window.addEventListener("resize", resize);
 
-        class Star {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5;
-                this.speedX = (Math.random() - 0.5) * 0.3;
-                this.speedY = (Math.random() - 0.5) * 0.3;
-                this.opacity = Math.random();
-                this.fadeSpeed = (Math.random() * 0.02) + 0.005;
-                this.fadeDir = Math.random() > 0.5 ? 1 : -1;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-                
-                this.opacity += this.fadeSpeed * this.fadeDir;
-                if (this.opacity >= 1) { this.fadeDir = -1; this.opacity = 1; }
-                if (this.opacity <= 0) { this.fadeDir = 1; this.opacity = 0; }
-            }
-            draw() {
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function initStars() {
-            stars = [];
-            for (let i = 0; i < 150; i++) {
-                stars.push(new Star());
-            }
-        }
-
-        function animateStars() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            stars.forEach(star => {
-                star.update();
-                star.draw();
+        let particles = [];
+        for(let i=0; i<100; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.5,
+                d: Math.random() + 0.2
             });
-            requestAnimationFrame(animateStars);
         }
 
-        if (window.innerWidth <= 768) {
-            initStars();
-            animateStars();
-        }
-
-        function hideIntro() {
-            const popup = document.getElementById('storyPopup');
-            if (popup) {
-                popup.style.opacity = '0';
-                popup.style.pointerEvents = 'none'; 
-                document.body.style.overflow = 'auto'; 
-                setTimeout(() => popup.style.display = 'none', 500);
-            }
-        }
-        setTimeout(hideIntro, 12000);
-
-        function routeToTerminal() {
-            const msg = document.getElementById('auth-msg');
-            msg.innerText = "AUTHENTICATED. ROUTING TO TERMINAL...";
-            setTimeout(() => { window.location.href = "terminal.html"; }, 1000);
-        }
-
-        function openEarlyAccess() {
-            const modal = document.getElementById('earlyAccessModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }
-
-        function closeEarlyAccess() {
-            const modal = document.getElementById('earlyAccessModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
-        }
-
-        window.addEventListener('scroll', () => {
-            const navPanda = document.getElementById('navPandaContainer');
-            if (window.scrollY > 200) {
-                navPanda.classList.remove('opacity-0', 'pointer-events-none');
-                navPanda.classList.add('opacity-100');
-            } else {
-                navPanda.classList.remove('opacity-100');
-                navPanda.classList.add('opacity-0', 'pointer-events-none');
-            }
-        });
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.remove('opacity-0', 'translate-y-8');
-                    entry.target.classList.add('opacity-100', 'translate-y-0');
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+                p.y += p.d;
+                if(p.y > canvas.height) {
+                    p.y = 0;
+                    p.x = Math.random() * canvas.width;
                 }
             });
-        }, { threshold: 0.1 });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
 
-        document.querySelectorAll('.observe-section').forEach(sec => {
-            sec.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-700', 'ease-out');
-            observer.observe(sec);
+        const glow = document.getElementById('cursorGlow');
+        window.addEventListener('mousemove', e => {
+            requestAnimationFrame(() => {
+                glow.style.left = e.clientX + 'px';
+                glow.style.top = e.clientY + 'px';
+            });
         });
+    </script>
 
-        window.addEventListener('touchstart', function() {
-            const video = document.getElementById('desktop-video');
-            if(video) video.play().catch(() => {});
-        }, {once: true});
+    <script>
+        let supabaseClient = null;
+
+        try {
+            if (window.supabase) {
+                const supabaseUrl = 'https://lhcvnxbsbxpeisseosap.supabase.co';
+                const supabaseKey = 'sb_publishable_NA2BPqJkDpBoEbaulYxHUw_kb2_tc4L';
+                supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+            } else {
+                console.warn("Supabase script was blocked. Authentication check bypassed.");
+            }
+        } catch (error) {
+            console.error("Error initializing Supabase:", error);
+        }
+
+        async function checkSession() {
+            if (!supabaseClient) {
+                console.warn("Operating in locked public mode.");
+                return;
+            }
+
+            try {
+                const { data: { session }, error } = await supabaseClient.auth.getSession();
+                if (!session || error) {
+                    // User is NOT logged in. 
+                    // Redirects removed. They stay on the page and can only click Chapter 1.
+                    console.log("No active session. Page remains in locked view.");
+                } else {
+                    // User IS logged in.
+                    console.log("Session active. Ready for future unlock logic.");
+                }
+            } catch(err) {
+                console.error("Session check failed:", err);
+                // Redirect removed.
+            }
+        }
+        
+        checkSession();
     </script>
 </body>
 </html>
