@@ -262,7 +262,22 @@
                 setTimeout(() => popup.style.display = 'none', 500);
             }
         }
-        setTimeout(hideIntro, 12000);
+
+        // --- ONCE PER DAY INTRO LOGIC ---
+        const todayDate = new Date().toDateString();
+        const lastSeenDate = localStorage.getItem('voidPandaIntroDate');
+
+        if (lastSeenDate === todayDate) {
+            // Already seen today: hide immediately, restore scrolling
+            const popup = document.getElementById('storyPopup');
+            if (popup) popup.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        } else {
+            // Not seen today: save today's date, start the 12-second timer
+            localStorage.setItem('voidPandaIntroDate', todayDate);
+            setTimeout(hideIntro, 12000);
+        }
+        // --------------------------------
 
         function routeToTerminal() {
             const msg = document.getElementById('auth-msg');
